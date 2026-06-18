@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/user-attachments/assets/999432b5-799a-4ae9-bb72-a480ad602642">
-    <img src="https://img.shields.io/badge/Live_Demo-Watch_Video-success?style=for-the-badge&logo=github" alt="Live Demo">
+    <img src="https://img.shields.io/badge/Demo-Watch_Video-success?style=for-the-badge&logo=github" alt="Live Demo">
   </a>
 </p>
 
