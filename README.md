@@ -1,3 +1,24 @@
+                                                  ╔═══════════════════════════════════════════════════════════╗
+                                                  ║                                                           ║
+                                                  ║        ███████╗██╗ ██████╗██████╗                         ║
+                                                  ║        ██╔════╝██║██╔════╝██╔══██╗                        ║
+                                                  ║        ███████╗██║██║     ██████╔╝                        ║
+                                                  ║        ╚════██║██║██║     ██╔══██╗                        ║
+                                                  ║        ███████║██║╚██████╗██║  ██║                        ║
+                                                  ║        ╚══════╝╚═╝ ╚═════╝╚═╝  ╚═╝                        ║
+                                                  ║                                                           ║
+                                                  ║        ███████╗███████╗███╗   ██╗███████╗███████╗         ║
+                                                  ║        ██╔════╝██╔════╝████╗  ██║██╔════╝██╔════╝         ║
+                                                  ║        ███████╗█████╗  ██╔██╗ ██║███████╗█████╗           ║
+                                                  ║        ╚════██║██╔══╝  ██║╚██╗██║╚════██║██╔══╝           ║
+                                                  ║        ███████║███████╗██║ ╚████║███████║███████╗         ║
+                                                  ║        ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝         ║
+                                                  ║                                                           ║
+                                                  ║              IFRS 9 Intelligence Platform                 ║
+                                                  ║                    Version 1.0.0                          ║
+                                                  ╚═══════════════════════════════════════════════════════════╝
+
+
 <p align="center"> <strong> Enterprise-Grade Machine Learning Platform for IFRS 9 Credit Risk Migration Prediction</strong> </p><p align="center"> <em>Predicting Significant Increase in Credit Risk (SICR) with XGBoost & LightGBM Ensemble Architecture</em> </p>
 
 <p align="center"> <img src="https://img.shields.io/badge/version-3.0.0-blue?style=for-the-badge" alt="Version 3.0.0"> <img src="https://img.shields.io/badge/python-3.11+-green?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.11+"> <img src="https://img.shields.io/badge/FastAPI-0.109+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI"> <img src="https://img.shields.io/badge/MongoDB-7.0-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB"> <img src="https://img.shields.io/badge/license-MIT-brightgreen?style=for-the-badge" alt="License MIT"> </p><p align="center"> <img src="https://img.shields.io/badge/IFRS_9-Compliant-00F0FF?style=flat-square" alt="IFRS 9 Compliant"> <img src="https://img.shields.io/badge/XGBoost-Powered-FF6F00?style=flat-square&logo=xgboost&logoColor=white" alt="XGBoost"> <img src="https://img.shields.io/badge/LightGBM-Ensemble-00BFFF?style=flat-square&logo=lightgbm&logoColor=white" alt="LightGBM"> <img src="https://img.shields.io/badge/JWT-Auth-000000?style=flat-square&logo=jsonwebtokens&logoColor=white" alt="JWT Auth"> <img src="https://img.shields.io/badge/WebSocket-Real--time-010101?style=flat-square&logo=socket.io&logoColor=white" alt="WebSocket"> </p>
