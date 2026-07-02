@@ -14,6 +14,26 @@ def parse_object_id(value: str):
         return ObjectId(value)
     except Exception:
         return value
+
+def serialize_doc(doc: dict) -> dict:
+    """Convert MongoDB document to JSON-serializable format"""
+    if not doc:
+        return doc
+    from bson import ObjectId
+    result = {}
+    for key, value in doc.items():
+        if isinstance(value, ObjectId):
+            result[key] = str(value)
+        elif isinstance(value, datetime):
+            result[key] = value.isoformat()
+        elif isinstance(value, dict):
+            result[key] = serialize_doc(value)
+        elif isinstance(value, list):
+            result[key] = [serialize_doc(item) if isinstance(item, dict) else (str(item) if isinstance(item, ObjectId) else item) for item in value]
+        else:
+            result[key] = value
+    return result
+
 import logging
 import asyncio
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
@@ -560,7 +580,8 @@ async def get_audit_logs(
         logs = []
         total = 0
         try:
-            logs = await db.audit_logs.find().sort("timestamp", -1).skip(skip).limit(limit).to_list(length=limit)
+            logs_raw = await db.audit_logs.find().sort("timestamp", -1).skip(skip).limit(limit).to_list(length=limit)
+            logs = [serialize_doc(log) for log in logs_raw]
             total = await db.audit_logs.count_documents({})
         except Exception as e:
             logger.warning(f"Could not fetch audit logs: {e}")

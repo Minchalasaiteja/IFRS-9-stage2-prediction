@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IFRS 9 Intelligence · Cinematic Hub</title>
 
-  <!-- Fonts & Libraries - Premium Luxury Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Fonts & Libraries -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -15,7 +17,6 @@
   <style>
     /* ── TOKENS & THEMES ──────────────────────────────────────────────── */
     :root {
-      /* Dark Theme (Default) */
       --bg-void:      #020408;
       --bg-deep:      #060d18;
       --bg-surface:   #0a1628;
@@ -34,16 +35,21 @@
       --shadow-glow:  0 0 40px rgba(59,130,246,0.2);
       --shadow-card:  0 10px 40px rgba(0,0,0,0.6);
       --vignette:     radial-gradient(circle at center, transparent 20%, #020408 100%);
+      --mono:         'JetBrains Mono', monospace;
+      --sans:         'Inter', system-ui, sans-serif;
+      --radius-sm:    8px;
+      --radius-md:    16px;
+      --radius-lg:    24px;
+      --radius-xl:    32px;
+      --nav-h:        72px;
+      /* Button gradients */
       --gradient-primary: linear-gradient(135deg, #3b82f6, #06b6d4);
       --gradient-primary-hover: linear-gradient(135deg, #2563eb, #0891b2);
+      /* Button text colors */
       --btn-primary-text: #ffffff;
       --btn-outline-text: #3b82f6;
-      --theme-emoji: "🌙";
-      --mono:         'IBM Plex Mono', monospace;
-      --sans:         'Poppins', system-ui, sans-serif;
     }
 
-    /* LIGHT THEME */
     [data-theme="light"] {
       --bg-void:      #f8fafc;
       --bg-deep:      #f1f5f9;
@@ -65,12 +71,9 @@
       --vignette:     radial-gradient(circle at center, transparent 20%, rgba(248,250,252,0.9) 100%);
       --gradient-primary: linear-gradient(135deg, #2563eb, #0ea5e9);
       --gradient-primary-hover: linear-gradient(135deg, #1d4ed8, #0891b2);
-      --btn-primary-text: #ffffff;
       --btn-outline-text: #2563eb;
-      --theme-emoji: "☀️";
     }
 
-    /* CYBER THEME */
     [data-theme="cyber"] {
       --bg-void:      #000508;
       --bg-deep:      #001a0d;
@@ -92,117 +95,7 @@
       --vignette:     radial-gradient(circle at center, transparent 20%, #000508 100%);
       --gradient-primary: linear-gradient(135deg, #00ff80, #00e5ff);
       --gradient-primary-hover: linear-gradient(135deg, #00cc66, #00b3cc);
-      --btn-primary-text: #ffffff;
       --btn-outline-text: #00ff80;
-      --theme-emoji: "💚";
-    }
-
-    /* AURORA THEME - Purple/Pink/Blue dream */
-    [data-theme="aurora"] {
-      --bg-void:      #0a0015;
-      --bg-deep:      #12001f;
-      --bg-surface:   #1a0030;
-      --bg-elevated:  #250040;
-      --bg-glass:     rgba(26,0,48,0.75);
-      --border:       rgba(168,85,247,0.15);
-      --border-glow:  rgba(168,85,247,0.5);
-      --accent-1:     #a855f7;
-      --accent-2:     #ec4899;
-      --accent-risk:  #f43f5e;
-      --accent-safe:  #34d399;
-      --accent-warn:  #fbbf24;
-      --text-1:       #faf5ff;
-      --text-2:       #c4b5d4;
-      --text-3:       #7c3aed;
-      --shadow-glow:  0 0 40px rgba(168,85,247,0.3);
-      --shadow-card:  0 10px 40px rgba(0,0,0,0.7);
-      --vignette:     radial-gradient(circle at center, transparent 20%, #0a0015 100%);
-      --gradient-primary: linear-gradient(135deg, #a855f7, #ec4899);
-      --gradient-primary-hover: linear-gradient(135deg, #8b5cf6, #db2777);
-      --btn-primary-text: #ffffff;
-      --btn-outline-text: #a855f7;
-      --theme-emoji: "🌌";
-    }
-
-    /* SUNSET THEME - Warm orange/red/coral */
-    [data-theme="sunset"] {
-      --bg-void:      #1a0a00;
-      --bg-deep:      #2a1000;
-      --bg-surface:   #3a1800;
-      --bg-elevated:  #4a2000;
-      --bg-glass:     rgba(58,24,0,0.75);
-      --border:       rgba(251,146,60,0.15);
-      --border-glow:  rgba(251,146,60,0.5);
-      --accent-1:     #fb923c;
-      --accent-2:     #f97316;
-      --accent-risk:  #ef4444;
-      --accent-safe:  #34d399;
-      --accent-warn:  #fbbf24;
-      --text-1:       #fff7ed;
-      --text-2:       #fdba74;
-      --text-3:       #9a3412;
-      --shadow-glow:  0 0 40px rgba(251,146,60,0.3);
-      --shadow-card:  0 10px 40px rgba(0,0,0,0.7);
-      --vignette:     radial-gradient(circle at center, transparent 20%, #1a0a00 100%);
-      --gradient-primary: linear-gradient(135deg, #fb923c, #ef4444);
-      --gradient-primary-hover: linear-gradient(135deg, #f97316, #dc2626);
-      --btn-primary-text: #ffffff;
-      --btn-outline-text: #fb923c;
-      --theme-emoji: "🌅";
-    }
-
-    /* OCEAN THEME - Deep blue/teal/cyan */
-    [data-theme="ocean"] {
-      --bg-void:      #00101a;
-      --bg-deep:      #001a2a;
-      --bg-surface:   #00253a;
-      --bg-elevated:  #00304a;
-      --bg-glass:     rgba(0,37,58,0.75);
-      --border:       rgba(34,211,238,0.15);
-      --border-glow:  rgba(34,211,238,0.5);
-      --accent-1:     #22d3ee;
-      --accent-2:     #06b6d4;
-      --accent-risk:  #f87171;
-      --accent-safe:  #34d399;
-      --accent-warn:  #fbbf24;
-      --text-1:       #ecfeff;
-      --text-2:       #67e8f9;
-      --text-3:       #0891b2;
-      --shadow-glow:  0 0 40px rgba(34,211,238,0.3);
-      --shadow-card:  0 10px 40px rgba(0,0,0,0.7);
-      --vignette:     radial-gradient(circle at center, transparent 20%, #00101a 100%);
-      --gradient-primary: linear-gradient(135deg, #22d3ee, #06b6d4);
-      --gradient-primary-hover: linear-gradient(135deg, #06b6d4, #0891b2);
-      --btn-primary-text: #ffffff;
-      --btn-outline-text: #22d3ee;
-      --theme-emoji: "🌊";
-    }
-
-    /* NOIR THEME - Monochrome elegant */
-    [data-theme="noir"] {
-      --bg-void:      #0a0a0a;
-      --bg-deep:      #141414;
-      --bg-surface:   #1a1a1a;
-      --bg-elevated:  #222222;
-      --bg-glass:     rgba(20,20,20,0.85);
-      --border:       rgba(255,255,255,0.06);
-      --border-glow:  rgba(255,255,255,0.2);
-      --accent-1:     #f0f0f0;
-      --accent-2:     #d4d4d4;
-      --accent-risk:  #ef4444;
-      --accent-safe:  #22c55e;
-      --accent-warn:  #eab308;
-      --text-1:       #fafafa;
-      --text-2:       #a3a3a3;
-      --text-3:       #525252;
-      --shadow-glow:  0 0 40px rgba(255,255,255,0.05);
-      --shadow-card:  0 10px 40px rgba(0,0,0,0.9);
-      --vignette:     radial-gradient(circle at center, transparent 20%, #0a0a0a 100%);
-      --gradient-primary: linear-gradient(135deg, #444444, #666666);
-      --gradient-primary-hover: linear-gradient(135deg, #555555, #777777);
-      --btn-primary-text: #ffffff;
-      --btn-outline-text: #f0f0f0;
-      --theme-emoji: "🖤";
     }
 
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -213,14 +106,14 @@
       color: var(--text-1);
       overflow-x: hidden;
       cursor: none;
-      transition: background 0.6s ease, color 0.6s ease;
+      transition: background 0.4s, color 0.4s;
     }
 
     /* ── CURSOR ────────────────────────────────────────────────────────── */
     #cursor-dot {
       position: fixed; width: 6px; height: 6px; background: var(--text-1);
       border-radius: 50%; pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%); transition: background 0.3s, width 0.3s, height 0.3s;
+      transform: translate(-50%,-50%); transition: background 0.2s;
     }
     #cursor-ring {
       position: fixed; width: 40px; height: 40px;
@@ -232,16 +125,15 @@
 
     /* ── BACKGROUND LAYERS ────────────────────────────────────────────── */
     .noise {
-      position: fixed; inset:0; z-index:99; opacity:0.025; pointer-events:none;
+      position: fixed; inset:0; z-index:99; opacity:0.03; pointer-events:none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      transition: opacity 0.6s;
     }
     #webgl-container {
       position: fixed; inset:0; z-index:0; pointer-events:none;
     }
     .vignette {
       position: fixed; inset:0; z-index:1; pointer-events:none;
-      background: var(--vignette); transition: background 0.8s ease;
+      background: var(--vignette); transition: background 0.5s;
     }
 
     /* ── LAYOUT UTILITIES ─────────────────────────────────────────────── */
@@ -254,17 +146,15 @@
       border:1px solid var(--border);
       border-radius:var(--radius-md);
       box-shadow:var(--shadow-card);
-      transition: background 0.6s, border-color 0.6s, box-shadow 0.6s;
+      transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
     }
     .text-gradient {
       background: linear-gradient(135deg, var(--text-1) 0%, var(--text-2) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      transition: background 0.6s;
     }
     .text-gradient-accent {
       background: linear-gradient(135deg, var(--accent-2), var(--accent-1));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      transition: background 0.6s;
     }
 
     /* ── NAV ───────────────────────────────────────────────────────────── */
@@ -283,12 +173,11 @@
     .brand {
       display:flex; align-items:center; gap:12px;
       font-weight:800; font-size:20px; letter-spacing:-0.02em;
-      font-family: var(--sans);
+      font-family: 'Orbitron', monospace;
     }
     .brand-badge {
       background: var(--accent-1); color:#fff; padding:4px 8px;
       border-radius:6px; font-size:11px; font-weight:700; font-family:var(--mono);
-      transition: background 0.4s;
     }
     .nav-right { display:flex; align-items:center; gap:28px; }
     .nav-links { display:flex; gap:28px; }
@@ -304,43 +193,20 @@
     }
     .nav-links a:hover::after { width:100%; }
 
-    /* ── THEME SWITCHER (Expanded) ────────────────────────────────────── */
+    /* Theme switcher */
     #theme-switcher {
       display:flex; gap:4px; background:var(--bg-deep); border:1px solid var(--border);
-      border-radius:10px; padding:4px;
-      transition: background 0.4s, border-color 0.4s;
-      flex-wrap: wrap;
-      max-width: 280px;
+      border-radius:8px; padding:3px;
     }
     .theme-btn {
-      width:32px; height:32px; border-radius:8px; border:none;
-      cursor:pointer; font-size:16px; transition:all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width:28px; height:28px; border-radius:6px; border:none;
+      cursor:pointer; font-size:14px; transition:all 0.2s;
       background:transparent; display:flex; align-items:center; justify-content:center;
-      position: relative;
     }
-    .theme-btn:hover { 
-      transform: scale(1.15);
-      background: var(--bg-surface);
-    }
-    .theme-btn.active { 
-      background: var(--accent-1); 
-      box-shadow: 0 0 20px var(--accent-1);
-      transform: scale(1.1);
-    }
-    .theme-btn .tooltip {
-      position: absolute;
-      bottom: -28px;
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--text-3);
-      opacity: 0;
-      transition: opacity 0.3s;
-      white-space: nowrap;
-      font-family: var(--sans);
-    }
-    .theme-btn:hover .tooltip { opacity: 1; }
+    .theme-btn:hover { background:var(--bg-surface); }
+    .theme-btn.active { background:var(--accent-1); box-shadow:0 0 10px var(--accent-1); }
 
-    /* ── BUTTONS ────────────────────────────────────────────────────────── */
+    /* ── BUTTONS (fixed for all themes) ──────────────────────────────── */
     .btn {
       padding: 12px 24px;
       border-radius: 60px;
@@ -362,7 +228,7 @@
 
     .btn-primary {
       background: var(--gradient-primary);
-      color: var(--btn-primary-text) !important;
+      color: #ffffff !important;
       box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     }
     .btn-primary::before {
@@ -375,7 +241,7 @@
       background: var(--gradient-primary-hover);
       transform: translateY(-3px); 
       box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
-      color: var(--btn-primary-text) !important;
+      color: #ffffff !important;
     }
     .btn-primary:hover::before { left: 100%; }
     .btn-primary:active { transform: translateY(-1px); }
@@ -385,7 +251,7 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 2px solid var(--accent-1);
-      color: var(--btn-outline-text) !important;
+      color: var(--accent-1) !important;
       padding: 10px 24px;
       border-radius: 60px;
       font-weight: 700;
@@ -400,11 +266,29 @@
     }
     .btn-outline-nav:hover {
       background: var(--gradient-primary);
-      color: var(--btn-primary-text) !important;
+      color: #ffffff !important;
       transform: translateY(-3px);
       border-color: transparent;
       box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
     }
+
+    .btn-ghost-nav {
+      background: transparent;
+      color: var(--text-2);
+      padding: 10px 20px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      font-family: var(--sans);
+    }
+    .btn-ghost-nav:hover { color: var(--text-1); }
 
     /* ── HERO ──────────────────────────────────────────────────────────── */
     .hero {
@@ -418,12 +302,10 @@
       background:rgba(16,185,129,0.08); border:1px solid var(--accent-safe);
       color:var(--accent-safe); font-family:var(--mono); font-size:12px; font-weight:600;
       margin-bottom:32px;
-      transition: all 0.4s;
     }
     .pulse-dot {
       width:8px; height:8px; background:var(--accent-safe); border-radius:50%;
       box-shadow:0 0 12px var(--accent-safe); animation:pulse 2s infinite;
-      transition: background 0.4s, box-shadow 0.4s;
     }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
 
@@ -434,16 +316,14 @@
     .hero p {
       font-size: clamp(16px, 2vw, 20px); color:var(--text-2);
       line-height:1.6; max-width:600px; margin-bottom:48px;
-      transition: color 0.4s;
     }
     .hero-stats {
       display:flex; gap:48px; margin-top:60px;
       border-top:1px solid var(--border); padding-top:32px; max-width:max-content;
-      transition: border-color 0.4s;
     }
     .stat-block { display:flex; flex-direction:column; gap:6px; }
-    .stat-val { font-size:32px; font-weight:800; font-family:var(--mono); color:var(--text-1); transition: color 0.4s; }
-    .stat-lbl { font-size:12px; font-weight:600; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; transition: color 0.4s; }
+    .stat-val { font-size:32px; font-weight:800; font-family:var(--mono); color:var(--text-1); }
+    .stat-lbl { font-size:12px; font-weight:600; color:var(--text-3); letter-spacing:0.1em; text-transform:uppercase; }
 
     /* ── WORKFLOW TIMELINE ────────────────────────────────────────────── */
     .workflow-section { padding:120px 0; }
@@ -451,7 +331,6 @@
     .section-eyebrow {
       font-family:var(--mono); color:var(--accent-2); font-size:13px;
       font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:16px;
-      transition: color 0.4s;
     }
     .section-title { font-size:48px; font-weight:800; letter-spacing:-0.03em; }
 
@@ -461,13 +340,11 @@
     .timeline-track {
       position:absolute; top:0; bottom:0; left:50%; width:2px;
       background:var(--border); transform:translateX(-50%); z-index:1;
-      transition: background 0.4s;
     }
     .timeline-progress {
       position:absolute; top:0; left:0; width:100%; height:0%;
       background:linear-gradient(to bottom, var(--accent-1), var(--accent-2));
       box-shadow:0 0 15px var(--accent-2);
-      transition: background 0.4s;
     }
     .timeline-step {
       position:relative; display:flex; justify-content:space-between; align-items:center;
@@ -491,6 +368,9 @@
       z-index: 5;
       pointer-events: none;
     }
+    .timeline-step.left .timeline-dot-wrap { left: 50%; }
+    .timeline-step.right .timeline-dot-wrap { left: 50%; }
+
     .timeline-dot {
       width:16px; height:16px; border-radius:50%;
       background:var(--bg-void); border:2px solid var(--border);
@@ -505,7 +385,7 @@
 
     .step-card {
       padding:32px; border-radius:var(--radius-md); position:relative;
-      transition: transform 0.3s, box-shadow 0.3s, background 0.6s, border-color 0.6s;
+      transition: transform 0.3s, box-shadow 0.3s;
       background: var(--bg-glass);
       backdrop-filter: blur(24px) saturate(1.6);
       border:1px solid var(--border);
@@ -518,12 +398,11 @@
       position:absolute; top:-20px;
       opacity: 0.4;
       z-index: 0;
-      transition: color 0.4s, -webkit-text-stroke 0.4s;
     }
     .timeline-step.left .step-num { right:20px; }
     .timeline-step.right .step-num { left:20px; }
     .step-title { font-size:20px; font-weight:700; margin-bottom:12px; position:relative; z-index:2; }
-    .step-desc { font-size:15px; color:var(--text-2); line-height:1.6; position:relative; z-index:2; transition: color 0.4s; }
+    .step-desc { font-size:15px; color:var(--text-2); line-height:1.6; position:relative; z-index:2; }
     .step-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; position:relative; z-index:2; }
     .timeline-step.left .step-tags { justify-content:flex-end; }
     .timeline-step.right .step-tags { justify-content:flex-start; }
@@ -531,56 +410,50 @@
       padding:4px 10px; border-radius:4px; font-size:11px; font-weight:700;
       font-family:var(--mono); background:var(--bg-deep); border:1px solid var(--border);
       color:var(--accent-2);
-      transition: all 0.4s;
     }
 
-    /* ── DASHBOARD ────────────────────────────────────────────────────── */
+    /* ── DASHBOARD EMBED ──────────────────────────────────────────────── */
     .dashboard-section { padding:120px 0; }
     .dash-wrapper {
       border-radius:var(--radius-lg); padding:12px;
       background:rgba(255,255,255,0.02); border:1px solid var(--border);
       box-shadow:0 40px 100px rgba(0,0,0,0.5);
       transform:perspective(1200px) rotateX(6deg);
-      transition: transform 0.5s ease, border-color 0.4s, background 0.4s;
+      transition: transform 0.5s ease;
     }
     .dash-wrapper:hover { transform:perspective(1200px) rotateX(0deg); }
     .dash-ui {
       background:var(--bg-void); border-radius:var(--radius-md);
       border:1px solid var(--border); overflow:hidden;
       display:flex; flex-direction:column;
-      transition: background 0.4s, border-color 0.4s;
     }
     .dash-header {
       height:52px; background:var(--bg-deep); border-bottom:1px solid var(--border);
       display:flex; align-items:center; padding:0 20px; gap:16px;
-      transition: background 0.4s, border-color 0.4s;
     }
     .dash-dots { display:flex; gap:8px; }
     .dash-dot { width:12px; height:12px; border-radius:50%; }
     .dash-body {
       padding:24px; display:grid; grid-template-columns:260px 1fr; gap:24px;
       background:var(--bg-surface);
-      transition: background 0.4s;
     }
     .dash-sidebar { display:flex; flex-direction:column; gap:12px; }
     .dash-card {
       background:var(--bg-glass); border:1px solid var(--border);
       border-radius:var(--radius-sm); padding:20px;
-      transition: all 0.4s;
     }
     .kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
     .dash-main canvas { width:100% !important; height:260px !important; }
     .feed-item {
       display:flex; justify-content:space-between; padding:10px 0;
       border-bottom:1px solid var(--border); font-family:var(--mono); font-size:12px;
-      transition: border-color 0.4s;
     }
     .feed-item:last-child { border:0; }
 
     /* ── SHAP ROWS ────────────────────────────────────────────────────── */
     .shap-row { display:flex; align-items:center; gap:16px; margin-bottom:16px; }
-    .shap-lbl { width:120px; font-family:var(--mono); font-size:11px; color:var(--text-2); transition: color 0.4s; }
-    .shap-bar-track { flex:1; height:8px; background:var(--bg-deep); border-radius:4px; position:relative; transition: background 0.4s; }
+    .shap-lbl { width:120px; font-family:var(--mono); font-size:11px; color:var(--text-2); }
+    .shap-bar-track { flex:1; height:8px; background:var(--bg-deep); border-radius:4px; position:relative; }
     .shap-bar-fill { position:absolute; top:0; height:100%; border-radius:4px; transition:width 1s ease; }
     .shap-pos { left:50%; background:var(--accent-risk); }
     .shap-neg { right:50%; background:var(--accent-safe); }
@@ -591,7 +464,7 @@
       display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
     }
     .demo-stats-row { display:flex; gap:40px; margin-bottom:45px; flex-wrap:wrap; }
-    .demo-stat-val { font-size:42px; font-weight:800; font-family:var(--mono); line-height:1; }
+    .demo-stat-val { font-size:42px; font-weight:800; font-family:'Orbitron', monospace; line-height:1; }
     .demo-control { margin-bottom:22px; }
     .demo-control label {
       display:flex; justify-content:space-between; margin-bottom:10px;
@@ -601,7 +474,6 @@
       -webkit-appearance:none; width:100%; height:6px;
       background:var(--border); border-radius:5px; outline:none;
       cursor:pointer;
-      transition: background 0.4s;
     }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance:none; width:20px; height:20px;
@@ -627,7 +499,6 @@
       border-top:1px solid var(--border); padding:60px 0;
       text-align:center; color:var(--text-3); font-size:14px;
       background:var(--bg-void); position:relative; z-index:10;
-      transition: all 0.4s;
     }
 
     /* ── RESPONSIVE ───────────────────────────────────────────────────── */
@@ -645,9 +516,7 @@
       .dash-body { grid-template-columns:1fr; }
       .demo-grid { grid-template-columns:1fr; gap:40px; }
       .nav-right .btn-outline-nav { display:none; }
-      #theme-switcher { max-width: 200px; gap:2px; }
-      .theme-btn { width:28px; height:28px; font-size:14px; }
-      .theme-btn .tooltip { display: none; }
+      .nav-right .btn-ghost-nav { display:none; }
     }
     @media (max-width:600px) {
       .hero-stats { gap:20px; flex-wrap:wrap; }
@@ -655,8 +524,6 @@
       .demo-stats-row { gap:20px; }
       .demo-stat-val { font-size:32px; }
       .nav-right .btn-sm { padding:8px 16px; font-size:12px; }
-      #theme-switcher { max-width: 160px; gap:2px; }
-      .theme-btn { width:24px; height:24px; font-size:12px; }
     }
   </style>
 </head>
@@ -680,36 +547,10 @@
       <a onclick="document.getElementById('workflow').scrollIntoView({behavior:'smooth'})">Pipeline</a>
       <a onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">Live View</a>
     </div>
-    <!-- ── 7 THEME SWITCHER ────────────────────────────────────────────── -->
     <div id="theme-switcher">
-      <button class="theme-btn active" onclick="setTheme('dark', this)" title="Dark">
-        🌙
-        <span class="tooltip">Dark</span>
-      </button>
-      <button class="theme-btn" onclick="setTheme('light', this)" title="Light">
-        ☀️
-        <span class="tooltip">Light</span>
-      </button>
-      <button class="theme-btn" onclick="setTheme('cyber', this)" title="Cyber">
-        💚
-        <span class="tooltip">Cyber</span>
-      </button>
-      <button class="theme-btn" onclick="setTheme('aurora', this)" title="Aurora">
-        🌌
-        <span class="tooltip">Aurora</span>
-      </button>
-      <button class="theme-btn" onclick="setTheme('sunset', this)" title="Sunset">
-        🌅
-        <span class="tooltip">Sunset</span>
-      </button>
-      <button class="theme-btn" onclick="setTheme('ocean', this)" title="Ocean">
-        🌊
-        <span class="tooltip">Ocean</span>
-      </button>
-      <button class="theme-btn" onclick="setTheme('noir', this)" title="Noir">
-        🖤
-        <span class="tooltip">Noir</span>
-      </button>
+      <button class="theme-btn active" onclick="setTheme('dark', this)" title="Dark">🌙</button>
+      <button class="theme-btn" onclick="setTheme('light', this)" title="Light">☀️</button>
+      <button class="theme-btn" onclick="setTheme('cyber', this)" title="Cyber">💚</button>
     </div>
     <!-- ── SIGN IN & GET STARTED ──────────────────────────────────────── -->
     <a href="/login" class="btn-outline-nav btn-sm">Sign In</a>
@@ -725,7 +566,7 @@
     <div class="hero-content">
       <div class="status-pill">
         <div class="pulse-dot"></div>
-        SYSTEM ONLINE 
+        SYSTEM ONLINE · PROD-EU-WEST
       </div>
       <h1 class="text-gradient">Predict Credit Risk<br>Before It Happens.</h1>
       <p>Enterprise IFRS 9 AI — real‑time Stage 2 migration, sub‑50ms latency, and SHAP explainability for regulatory compliance.</p>
@@ -861,7 +702,7 @@
                     stroke-dasharray="534" stroke-dashoffset="534" id="demoRing"
                     transform="rotate(-90 100 100)" style="transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease;"/>
             <text x="100" y="112" text-anchor="middle" fill="var(--accent)" font-size="42" font-weight="900"
-                  font-family="var(--mono)" id="demoPercent">10%</text>
+                  font-family="'Orbitron', monospace" id="demoPercent">10%</text>
           </svg>
         </div>
         <div style="margin-top:25px;">
@@ -882,7 +723,7 @@
           </div>
           <div id="stageResult" class="demo-result-box" style="margin-top:25px;" aria-live="polite">
             <div style="font-size:13px; color:var(--text-muted); letter-spacing:1px;">IFRS 9 CLASSIFICATION</div>
-            <div style="font-size:30px; font-weight:800; font-family:var(--mono); margin:10px 0;" id="predictedStage">Stage 1</div>
+            <div style="font-size:30px; font-weight:800; font-family:'Orbitron', monospace; margin:10px 0;" id="predictedStage">Stage 1</div>
             <div style="font-size:13px; color:#10b981;" id="stageDesc">Performing asset with low credit risk</div>
           </div>
         </div>
@@ -958,31 +799,12 @@
 </main>
 
 <script>
-  // ─── THEME SWITCHER ──────────────────────────────────────────────────
-  const THEMES = ['dark', 'light', 'cyber', 'aurora', 'sunset', 'ocean', 'noir'];
-  
+  // ─── THEME ─────────────────────────────────────────────────────────────
   function setTheme(themeName, btnElement) {
-    // Remove all theme attributes
-    THEMES.forEach(t => {
-      if (t === 'dark') {
-        document.documentElement.removeAttribute('data-theme');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-    });
-    
-    // Set the new theme
-    if (themeName === 'dark') {
-      document.documentElement.removeAttribute('data-theme');
-    } else {
-      document.documentElement.setAttribute('data-theme', themeName);
-    }
-    
-    // Update active button
+    if (themeName === 'dark') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', themeName);
     document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
-    
-    // Update Three.js colors
     updateThreeTheme(themeName);
     updateChartTheme();
   }
@@ -1038,24 +860,14 @@
   const ringMesh2 = new THREE.Mesh(ringGeo, ringMat);
   ringMesh2.rotation.y = Math.PI/2; globeGroup.add(ringMesh2);
 
-  const themeColorMap = {
-    dark: { primary: 0x06b6d4, secondary: 0x3b82f6, opacity: 0.6 },
-    light: { primary: 0x3b82f6, secondary: 0x0ea5e9, opacity: 0.8 },
-    cyber: { primary: 0x00ff80, secondary: 0x00e5ff, opacity: 0.6 },
-    aurora: { primary: 0xa855f7, secondary: 0xec4899, opacity: 0.6 },
-    sunset: { primary: 0xfb923c, secondary: 0xef4444, opacity: 0.6 },
-    ocean: { primary: 0x22d3ee, secondary: 0x06b6d4, opacity: 0.6 },
-    noir: { primary: 0xf0f0f0, secondary: 0xd4d4d4, opacity: 0.5 }
-  };
-
   function updateThreeTheme(theme) {
-    const colors = themeColorMap[theme] || themeColorMap.dark;
-    const c = colors.primary;
-    const c2 = colors.secondary;
-    globeMat.opacity = colors.opacity;
-    gsap.to(globeMat.color, { r: (c>>16&255)/255, g: (c>>8&255)/255, b: (c&255)/255, duration: 0.5 });
-    gsap.to(arcMat.color, { r: (c2>>16&255)/255, g: (c2>>8&255)/255, b: (c2&255)/255, duration: 0.5 });
-    gsap.to(ringMat.color, { r: (c2>>16&255)/255, g: (c2>>8&255)/255, b: (c2&255)/255, duration: 0.5 });
+    let c = 0x06b6d4, c2 = 0x3b82f6;
+    if (theme === 'light') { c = 0x3b82f6; c2 = 0x0ea5e9; globeMat.opacity=0.8; }
+    else if (theme === 'cyber') { c = 0x00ff80; c2 = 0x00e5ff; globeMat.opacity=0.6; }
+    else { globeMat.opacity=0.6; }
+    gsap.to(globeMat.color, { r: (c>>16&255)/255, g: (c>>8&255)/255, b: (c&255)/255, duration:0.5 });
+    gsap.to(arcMat.color, { r: (c2>>16&255)/255, g: (c2>>8&255)/255, b: (c2&255)/255, duration:0.5 });
+    gsap.to(ringMat.color, { r: (c2>>16&255)/255, g: (c2>>8&255)/255, b: (c2&255)/255, duration:0.5 });
   }
 
   let targetX=0, targetY=0;
@@ -1127,7 +939,7 @@
   // ─── CHART.JS ──────────────────────────────────────────────────────────
   Chart.defaults.color = '#94a3b8';
   Chart.defaults.borderColor = 'rgba(148,163,184,0.1)';
-  Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+  Chart.defaults.font.family = "'JetBrains Mono', monospace";
   const ctx = document.getElementById('liveChart').getContext('2d');
   let liveChart;
   function initChart() {

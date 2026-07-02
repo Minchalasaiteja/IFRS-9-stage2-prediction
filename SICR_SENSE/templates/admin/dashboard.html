@@ -71,27 +71,28 @@
               <div class="flex items-start justify-between mb-4">
                 <div>
                   <p class="text-sm text-gray-400">System Health</p>
-                  <h3 class="text-3xl font-bold text-green-400">98.5%</h3>
+                  <h3 id="systemHealthPercent" class="text-3xl font-bold text-green-400">--</h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-yellow-400/10 flex items-center justify-center">
                   <i class="fas fa-heartbeat text-yellow-400 text-xl"></i>
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                <span class="status-badge status-healthy">Healthy</span>
+                <span id="systemHealthStatus" class="status-badge status-healthy">Loading</span>
               </div>
+              <p id="systemHealthDetail" class="text-sm text-gray-400 mt-2">Fetching live system metrics...</p>
             </div>
           </div>
           
-          <!-- Charts -->
+          <!-- Live Charts (real-time via WebSocket) -->
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div class="glass-card p-6">
-              <h3 class="text-lg font-bold mb-6">User Growth</h3>
-              <canvas id="userGrowthChart" height="300"></canvas>
+              <h3 class="text-lg font-bold mb-6">User Growth (Live)</h3>
+              <canvas id="adminUserGrowthChart" height="300"></canvas>
             </div>
             <div class="glass-card p-6">
-              <h3 class="text-lg font-bold mb-6">API Usage</h3>
-              <canvas id="apiUsageChart" height="300"></canvas>
+              <h3 class="text-lg font-bold mb-6">API Usage (Live)</h3>
+              <canvas id="adminApiUsageChart" height="300"></canvas>
             </div>
           </div>
         </section>
@@ -267,7 +268,7 @@
                   <p class="text-sm text-gray-400">Require 2FA for all users</p>
                 </div>
                 <label class="toggle-switch">
-                  <input type="checkbox" checked>
+                  <input type="checkbox" data-security="require_2fa" checked>
                   <span class="toggle-slider"></span>
                 </label>
               </div>
@@ -275,7 +276,7 @@
               <div class="flex items-center justify-between p-4 neo-element">
                 <div>
                   <p class="font-semibold">Password Policy</p>
-                  <p class="text-sm text-gray-400">Minimum 12 characters, special chars required</p>
+                  <p id="passwordPolicyInfo" class="text-sm text-gray-400">Minimum 12 characters, special chars required</p>
                 </div>
                 <button class="gradient-btn text-sm">Configure</button>
               </div>
@@ -283,15 +284,15 @@
               <div class="flex items-center justify-between p-4 neo-element">
                 <div>
                   <p class="font-semibold">Session Timeout</p>
-                  <p class="text-sm text-gray-400">Auto logout after 30 minutes of inactivity</p>
+                  <p id="sessionTimeoutInfo" class="text-sm text-gray-400">Auto logout after inactivity</p>
                 </div>
-                <input type="number" value="30" class="neo-input w-20 text-center">
+                <input type="number" value="30" data-security="session_timeout" class="neo-input w-20 text-center">
               </div>
               
               <div class="flex items-center justify-between p-4 neo-element">
                 <div>
                   <p class="font-semibold">IP Whitelisting</p>
-                  <p class="text-sm text-gray-400">Restrict access to specific IP ranges</p>
+                  <p id="ipWhitelistStatus" class="text-sm text-gray-400">Disabled</p>
                 </div>
                 <button class="gradient-btn text-sm">Manage IPs</button>
               </div>

@@ -66,6 +66,9 @@ templates = Jinja2Templates(directory="templates")
 # Startup time
 startup_time = datetime.now()
 
+# Track if background tasks have been started
+ws_background_tasks_started = False
+
 # Import and include routers
 try:
     from .routes import auth

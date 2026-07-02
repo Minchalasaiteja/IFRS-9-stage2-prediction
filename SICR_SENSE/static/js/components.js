@@ -1222,14 +1222,17 @@ setInterval(fetchNotifications, 30000);
 
 /* === pagination.html === */
 const paginationRoot = document.getElementById("pagination-data");
+let CURRENT_PAGE = 1;
+let TOTAL_PAGES = 1;
 
-const CURRENT_PAGE = Number(
-    paginationRoot.dataset.currentPage
-);
-
-const TOTAL_PAGES = Number(
-    paginationRoot.dataset.totalPages
-);
+try {
+    if (paginationRoot && paginationRoot.dataset) {
+        CURRENT_PAGE = Number(paginationRoot.dataset.currentPage || 1);
+        TOTAL_PAGES = Number(paginationRoot.dataset.totalPages || 1);
+    }
+} catch (error) {
+    console.warn('Pagination metadata unavailable:', error);
+}
 
 function goToPage(page){
 

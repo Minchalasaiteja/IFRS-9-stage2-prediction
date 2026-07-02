@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IFRS 9 Intelligence Platform — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.0/apexcharts.min.js"></script>
+<style>
+/* ── TOKENS ──────────────────────────────────────────────────────────────── */
+:root {
+  --bg-void:      #020408;
+  --bg-deep:      #060d18;
+  --bg-surface:   #0a1628;
+  --bg-elevated:  #0f1e35;
+  --bg-card:      rgba(10,22,40,0.82);
+  --bg-card-hover:rgba(15,30,55,0.9);
+  --border:       rgba(99,179,237,0.10);
+  --border-focus: rgba(99,179,237,0.30);
+  --accent:       #3b82f6;
+  --accent-cyan:  #06b6d4;
+  --accent-green: #10b981;
+  --accent-red:   #ef4444;
+  --accent-amber: #f59e0b;
+  --accent-purple:#8b5cf6;
+  --text-1:       #f0f6ff;
+  --text-2:       #94a3b8;
+  --text-3:       #475569;
+  --text-4:       #1e3a5f;
+  --mono:         'JetBrains Mono', monospace;
+  --sans:         'Inter', system-ui, sans-serif;
+  --sidebar-w:    240px;
+  --header-h:     56px;
+  --radius:       10px;
+  --radius-lg:    16px;
+  --shadow:       0 4px 24px rgba(0,0,0,0.5);
+  --shadow-glow:  0 0 32px rgba(59,130,246,0.12);
+  --transition:   all 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="light"] {
+  --bg-void: #f8fafc; --bg-deep: #f1f5f9; --bg-surface: #e2e8f0;
+  --bg-elevated: #fff; --bg-card: rgba(255,255,255,0.9);
+  --border: rgba(0,0,0,0.08); --border-focus: rgba(59,130,246,0.4);
+  --text-1: #0f172a; --text-2: #475569; --text-3: #94a3b8; --text-4: #cbd5e1;
+}
+[data-theme="cyber"] {
+  --bg-void: #000508; --bg-deep: #001a0d; --bg-surface: #001f10;
+  --bg-elevated: #002a1a; --bg-card: rgba(0,30,18,0.9);
+  --border: rgba(0,255,128,0.12); --border-focus: rgba(0,255,128,0.35);
+  --accent: #00ff80; --accent-cyan: #00e5ff;
+  --text-1: #e0fff0; --text-2: #4dffaa; --text-3: #1a7a50;
+}
+*,*::before,*::after { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--bg-void); color: var(--text-1); overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+
+/* ── TOP HEADER ──────────────────────────────────────────────────────────── */
+#top-header {
+  height: var(--header-h); flex-shrink: 0;
+  background: var(--bg-deep);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 20px; gap: 16px;
+  backdrop-filter: blur(20px);
+  z-index: 50;
+}
+.header-logo {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 800; letter-spacing: -0.02em;
+  margin-right: 8px;
+}
+.logo-badge {
+  padding: 2px 7px; background: var(--accent); border-radius: 4px;
+  font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.06em;
+}
+.header-sep { width: 1px; height: 28px; background: var(--border); }
+#live-clock {
+  font-family: var(--mono); font-size: 13px; color: var(--text-2);
+  letter-spacing: 0.04em; min-width: 80px;
+}
+.header-spacer { flex: 1; }
+.header-status {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--accent-green); font-weight: 600;
+}
+.status-dot {
+  width: 7px; height: 7px; background: var(--accent-green); border-radius: 50%;
+  animation: pulse-ring 2s infinite;
+}
+@keyframes pulse-ring {
+  0%,100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+}
+.header-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; transition: var(--transition);
+  color: var(--text-2);
+}
+.header-btn:hover { background: var(--bg-card); border-color: var(--border-focus); color: var(--text-1); }
+.notification-dot { position: relative; }
+.notification-dot::after {
+  content: ''; position: absolute; top: 6px; right: 6px;
+  width: 6px; height: 6px; background: var(--accent-red); border-radius: 50%;
+  border: 1.5px solid var(--bg-deep);
+}
+/* Theme switcher */
+#theme-switcher {
+  display: flex; gap: 4px;
+  background: var(--bg-void); border: 1px solid var(--border);
+  border-radius: 8px; padding: 3px;
+}
+.theme-btn {
+  width: 26px; height: 26px; border-radius: 5px; border: none;
+  cursor: pointer; font-size: 13px; transition: var(--transition);
+  background: transparent; display: flex; align-items: center; justify-content: center;
+}
+.theme-btn.active { background: var(--accent); }
+
+/* ── LAYOUT ──────────────────────────────────────────────────────────────── */
+#app-body { flex: 1; display: flex; overflow: hidden; }
+
+/* ── SIDEBAR ─────────────────────────────────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w); flex-shrink: 0;
+  background: var(--bg-deep);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+#sidebar.collapsed { width: 56px; }
+.sidebar-section { padding: 16px 12px 8px; }
+.sidebar-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-3); text-transform: uppercase; padding: 0 8px; margin-bottom: 6px;
+  white-space: nowrap; overflow: hidden;
+}
+#sidebar.collapsed .sidebar-label,
+#sidebar.collapsed .nav-label,
+#sidebar.collapsed .nav-badge { display: none; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: 8px;
+  cursor: pointer; transition: var(--transition);
+  text-decoration: none; color: var(--text-2);
+  font-size: 13px; font-weight: 500;
+  margin-bottom: 2px; white-space: nowrap;
+  position: relative;
+}
+.nav-item:hover { background: var(--bg-elevated); color: var(--text-1); }
+.nav-item.active { background: rgba(59,130,246,0.12); color: var(--accent); border: 1px solid rgba(59,130,246,0.2); }
+.nav-icon { font-size: 16px; flex-shrink: 0; width: 22px; text-align: center; }
+.nav-badge {
+  margin-left: auto; padding: 1px 7px;
+  background: rgba(239,68,68,0.15); color: var(--accent-red);
+  border-radius: 100px; font-size: 10px; font-weight: 700;
+}
+.sidebar-toggle {
+  margin: auto 12px 16px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 9px; border-radius: 8px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  cursor: pointer; color: var(--text-2); font-size: 13px;
+  transition: var(--transition);
+}
+.sidebar-toggle:hover { color: var(--text-1); border-color: var(--border-focus); }
+/* ── MAIN CONTENT ────────────────────────────────────────────────────────── */
+#main-content {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  background: var(--bg-void);
+  padding: 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+/* ── PAGE SECTIONS ────────────────────────────────────────────────────────── */
+.page { display: none; }
+.page.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+.page-title {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+.page-sub { font-size: 13px; color: var(--text-2); margin-bottom: 24px; }
+
+/* ── KPI ROW ──────────────────────────────────────────────────────────────── */
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 22px; }
+.kpi-card {
+  padding: 18px 20px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); backdrop-filter: blur(12px);
+  transition: var(--transition);
+  cursor: default;
+}
+.kpi-card:hover { border-color: var(--border-focus); transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+.kpi-label { font-size: 11px; color: var(--text-3); font-weight: 600; letter-spacing: 0.06em; margin-bottom: 8px; }
+.kpi-value { font-size: 26px; font-weight: 800; letter-spacing: -0.04em; font-family: var(--mono); }
+.kpi-trend { font-size: 11px; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+.trend-up   { color: var(--accent-red); }
+.trend-down { color: var(--accent-green); }
+.trend-flat { color: var(--text-3); }
+
+/* ── GRID ─────────────────────────────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 14px; margin-bottom: 14px; }
+.grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+/* ── CARD ─────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 20px 0; display: flex; align-items: center; justify-content: space-between;
+}
+.card-title { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; }
+.card-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.card-body { padding: 16px 20px 20px; }
+.card-actions { display: flex; gap: 6px; }
+.chip {
+  padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  cursor: pointer; color: var(--text-2); transition: var(--transition);
+}
+.chip:hover, .chip.active { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: var(--accent); }
+
+/* ── CANVAS CHARTS ────────────────────────────────────────────────────────── */
+.chart-wrap { position: relative; }
+.chart-wrap canvas { max-height: 240px; }
+
+/* ── TABLE ────────────────────────────────────────────────────────────────── */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  padding: 10px 14px; text-align: left;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+.data-table td {
+  padding: 11px 14px; font-size: 12px; border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+}
+.data-table tr:hover td { background: var(--bg-elevated); color: var(--text-1); }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* ── RISK BADGES ──────────────────────────────────────────────────────────── */
+.risk-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+}
+.risk-VERY_LOW  { background: rgba(16,185,129,0.1);  color: #10b981; border: 1px solid rgba(16,185,129,0.25); }
+.risk-LOW       { background: rgba(6,182,212,0.1);   color: #06b6d4; border: 1px solid rgba(6,182,212,0.25); }
+.risk-MEDIUM    { background: rgba(245,158,11,0.1);  color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); }
+.risk-HIGH      { background: rgba(239,68,68,0.1);   color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+.risk-VERY_HIGH { background: rgba(139,92,246,0.12); color: #8b5cf6; border: 1px solid rgba(139,92,246,0.25); }
+
+/* ── PREDICTION FORM ──────────────────────────────────────────────────────── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label { font-size: 11px; font-weight: 600; color: var(--text-2); letter-spacing: 0.04em; }
+.form-input, .form-select {
+  padding: 9px 12px; background: var(--bg-elevated);
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13px; color: var(--text-1); font-family: var(--sans);
+  transition: var(--transition); outline: none;
+}
+.form-input:focus, .form-select:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(59,130,246,0.08); }
+.form-select option { background: var(--bg-surface); }
+
+/* ── PREDICTION RESULT ────────────────────────────────────────────────────── */
+#pred-result {
+  display: none;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden; margin-top: 20px;
+  animation: fadeUp 0.4s ease;
+}
+.pred-result-header {
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 16px;
+}
+.pred-prob-ring {
+  width: 80px; height: 80px; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 3px solid;
+  font-family: var(--mono); font-weight: 800;
+}
+.pred-result-body { padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.shap-row-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.shap-feat-name { font-size: 12px; font-family: var(--mono); color: var(--text-2); min-width: 150px; }
+.shap-bar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.shap-fill-pos { height: 100%; background: var(--accent-red); border-radius: 3px; }
+.shap-fill-neg { height: 100%; background: var(--accent-green); border-radius: 3px; }
+.shap-impact   { font-size: 11px; font-family: var(--mono); min-width: 54px; text-align: right; }
+
+/* ── UPLOAD ZONE ──────────────────────────────────────────────────────────── */
+#upload-zone {
+  border: 2px dashed var(--border); border-radius: var(--radius-lg);
+  padding: 60px; text-align: center; cursor: pointer;
+  transition: var(--transition); background: var(--bg-card);
+}
+#upload-zone:hover, #upload-zone.drag-over {
+  border-color: var(--accent); background: rgba(59,130,246,0.04);
+}
+.upload-icon { font-size: 48px; margin-bottom: 16px; }
+#upload-zone h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+#upload-zone p { color: var(--text-2); font-size: 14px; }
+
+/* ── MONITORING LIVE FEED ─────────────────────────────────────────────────── */
+#live-feed {
+  height: 200px; overflow-y: auto; padding: 12px;
+  background: var(--bg-void); border-radius: 8px;
+  font-family: var(--mono); font-size: 11px;
+  scrollbar-width: thin;
+}
+.feed-item { padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; gap: 12px; }
+.feed-ts   { color: var(--text-3); min-width: 80px; }
+.feed-id   { color: var(--accent); }
+.feed-tier { font-weight: 700; }
+
+/* ── GAUGE ────────────────────────────────────────────────────────────────── */
+.gauge-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.gauge-svg { width: 140px; }
+.gauge-val { font-size: 22px; font-weight: 800; font-family: var(--mono); }
+.gauge-sub { font-size: 11px; color: var(--text-3); font-weight: 600; letter-spacing: 0.06em; }
+
+/* ── PROGRESS BARS ────────────────────────────────────────────────────────── */
+.progress-item { margin-bottom: 14px; }
+.progress-hd { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
+.progress-hd .pl { color: var(--text-2); font-weight: 500; }
+.progress-hd .pv { color: var(--text-1); font-weight: 700; font-family: var(--mono); }
+.progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── ALERT FEED ───────────────────────────────────────────────────────────── */
+#alert-box {
+  position: fixed; bottom: 24px; right: 24px; z-index: 200;
+  display: flex; flex-direction: column; gap: 8px; max-width: 360px;
+}
+.alert-toast {
+  padding: 12px 16px; border-radius: 10px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: flex-start; gap: 10px;
+  animation: slideInRight 0.3s ease; font-size: 13px;
+  box-shadow: var(--shadow);
+}
+@keyframes slideInRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+.alert-toast.warning { border-color: rgba(245,158,11,0.3); }
+.alert-toast.error   { border-color: rgba(239,68,68,0.3); }
+.alert-toast.success { border-color: rgba(16,185,129,0.3); }
+.alert-icon { font-size: 18px; }
+.alert-close { margin-left: auto; cursor: pointer; color: var(--text-3); font-size: 16px; }
+
+/* ── BUTTONS ──────────────────────────────────────────────────────────────── */
+.btn {
+  padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  border: none; cursor: pointer; font-family: var(--sans);
+  transition: var(--transition); display: inline-flex; align-items: center; gap: 7px;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #2563eb; box-shadow: 0 0 20px rgba(59,130,246,0.35); transform: translateY(-1px); }
+.btn-secondary {
+  background: var(--bg-elevated); color: var(--text-2);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { color: var(--text-1); border-color: var(--border-focus); }
+.btn-danger { background: rgba(239,68,68,0.1); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.2); }
+.btn-lg { padding: 14px 32px; font-size: 15px; }
+
+/* ── SCROLLBAR ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media (max-width:1024px) { .kpi-row { grid-template-columns: repeat(3,1fr); } }
+@media (max-width:768px) {
+  #sidebar { display: none; }
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .grid-2,.grid-3,.grid-1-2,.grid-2-1 { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr 1fr; }
+}
+/* ── SKELETON LOADER ──────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-wave 1.5s infinite;
+  border-radius: 6px;
+}
+@keyframes skeleton-wave { 0%{background-position:200%} 100%{background-position:-200%} }
+</style>
+</head>
+<body>
+
+<!-- ── TOP HEADER ────────────────────────────────────────────────────────── -->
+<header id="top-header">
+  <div class="header-logo">
+    <span>IFRS9</span><span class="logo-badge">AI</span>
+  </div>
+  <div class="header-sep"></div>
+  <span id="live-clock"></span>
+  <div class="header-sep"></div>
+  <div class="header-status"><div class="status-dot"></div>Live · All Systems Operational</div>
+  <div class="header-spacer"></div>
+  <div id="theme-switcher">
+    <button class="theme-btn active" onclick="setTheme('dark')" title="Dark">🌙</button>
+    <button class="theme-btn" onclick="setTheme('light')" title="Light">☀️</button>
+    <button class="theme-btn" onclick="setTheme('cyber')" title="Cyber">💚</button>
+  </div>
+  <div class="header-btn notification-dot" title="Alerts">🔔</div>
+  <div class="header-btn" onclick="window.location='/'" title="Home">🏠</div>
+</header>
+
+<div id="app-body">
+<!-- ── SIDEBAR ────────────────────────────────────────────────────────────── -->
+<nav id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Main</div>
+    <a class="nav-item active" onclick="showPage('overview')" href="#">
+      <span class="nav-icon">📊</span><span class="nav-label">Overview</span>
+    </a>
+    <a class="nav-item" onclick="showPage('predict')" href="#">
+      <span class="nav-icon">🎯</span><span class="nav-label">Predictions</span>
+    </a>
+    <a class="nav-item" onclick="showPage('monitor')" href="#">
+      <span class="nav-icon">📡</span><span class="nav-label">Live Monitor</span>
+      <span class="nav-badge">LIVE</span>
+    </a>
+    <a class="nav-item" onclick="showPage('upload')" href="#">
+      <span class="nav-icon">📁</span><span class="nav-label">Upload Dataset</span>
+    </a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Analytics</div>
+    <a class="nav-item" onclick="showPage('explainability')" href="#">
+      <span class="nav-icon">🧠</span><span class="nav-label">Explainability</span>
+    </a>
+    <a class="nav-item" onclick="showPage('analytics')" href="#">
+      <span class="nav-icon">📈</span><span class="nav-label">Portfolio Analytics</span>
+    </a>
+    <a class="nav-item" onclick="showPage('settings')" href="#">
+      <span class="nav-icon">⚙️</span><span class="nav-label">Settings</span>
+    </a>
+  </div>
+  <div style="flex:1"></div>
+  <div class="sidebar-toggle" onclick="toggleSidebar()">
+    <span id="toggle-icon">◀</span><span class="nav-label" style="font-size:12px">Collapse</span>
+  </div>
+</nav>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────────────────────────── -->
+<main id="main-content">
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PAGE: OVERVIEW
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="page-overview" class="page active">
+  <div class="page-title">Portfolio Overview</div>
+  <div class="page-sub" id="overview-sub">Real-time IFRS 9 Stage 2 risk intelligence — loading data...</div>
+
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-label">TOTAL LOANS</div>
+      <div class="kpi-value" id="kpi-total" style="color:var(--text-1)">—</div>
+      <div class="kpi-trend trend-flat">Across all products</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">PREDICTED STAGE 2</div>
+      <div class="kpi-value" id="kpi-stage2" style="color:var(--accent-amber)">—</div>
+      <div class="kpi-trend trend-up" id="kpi-rate">— migration rate</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">EXPOSURE AT RISK</div>
+      <div class="kpi-value" id="kpi-exposure" style="color:var(--accent-red)">—</div>
+      <div class="kpi-trend trend-up">Lifetime ECL required</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">AVG PREDICTION</div>
+      <div class="kpi-value" id="kpi-latency" style="color:var(--accent-green)">—ms</div>
+      <div class="kpi-trend trend-down">Sub-100ms target ✓</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">ROC-AUC SCORE</div>
+      <div class="kpi-value" style="color:var(--accent)">0.921</div>
+      <div class="kpi-trend trend-down" style="color:var(--accent-green)">↑ Model performance</div>
+    </div>
+  </div>
+
+  <div class="grid-2-1">
+    <div class="card">
+      <div class="card-header">
+        <div><div class="card-title">Stage 2 Migration Trend</div><div class="card-sub">Monthly migration rate over last 12 months</div></div>
+        <div class="card-actions">
+          <span class="chip active">12M</span><span class="chip">6M</span><span class="chip">3M</span>
+        </div>
+      </div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-trend"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Risk Tier Distribution</div><div class="card-sub">Portfolio risk breakdown</div></div></div>
+      <div class="card-body" style="display:flex;align-items:center;justify-content:center;">
+        <div class="chart-wrap" style="width:200px"><canvas id="chart-donut"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Exposure by Product</div><div class="card-sub">£GBP exposure breakdown</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-product"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">PD Distribution</div><div class="card-sub">Probability of default histogram</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-pd"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Model Health</div><div class="card-sub">Real-time system metrics</div></div></div>
+      <div class="card-body" id="model-health-body">
+        <div class="progress-item"><div class="progress-hd"><span class="pl">CPU Usage</span><span class="pv" id="cpu-val">—%</span></div><div class="progress-bar"><div class="progress-fill" id="cpu-bar" style="width:0%;background:var(--accent)"></div></div></div>
+        <div class="progress-item"><div class="progress-hd"><span class="pl">Memory</span><span class="pv" id="mem-val">—%</span></div><div class="progress-bar"><div class="progress-fill" id="mem-bar" style="width:0%;background:var(--accent-purple)"></div></div></div>
+        <div class="progress-item"><div class="progress-hd"><span class="pl">Disk</span><span class="pv" id="disk-val">—%</span></div><div class="progress-bar"><div class="progress-fill" id="disk-bar" style="width:0%;background:var(--accent-cyan)"></div></div></div>
+        <div class="progress-item"><div class="progress-hd"><span class="pl">PR-AUC</span><span class="pv">0.847</span></div><div class="progress-bar"><div class="progress-fill" style="width:84.7%;background:var(--accent-green)"></div></div></div>
+        <div class="progress-item"><div class="progress-hd"><span class="pl">Recall@Top10%</span><span class="pv">68.3%</span></div><div class="progress-bar"><div class="progress-fill" style="width:68.3%;background:var(--accent-amber)"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div><div class="card-title">Recent Predictions</div><div class="card-sub">Latest 10 loan risk assessments</div></div></div>
+    <div class="card-body" style="padding:0">
+      <table class="data-table">
+        <thead><tr><th>Loan ID</th><th>Probability</th><th>Risk Tier</th><th>Stage 2?</th><th>Time</th></tr></thead>
+        <tbody id="recent-table"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PAGE: PREDICTIONS
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="page-predict" class="page">
+  <div class="page-title">Stage 2 Prediction Engine</div>
+  <div class="page-sub">Enter loan details manually or upload a CSV to run IFRS 9 Stage 2 predictions</div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header"><div><div class="card-title">Manual Loan Input</div><div class="card-sub">All fields required for accurate prediction</div></div></div>
+    <div class="card-body">
+      <div class="form-grid" id="loan-form">
+
+        <div class="form-group">
+          <label class="form-label">LOAN AMOUNT (£)</label>
+          <input class="form-input" id="f-loan-amount" type="number" value="250000" min="1000" max="10000000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">OUTSTANDING BALANCE (£)</label>
+          <input class="form-input" id="f-balance" type="number" value="198000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">INTEREST RATE (%)</label>
+          <input class="form-input" id="f-rate" type="number" value="4.75" step="0.01">
+        </div>
+        <div class="form-group">
+          <label class="form-label">INTERNAL CREDIT SCORE</label>
+          <input class="form-input" id="f-score" type="number" value="680" min="300" max="850">
+        </div>
+        <div class="form-group">
+          <label class="form-label">DAYS PAST DUE</label>
+          <input class="form-input" id="f-dpd" type="number" value="0" min="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">MISSED PAYMENTS (12M)</label>
+          <input class="form-input" id="f-missed" type="number" value="0" min="0" max="12">
+        </div>
+        <div class="form-group">
+          <label class="form-label">PD AT ORIGINATION (%)</label>
+          <input class="form-input" id="f-pd-orig" type="number" value="1.2" step="0.01">
+        </div>
+        <div class="form-group">
+          <label class="form-label">PD CURRENT (%)</label>
+          <input class="form-input" id="f-pd-curr" type="number" value="2.8" step="0.01">
+        </div>
+        <div class="form-group">
+          <label class="form-label">MONTHS ON BOOK</label>
+          <input class="form-input" id="f-mob" type="number" value="36">
+        </div>
+        <div class="form-group">
+          <label class="form-label">LOAN TYPE</label>
+          <select class="form-select" id="f-loan-type">
+            <option>Mortgage</option><option>Personal Loan</option><option>Auto Loan</option>
+            <option>Business Loan</option><option>Credit Card</option><option>Student Loan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">BANK REGION</label>
+          <select class="form-select" id="f-region">
+            <option>London</option><option>South East</option><option>North West</option>
+            <option>Yorkshire</option><option>Midlands</option><option>Scotland</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">FORBEARANCE HISTORY</label>
+          <select class="form-select" id="f-forbearance">
+            <option>No</option><option>Yes</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:20px">
+        <button class="btn btn-primary btn-lg" onclick="runPrediction()">🎯 Run Prediction</button>
+        <button class="btn btn-secondary" onclick="fillDemoData()">📋 Load Demo Data</button>
+        <button class="btn btn-secondary" onclick="fillHighRiskDemo()">🔴 High Risk Demo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div id="pred-result">
+    <div class="pred-result-header">
+      <div class="pred-prob-ring" id="pred-ring">
+        <span id="pred-pct" style="font-size:18px">—%</span>
+        <span style="font-size:9px;color:var(--text-3);font-weight:500">STAGE 2</span>
+      </div>
+      <div>
+        <div style="font-size:20px;font-weight:800;margin-bottom:4px" id="pred-tier-label">—</div>
+        <div style="font-size:13px;color:var(--text-2)" id="pred-decision">—</div>
+        <div style="margin-top:10px" id="pred-rec"></div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div style="font-size:11px;color:var(--text-3);margin-bottom:4px">MODEL SCORES</div>
+        <div id="pred-model-scores" style="font-size:12px;font-family:var(--mono);color:var(--text-2)"></div>
+      </div>
+    </div>
+    <div class="pred-result-body">
+      <div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;color:var(--text-3);margin-bottom:16px">TOP RISK DRIVERS (SHAP)</div>
+        <div id="shap-drivers"></div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;color:var(--text-3);margin-bottom:16px">RECOMMENDATION</div>
+        <div id="pred-recommendation" style="font-size:14px;line-height:1.7;color:var(--text-2)"></div>
+        <div style="margin-top:20px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;color:var(--text-3);margin-bottom:12px">CONFIDENCE BREAKDOWN</div>
+          <canvas id="chart-confidence" height="120"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PAGE: LIVE MONITOR
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="page-monitor" class="page">
+  <div class="page-title">Live Portfolio Monitor</div>
+  <div class="page-sub">Real-time WebSocket feed — auto-refreshing every 2 seconds</div>
+
+  <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi-card">
+      <div class="kpi-label">PREDICTIONS TODAY</div>
+      <div class="kpi-value" id="ws-count" style="color:var(--accent)">—</div>
+      <div class="kpi-trend">Live count via WebSocket</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">PORTFOLIO STAGE 2 RATE</div>
+      <div class="kpi-value" id="ws-rate" style="color:var(--accent-amber)">—%</div>
+      <div class="kpi-trend">vs 22.0% baseline</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">AVG LATENCY</div>
+      <div class="kpi-value" id="ws-latency" style="color:var(--accent-green)">—ms</div>
+      <div class="kpi-trend">Per-prediction target &lt;100ms</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">SYSTEM CPU</div>
+      <div class="kpi-value" id="ws-cpu" style="color:var(--accent-purple)">—%</div>
+      <div class="kpi-trend" id="ws-mem">Memory: —%</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Live Prediction Stream</div><div class="card-sub">Real-time WebSocket feed</div></div><span style="font-size:11px;color:var(--accent-green);font-weight:700" id="ws-status">CONNECTING...</span></div>
+      <div class="card-body" style="padding:12px">
+        <div id="live-feed"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Migration Rate Tracker</div><div class="card-sub">Rolling 60-second window</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-live-rate"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Risk Tier Flow</div><div class="card-sub">Live tier distribution</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-live-tiers"></canvas></div></div>
+    </div>
+    <div class="card" style="grid-column:span 2">
+      <div class="card-header"><div><div class="card-title">Latest Predictions</div><div class="card-sub">Live incoming via WebSocket</div></div></div>
+      <div class="card-body" style="padding:0">
+        <table class="data-table">
+          <thead><tr><th>Loan ID</th><th>Probability</th><th>Tier</th><th>Stage 2?</th><th>Time</th></tr></thead>
+          <tbody id="live-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PAGE: UPLOAD
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="page-upload" class="page">
+  <div class="page-title">Upload Dataset</div>
+  <div class="page-sub">Upload a CSV file of loans to run batch IFRS 9 Stage 2 predictions</div>
+
+  <div id="upload-zone" onclick="document.getElementById('file-input').click()"
+       ondragover="this.classList.add('drag-over');event.preventDefault()"
+       ondragleave="this.classList.remove('drag-over')"
+       ondrop="handleDrop(event)">
+    <div class="upload-icon">📁</div>
+    <h3>Drop your CSV here or click to browse</h3>
+    <p>Accepts CSV files up to 10,000 rows · Required columns auto-detected</p>
+    <input type="file" id="file-input" accept=".csv" style="display:none" onchange="handleFileSelect(event)">
+  </div>
+
+  <div id="upload-progress" style="display:none;margin-top:20px">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title" id="upload-status">Processing...</div></div></div>
+      <div class="card-body">
+        <div class="progress-bar" style="height:10px;margin-bottom:16px"><div class="progress-fill" id="upload-bar" style="width:0%;background:var(--accent)"></div></div>
+        <div id="upload-results"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PAGE: EXPLAINABILITY
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="page-explainability" class="page">
+  <div class="page-title">Model Explainability</div>
+  <div class="page-sub">SHAP-powered global and local feature importance analysis</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Global Feature Importance</div><div class="card-sub">Mean |SHAP| across all predictions</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-shap-global" height="280"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Model Performance Comparison</div><div class="card-sub">Validation vs Test metrics</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-model-perf"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div><div class="card-title">Ensemble Model Weights</div><div class="card-sub">Contribution of each model to final prediction</div></div></div>
+    <div class="card-body" id="model-info-body">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+        <div style="text-align:center;padding:20px;background:var(--bg-elevated);border-radius:10px;border:1px solid var(--border)">
+          <div style="font-size:32px;font-weight:800;font-family:var(--mono);color:var(--accent)">40%</div>
+          <div style="font-size:13px;font-weight:700;margin-top:8px">XGBoost</div>
+          <div style="font-size:12px;color:var(--text-2);margin-top:4px">Optuna-tuned · 50 trials</div>
+        </div>
+        <div style="text-align:center;padding:20px;background:var(--bg-elevated);border-radius:10px;border:1px solid var(--border)">
+          <div style="font-size:32px;font-weight:800;font-family:var(--mono);color:var(--accent-cyan)">35%</div>
+          <div style="font-size:13px;font-weight:700;margin-top:8px">LightGBM</div>
+          <div style="font-size:12px;color:var(--text-2);margin-top:4px">Balanced class weight</div>
+        </div>
+        <div style="text-align:center;padding:20px;background:var(--bg-elevated);border-radius:10px;border:1px solid var(--border)">
+          <div style="font-size:32px;font-weight:800;font-family:var(--mono);color:var(--accent-green)">25%</div>
+          <div style="font-size:13px;font-weight:700;margin-top:8px">CatBoost</div>
+          <div style="font-size:12px;color:var(--text-2);margin-top:4px">Native categorical support</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PAGE: ANALYTICS
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="page-analytics" class="page">
+  <div class="page-title">Portfolio Analytics</div>
+  <div class="page-sub">Deep-dive portfolio risk analytics and segmentation</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Stage 2 Rate by Product</div><div class="card-sub">Migration rate per loan type</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-by-product"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Regional Risk Heatmap</div><div class="card-sub">Average risk score by UK region</div></div></div>
+      <div class="card-body"><div id="region-bars"></div></div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">ECL Impact Estimate</div><div class="card-sub">Expected Credit Loss breakdown</div></div></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="padding:16px;background:var(--bg-elevated);border-radius:8px;border:1px solid rgba(16,185,129,0.2)">
+            <div style="font-size:11px;color:var(--text-3);font-weight:600">STAGE 1 ECL (12-Month)</div>
+            <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--accent-green);margin-top:4px">£12.5M</div>
+          </div>
+          <div style="padding:16px;background:var(--bg-elevated);border-radius:8px;border:1px solid rgba(239,68,68,0.2)">
+            <div style="font-size:11px;color:var(--text-3);font-weight:600">STAGE 2 ECL (LIFETIME)</div>
+            <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--accent-red);margin-top:4px">£348M</div>
+          </div>
+          <div style="padding:16px;background:var(--bg-elevated);border-radius:8px;border:1px solid var(--border)">
+            <div style="font-size:11px;color:var(--text-3);font-weight:600">TOTAL PORTFOLIO EXPOSURE</div>
+            <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--text-1);margin-top:4px">£4.82B</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="grid-column:span 2">
+      <div class="card-header"><div><div class="card-title">Migration Trend (12 Months)</div><div class="card-sub">Monthly new Stage 2 migrations</div></div></div>
+      <div class="card-body"><div class="chart-wrap"><canvas id="chart-migration"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PAGE: SETTINGS
+══════════════════════════════════════════════════════════════════════════ -->
+<div id="page-settings" class="page">
+  <div class="page-title">Platform Settings</div>
+  <div class="page-sub">Configure model parameters, thresholds, and display preferences</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">Model Configuration</div></div></div>
+      <div class="card-body">
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">DECISION THRESHOLD</label>
+          <input class="form-input" type="range" min="0.1" max="0.9" step="0.01" value="0.35" oninput="document.getElementById('thr-val').textContent=this.value" style="padding:0;border:none;background:transparent">
+          <span class="form-label" id="thr-val" style="color:var(--accent);font-size:14px;font-family:var(--mono)">0.35</span>
+        </div>
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">ML ARTIFACTS PATH</label>
+          <input class="form-input" value="ml_artifacts/ifrs9_complete_bundle.pkl" readonly style="opacity:0.6">
+        </div>
+        <div class="form-group">
+          <label class="form-label">MODEL VERSION</label>
+          <input class="form-input" id="settings-model-ver" value="—" readonly style="opacity:0.6">
+        </div>
+        <div id="model-info-settings" style="margin-top:16px;font-size:12px;color:var(--text-2)"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div><div class="card-title">System Information</div></div></div>
+      <div class="card-body">
+        <div id="sys-info" style="font-family:var(--mono);font-size:12px;color:var(--text-2);display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- Alert box -->
+<div id="alert-box"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// CORE APP LOGIC
+// ═══════════════════════════════════════════════════════════════════════════
+const API = '/api/v1';
+const COLORS = {
+  accent:'#3b82f6', cyan:'#06b6d4', green:'#10b981',
+  red:'#ef4444', amber:'#f59e0b', purple:'#8b5cf6',
+  text2:'#94a3b8', border:'rgba(99,179,237,0.10)'
+};
+
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(99,179,237,0.10)';
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.size = 11;
+
+// ── PAGE ROUTING ────────────────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pg = document.getElementById(`page-${name}`);
+  if (pg) pg.classList.add('active');
+  const nav = document.querySelector(`[onclick="showPage('${name}')"]`);
+  if (nav) nav.classList.add('active');
+  if (name === 'monitor') startMonitor();
+  if (name === 'explainability') renderExplainability();
+  if (name === 'analytics') renderAnalytics();
+  if (name === 'settings') loadSettings();
+}
+
+// ── LIVE CLOCK ───────────────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  document.getElementById('live-clock').textContent =
+    now.toLocaleTimeString('en-GB', { hour12: false });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── THEME ────────────────────────────────────────────────────────────────────
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ── SIDEBAR TOGGLE ───────────────────────────────────────────────────────────
+let sidebarCollapsed = false;
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  const sb = document.getElementById('sidebar');
+  sb.classList.toggle('collapsed', sidebarCollapsed);
+  document.getElementById('toggle-icon').textContent = sidebarCollapsed ? '▶' : '◀';
+}
+
+// ── ALERTS ───────────────────────────────────────────────────────────────────
+function showAlert(msg, type='info') {
+  const icons = { info:'ℹ️', warning:'⚠️', error:'🚨', success:'✅' };
+  const box = document.getElementById('alert-box');
+  const div = document.createElement('div');
+  div.className = `alert-toast ${type}`;
+  div.innerHTML = `<span class="alert-icon">${icons[type]||'ℹ️'}</span>
+    <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--text-1)">${msg}</div></div>
+    <span class="alert-close" onclick="this.parentElement.remove()">×</span>`;
+  box.appendChild(div);
+  setTimeout(() => div.remove(), 5000);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// OVERVIEW DATA LOADING
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadOverview() {
+  try {
+    const [stats, health] = await Promise.all([
+      fetch(`${API}/monitor/stats`).then(r=>r.json()),
+      fetch(`${API}/health/`).then(r=>r.json()),
+    ]);
+
+    // KPIs
+    animateNumber('kpi-total', stats.total_predictions || 84098);
+    document.getElementById('kpi-stage2').textContent =
+      Math.round((stats.stage2_rate||0.22) * (stats.total_predictions||84098)).toLocaleString();
+    document.getElementById('kpi-rate').textContent =
+      `${((stats.stage2_rate||0.22)*100).toFixed(1)}% migration rate`;
+    document.getElementById('kpi-exposure').textContent = '£3.42B';
+    document.getElementById('kpi-latency').textContent = `${stats.avg_latency_ms||48}ms`;
+    document.getElementById('overview-sub').textContent =
+      `Last updated: ${new Date().toLocaleTimeString()} · Model v${stats.model_version||'1.0.0'} · Demo mode`;
+
+    // System bars
+    updateSystemBars(health);
+
+    // Recent table
+    renderRecentTable(stats.recent_predictions || []);
+
+    // Charts
+    renderTrendChart(stats);
+    renderDonutChart(stats.tier_distribution || {});
+    renderProductChart();
+    renderPDChart();
+
+  } catch(e) {
+    console.warn('Overview load error, using demo data:', e);
+    renderDemoOverview();
+  }
+}
+
+function updateSystemBars(health) {
+  const cpu = health?.cpu_pct || 0, mem = health?.memory_pct || 0, disk = health?.disk_pct || 0;
+  document.getElementById('cpu-val').textContent = `${cpu.toFixed(0)}%`;
+  document.getElementById('mem-val').textContent = `${mem.toFixed(0)}%`;
+  document.getElementById('disk-val').textContent = `${disk.toFixed(0)}%`;
+  setTimeout(() => {
+    document.getElementById('cpu-bar').style.width = `${cpu}%`;
+    document.getElementById('mem-bar').style.width = `${mem}%`;
+    document.getElementById('disk-bar').style.width = `${disk}%`;
+    document.getElementById('cpu-bar').style.background = cpu > 80 ? COLORS.red : COLORS.accent;
+    document.getElementById('mem-bar').style.background = mem > 85 ? COLORS.amber : COLORS.purple;
+  }, 300);
+}
+
+function renderDemoOverview() {
+  document.getElementById('kpi-total').textContent = '84,098';
+  document.getElementById('kpi-stage2').textContent = '18,506';
+  document.getElementById('kpi-rate').textContent = '22.0% migration rate';
+  document.getElementById('kpi-exposure').textContent = '£3.42B';
+  document.getElementById('kpi-latency').textContent = '48ms';
+  document.getElementById('cpu-val').textContent = '34%';
+  document.getElementById('mem-val').textContent = '62%';
+  document.getElementById('disk-val').textContent = '28%';
+  setTimeout(() => {
+    document.getElementById('cpu-bar').style.width = '34%';
+    document.getElementById('mem-bar').style.width = '62%';
+    document.getElementById('disk-bar').style.width = '28%';
+  }, 300);
+  renderRecentTable(genDemoRecent());
+  renderTrendChart({});
+  renderDonutChart({ VERY_LOW: 42300, LOW: 18500, MEDIUM: 12400, HIGH: 6800, VERY_HIGH: 4098 });
+  renderProductChart();
+  renderPDChart();
+}
+
+function renderRecentTable(rows) {
+  const tbody = document.getElementById('recent-table');
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-3)">No data yet</td></tr>'; return; }
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td style="font-family:var(--mono);color:var(--accent)">${r.loan_id||'—'}</td>
+      <td><span style="font-family:var(--mono);font-weight:700;color:${probColor(r.stage2_probability||r.probability||0)}">${((r.stage2_probability||r.probability||0)*100).toFixed(1)}%</span></td>
+      <td><span class="risk-badge risk-${r.risk_tier||'LOW'}">${r.risk_tier||'LOW'}</span></td>
+      <td style="color:${r.predicted_stage2?'var(--accent-red)':'var(--accent-green)'}">${r.predicted_stage2?'⚠️ Yes':'✅ No'}</td>
+      <td style="color:var(--text-3)">${fmtTime(r.created_at)}</td>
+    </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════════════════════════════════════
+let charts = {};
+function destroyChart(id) { if (charts[id]) { charts[id].destroy(); delete charts[id]; } }
+
+function renderTrendChart(stats) {
+  destroyChart('trend');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const rng = seededRng(42);
+  const data = months.map(() => round2(18 + rng()*8));
+  const ctx = document.getElementById('chart-trend').getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,0,200);
+  grad.addColorStop(0,'rgba(59,130,246,0.25)');
+  grad.addColorStop(1,'rgba(59,130,246,0)');
+  charts.trend = new Chart(ctx, {
+    type:'line',
+    data:{ labels:months, datasets:[{
+      label:'Stage 2 Migration Rate (%)', data,
+      borderColor:COLORS.accent, backgroundColor:grad,
+      borderWidth:2, fill:true, tension:0.4,
+      pointBackgroundColor:COLORS.accent, pointRadius:3,
+    }]},
+    options:{ responsive:true, plugins:{ legend:{display:false} },
+      scales:{ y:{ beginAtZero:false, min:10, max:35, ticks:{callback:v=>v+'%'} } } }
+  });
+}
+
+function renderDonutChart(tiers) {
+  destroyChart('donut');
+  const order = ['VERY_LOW','LOW','MEDIUM','HIGH','VERY_HIGH'];
+  const colors = [COLORS.green,COLORS.cyan,COLORS.amber,COLORS.red,COLORS.purple];
+  const vals = order.map(k => tiers[k]||0);
+  charts.donut = new Chart(document.getElementById('chart-donut').getContext('2d'), {
+    type:'doughnut',
+    data:{ labels:order, datasets:[{ data:vals, backgroundColor:colors, borderColor:'rgba(0,0,0,0)', borderWidth:3, hoverOffset:6 }] },
+    options:{ responsive:true, cutout:'68%', plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, padding:12 } } } }
+  });
+}
+
+function renderProductChart() {
+  destroyChart('product');
+  const prods = ['Mortgage','Personal','Auto','Business','Credit Card','Student'];
+  const vals = [2850,1420,980,810,610,280];
+  const ctx = document.getElementById('chart-product').getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,300,0);
+  grad.addColorStop(0,COLORS.accent); grad.addColorStop(1,COLORS.cyan);
+  charts.product = new Chart(ctx, {
+    type:'bar',
+    data:{ labels:prods, datasets:[{ label:'Exposure (£M)', data:vals, backgroundColor:grad, borderRadius:6 }] },
+    options:{ responsive:true, indexAxis:'y', plugins:{legend:{display:false}},
+      scales:{ x:{ ticks:{ callback:v=>'£'+v+'M' } } } }
+  });
+}
+
+function renderPDChart() {
+  destroyChart('pd');
+  const rng = seededRng(7);
+  const buckets = Array.from({length:20},(_,i)=>i*5);
+  const data = buckets.map(b => Math.max(0,Math.round(8000*gaussRng(rng,20,15)*(1-b*0.03))));
+  const ctx = document.getElementById('chart-pd').getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,0,200);
+  grad.addColorStop(0,'rgba(6,182,212,0.3)'); grad.addColorStop(1,'rgba(6,182,212,0)');
+  charts.pd = new Chart(ctx, {
+    type:'bar',
+    data:{ labels:buckets.map(b=>`${b}%`), datasets:[{ label:'Loans', data, backgroundColor:grad, borderColor:COLORS.cyan, borderWidth:1, borderRadius:2 }] },
+    options:{ responsive:true, plugins:{legend:{display:false}} }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PREDICTION PAGE
+// ═══════════════════════════════════════════════════════════════════════════
+async function runPrediction() {
+  const payload = {
+    loan_amount_gbp: +fv('f-loan-amount'),
+    outstanding_balance_gbp: +fv('f-balance'),
+    interest_rate_pct: +fv('f-rate'),
+    internal_credit_score: +fv('f-score'),
+    days_past_due_current: +fv('f-dpd'),
+    missed_payments_last_12m: +fv('f-missed'),
+    pd_12m_at_origination_pct: +fv('f-pd-orig'),
+    pd_12m_current_pct: +fv('f-pd-curr'),
+    months_on_book: +fv('f-mob'),
+    loan_type: fv('f-loan-type'),
+    bank_region: fv('f-region'),
+    forbearance_history: fv('f-forbearance'),
+    original_loan_term_months: 240,
+    remaining_term_months: 200,
+    vintage_year: 2021,
+    bureau_inquiries_last_6m: 1,
+  };
+  const btn = document.querySelector('[onclick="runPrediction()"]');
+  btn.textContent = '⏳ Running...'; btn.disabled = true;
+  try {
+    const r = await fetch(`${API}/predict/single`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const data = await r.json();
+    renderPredResult(data);
+    showAlert('Prediction complete — ' + data.risk_tier, data.risk_tier.includes('HIGH') ? 'warning' : 'success');
+  } catch(e) {
+    // Demo mode
+    const demo = genDemoPred(payload);
+    renderPredResult(demo);
+    showAlert('Demo prediction (no API connection)', 'info');
+  } finally {
+    btn.textContent = '🎯 Run Prediction'; btn.disabled = false;
+  }
+}
+
+function renderPredResult(data) {
+  const box = document.getElementById('pred-result');
+  box.style.display = 'block';
+  const pct = (data.stage2_probability * 100).toFixed(1);
+  const tier = data.risk_tier;
+  const color = tierColor(tier);
+
+  const ring = document.getElementById('pred-ring');
+  ring.style.borderColor = color;
+  document.getElementById('pred-pct').textContent = pct + '%';
+  document.getElementById('pred-pct').style.color = color;
+  document.getElementById('pred-tier-label').textContent = tier.replace('_',' ');
+  document.getElementById('pred-tier-label').style.color = color;
+  document.getElementById('pred-decision').textContent =
+    data.predicted_stage2 ? '⚠️  WILL MIGRATE TO STAGE 2' : '✅  REMAINS STAGE 1';
+  document.getElementById('pred-recommendation').textContent = data.recommendation || '';
+
+  // Model scores
+  const ms = data.model_scores || {};
+  document.getElementById('pred-model-scores').innerHTML = Object.entries(ms)
+    .map(([k,v]) => `<div>${k}: <span style="color:var(--accent)">${(v*100).toFixed(1)}%</span></div>`).join('');
+
+  // SHAP drivers
+  const driversEl = document.getElementById('shap-drivers');
+  const drivers = data.risk_drivers || [];
+  driversEl.innerHTML = drivers.map(d => {
+    const pos = d.direction === 'INCREASES_RISK';
+    const w = Math.min(Math.abs(d.shap_impact) * 3, 1);
+    return `<div class="shap-row-item">
+      <span class="shap-feat-name">${d.feature}</span>
+      <div class="shap-bar-wrap"><div class="${pos?'shap-fill-pos':'shap-fill-neg'}" style="width:${w*100}%"></div></div>
+      <span class="shap-impact ${pos?'pos':'neg'}" style="color:${pos?COLORS.red:COLORS.green}">${d.shap_impact>0?'+':''}${d.shap_impact.toFixed(4)}</span>
+    </div>`;
+  }).join('');
+
+  // Confidence chart
+  destroyChart('confidence');
+  const ms2 = data.model_scores || { xgboost:data.stage2_probability, lightgbm:data.stage2_probability, catboost:data.stage2_probability };
+  charts.confidence = new Chart(document.getElementById('chart-confidence').getContext('2d'), {
+    type:'bar',
+    data:{ labels:Object.keys(ms2), datasets:[{
+      label:'Stage 2 Probability', data:Object.values(ms2),
+      backgroundColor:[COLORS.accent,COLORS.cyan,COLORS.green], borderRadius:6
+    }]},
+    options:{ responsive:true, plugins:{legend:{display:false}},
+      scales:{ y:{ min:0, max:1, ticks:{callback:v=>(v*100).toFixed(0)+'%'} } } }
+  });
+
+  box.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function fillDemoData() {
+  sv('f-loan-amount',250000); sv('f-balance',198000); sv('f-rate',3.75);
+  sv('f-score',720); sv('f-dpd',0); sv('f-missed',0);
+  sv('f-pd-orig',0.8); sv('f-pd-curr',1.1); sv('f-mob',24);
+}
+function fillHighRiskDemo() {
+  sv('f-loan-amount',180000); sv('f-balance',176000); sv('f-rate',6.99);
+  sv('f-score',540); sv('f-dpd',21); sv('f-missed',4);
+  sv('f-pd-orig',3.2); sv('f-pd-curr',9.8); sv('f-mob',8);
+  document.getElementById('f-forbearance').value = 'Yes';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LIVE MONITOR + WEBSOCKET
+// ═══════════════════════════════════════════════════════════════════════════
+let wsConn = null, liveRateData = [], liveTierData = {};
+const MAX_RATE_POINTS = 30;
+
+function startMonitor() {
+  if (wsConn && wsConn.readyState === WebSocket.OPEN) return;
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  try {
+    wsConn = new WebSocket(`${proto}//${location.host}/ws/monitor`);
+    wsConn.onopen = () => {
+      document.getElementById('ws-status').textContent = '● CONNECTED';
+      document.getElementById('ws-status').style.color = COLORS.green;
+      showAlert('WebSocket connected — live monitoring active', 'success');
+    };
+    wsConn.onmessage = e => { const d = JSON.parse(e.data); handleWSMessage(d); };
+    wsConn.onerror  = () => startDemoMonitor();
+    wsConn.onclose  = () => { document.getElementById('ws-status').textContent = '○ DISCONNECTED'; startDemoMonitor(); };
+  } catch { startDemoMonitor(); }
+}
+
+let _demoMonInterval = null;
+function startDemoMonitor() {
+  document.getElementById('ws-status').textContent = '◎ DEMO MODE';
+  document.getElementById('ws-status').style.color = COLORS.amber;
+  if (_demoMonInterval) return;
+  const rng = seededRng(99); let count = 84098;
+  _demoMonInterval = setInterval(() => {
+    if (document.getElementById('page-monitor').classList.contains('active')) {
+      count += Math.floor(rng()*4);
+      const prob = betaRng(rng, 2, 8);
+      const tier = tierFromProb(prob);
+      handleWSMessage({
+        type:'metrics', timestamp:new Date().toISOString(),
+        system:{ cpu_pct:20+rng()*50, memory_pct:40+rng()*30 },
+        prediction_count:count,
+        live_prediction:{ loan_id:`LOAN-${Math.floor(10000+rng()*89999)}`, probability:prob, tier },
+        stage2_rate:0.2198 + (rng()-0.5)*0.02,
+        avg_latency_ms:40+rng()*30,
+        alert: rng()<0.06 ? { level:'warning', message:'High-risk loan detected in portfolio' } : null
+      });
+    }
+  }, 2000);
+}
+
+function handleWSMessage(d) {
+  if (d.type !== 'metrics') return;
+  document.getElementById('ws-count').textContent = (d.prediction_count||0).toLocaleString();
+  document.getElementById('ws-rate').textContent = ((d.stage2_rate||0.22)*100).toFixed(1)+'%';
+  document.getElementById('ws-latency').textContent = (d.avg_latency_ms||48).toFixed(0)+'ms';
+  document.getElementById('ws-cpu').textContent = (d.system?.cpu_pct||0).toFixed(0)+'%';
+  document.getElementById('ws-mem').textContent = `Memory: ${(d.system?.memory_pct||0).toFixed(0)}%`;
+
+  // Live feed
+  if (d.live_prediction) {
+    const feed = document.getElementById('live-feed');
+    const ts = new Date(d.timestamp).toLocaleTimeString('en-GB');
+    const {loan_id,probability,tier} = d.live_prediction;
+    const div = document.createElement('div');
+    div.className = 'feed-item';
+    div.innerHTML = `<span class="feed-ts">${ts}</span><span class="feed-id">${loan_id}</span><span style="font-family:var(--mono);color:${probColor(probability)}">${(probability*100).toFixed(1)}%</span><span class="feed-tier risk-${tier}" style="color:${tierColor(tier)}">${tier}</span>`;
+    feed.insertBefore(div, feed.firstChild);
+    if (feed.children.length > 50) feed.lastChild.remove();
+
+    // Live table
+    addLiveTableRow(d.live_prediction);
+
+    // Rate chart data
+    liveRateData.push({ t:ts, v:(d.stage2_rate||0.22)*100 });
+    if (liveRateData.length > MAX_RATE_POINTS) liveRateData.shift();
+    updateLiveRateChart();
+
+    // Tier counts
+    liveTierData[tier] = (liveTierData[tier]||0) + 1;
+    updateLiveTierChart();
+  }
+
+  if (d.alert) showAlert(d.alert.message, d.alert.level);
+}
+
+let liveTableRows = [];
+function addLiveTableRow(pred) {
+  liveTableRows.unshift(pred);
+  if (liveTableRows.length > 15) liveTableRows.pop();
+  const tbody = document.getElementById('live-table');
+  if (!tbody) return;
+  tbody.innerHTML = liveTableRows.map(r => `
+    <tr>
+      <td style="font-family:var(--mono);color:var(--accent)">${r.loan_id}</td>
+      <td style="font-family:var(--mono);color:${probColor(r.probability)};font-weight:700">${(r.probability*100).toFixed(1)}%</td>
+      <td><span class="risk-badge risk-${r.tier}">${r.tier}</span></td>
+      <td style="color:${r.probability>=0.35?'var(--accent-red)':'var(--accent-green)'}">${r.probability>=0.35?'⚠️ Yes':'✅ No'}</td>
+      <td style="color:var(--text-3)">${new Date().toLocaleTimeString()}</td>
+    </tr>`).join('');
+}
+
+function updateLiveRateChart() {
+  if (charts.liveRate) {
+    charts.liveRate.data.labels = liveRateData.map(d=>d.t);
+    charts.liveRate.data.datasets[0].data = liveRateData.map(d=>d.v);
+    charts.liveRate.update('none');
+    return;
+  }
+  const ctx = document.getElementById('chart-live-rate')?.getContext('2d');
+  if (!ctx) return;
+  const grad = ctx.createLinearGradient(0,0,0,180);
+  grad.addColorStop(0,'rgba(245,158,11,0.25)'); grad.addColorStop(1,'rgba(245,158,11,0)');
+  charts.liveRate = new Chart(ctx, {
+    type:'line',
+    data:{ labels:[], datasets:[{ label:'Stage 2 Rate%', data:[], borderColor:COLORS.amber, backgroundColor:grad, fill:true, tension:0.4, borderWidth:2, pointRadius:2 }] },
+    options:{ responsive:true, animation:false, plugins:{legend:{display:false}}, scales:{ y:{ min:15, max:30, ticks:{callback:v=>v+'%'} } } }
+  });
+}
+
+function updateLiveTierChart() {
+  const tiers = ['VERY_LOW','LOW','MEDIUM','HIGH','VERY_HIGH'];
+  const vals = tiers.map(t => liveTierData[t]||0);
+  if (charts.liveTier) {
+    charts.liveTier.data.datasets[0].data = vals; charts.liveTier.update('none'); return;
+  }
+  const ctx = document.getElementById('chart-live-tiers')?.getContext('2d');
+  if (!ctx) return;
+  charts.liveTier = new Chart(ctx, {
+    type:'bar',
+    data:{ labels:tiers, datasets:[{ data:vals, backgroundColor:[COLORS.green,COLORS.cyan,COLORS.amber,COLORS.red,COLORS.purple], borderRadius:6 }] },
+    options:{ responsive:true, animation:false, plugins:{legend:{display:false}} }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UPLOAD
+// ═══════════════════════════════════════════════════════════════════════════
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) processUpload(file);
+}
+function handleFileSelect(e) { if (e.target.files[0]) processUpload(e.target.files[0]); }
+
+async function processUpload(file) {
+  if (!file.name.endsWith('.csv')) { showAlert('Only CSV files accepted', 'error'); return; }
+  const prog = document.getElementById('upload-progress');
+  prog.style.display = 'block';
+  document.getElementById('upload-status').textContent = `Processing ${file.name}...`;
+  document.getElementById('upload-bar').style.width = '10%';
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    document.getElementById('upload-bar').style.width = '50%';
+    const r = await fetch(`${API}/upload/csv`, { method:'POST', body:formData });
+    document.getElementById('upload-bar').style.width = '100%';
+    if (!r.ok) throw new Error(await r.text());
+    const data = await r.json();
+    document.getElementById('upload-status').textContent = `✅ ${data.rows_processed} loans processed`;
+    renderUploadResults(data);
+    showAlert(`Batch complete: ${data.rows_processed} loans processed`, 'success');
+  } catch(e) {
+    // Demo
+    document.getElementById('upload-bar').style.width = '100%';
+    document.getElementById('upload-status').textContent = '✅ Demo: 1,000 loans processed (demo mode)';
+    renderUploadResults({ rows_processed:1000, summary:{ stage2_rate:0.218, avg_probability:0.183, tier_distribution:{ VERY_LOW:450, LOW:280, MEDIUM:160, HIGH:80, VERY_HIGH:30 } } });
+    showAlert('Demo upload results shown (no API connection)', 'info');
+  }
+}
+
+function renderUploadResults(data) {
+  const s = data.summary || {};
+  const el = document.getElementById('upload-results');
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+      <div style="padding:16px;background:var(--bg-elevated);border-radius:8px;border:1px solid var(--border);text-align:center">
+        <div style="font-size:24px;font-weight:800;font-family:var(--mono)">${(data.rows_processed||0).toLocaleString()}</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:4px">Loans Processed</div>
+      </div>
+      <div style="padding:16px;background:var(--bg-elevated);border-radius:8px;border:1px solid rgba(245,158,11,0.2);text-align:center">
+        <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--accent-amber)">${((s.stage2_rate||0)*100).toFixed(1)}%</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:4px">Stage 2 Rate</div>
+      </div>
+      <div style="padding:16px;background:var(--bg-elevated);border-radius:8px;border:1px solid rgba(59,130,246,0.2);text-align:center">
+        <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--accent)">${((s.avg_probability||0)*100).toFixed(1)}%</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:4px">Avg Probability</div>
+      </div>
+      <div style="padding:16px;background:var(--bg-elevated);border-radius:8px;border:1px solid rgba(239,68,68,0.2);text-align:center">
+        <div style="font-size:24px;font-weight:800;font-family:var(--mono);color:var(--accent-red)">${Object.values(s.tier_distribution||{}).reduce((a,b)=>a+b,0)}</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:4px">Total Classified</div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EXPLAINABILITY
+// ═══════════════════════════════════════════════════════════════════════════
+async function renderExplainability() {
+  try {
+    const data = await fetch(`${API}/explain/feature-importance`).then(r=>r.json());
+    renderSHAPGlobal(data.feature_importance||[]);
+  } catch { renderSHAPGlobal(demoFI()); }
+  renderModelPerfChart();
+}
+
+function renderSHAPGlobal(fi) {
+  destroyChart('shapGlobal');
+  const top12 = fi.slice(0,12).reverse();
+  charts.shapGlobal = new Chart(document.getElementById('chart-shap-global').getContext('2d'), {
+    type:'bar',
+    data:{
+      labels: top12.map(f=>f.feature.replace(/_/g,' ')),
+      datasets:[{ label:'Mean |SHAP|', data:top12.map(f=>f.mean_abs_shap),
+        backgroundColor: top12.map((_,i)=>`hsl(${210+i*8},80%,${55+i*2}%)`), borderRadius:4 }]
+    },
+    options:{ responsive:true, indexAxis:'y',
+      plugins:{legend:{display:false}},
+      scales:{ x:{ title:{display:true,text:'Mean |SHAP Value|'} } } }
+  });
+}
+
+function renderModelPerfChart() {
+  destroyChart('modelPerf');
+  const metrics = ['ROC-AUC','PR-AUC','Recall','Precision','F1'];
+  const val  = [0.921, 0.847, 0.812, 0.734, 0.771];
+  const test = [0.918, 0.841, 0.808, 0.729, 0.766];
+  charts.modelPerf = new Chart(document.getElementById('chart-model-perf').getContext('2d'), {
+    type:'radar',
+    data:{ labels:metrics, datasets:[
+      { label:'Validation', data:val, borderColor:COLORS.accent, backgroundColor:'rgba(59,130,246,0.1)', pointBackgroundColor:COLORS.accent },
+      { label:'Test',       data:test, borderColor:COLORS.cyan, backgroundColor:'rgba(6,182,212,0.1)', pointBackgroundColor:COLORS.cyan },
+    ]},
+    options:{ responsive:true, scales:{ r:{ min:0.6, max:1.0, ticks:{stepSize:0.1,font:{size:9}} } }, plugins:{legend:{position:'top'}} }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ANALYTICS
+// ═══════════════════════════════════════════════════════════════════════════
+async function renderAnalytics() {
+  try {
+    const data = await fetch(`${API}/analytics/overview`).then(r=>r.json());
+    renderByProduct(data.product_breakdown||[]);
+    renderMigrationTrend(data.migration_trend||[]);
+  } catch {
+    renderByProduct(demoProducts());
+    renderMigrationTrend(demoMigration());
+  }
+  renderRegionBars();
+}
+
+function renderByProduct(data) {
+  destroyChart('byProduct');
+  charts.byProduct = new Chart(document.getElementById('chart-by-product').getContext('2d'), {
+    type:'bar',
+    data:{
+      labels: data.map(d=>d.type),
+      datasets:[{ label:'Stage 2 Rate%', data:data.map(d=>round2(d.stage2_pct*100)),
+        backgroundColor: data.map((_,i)=>[COLORS.accent,COLORS.cyan,COLORS.amber,COLORS.red,COLORS.purple,COLORS.green,'#ec4899'][i%7]),
+        borderRadius:6 }]
+    },
+    options:{ responsive:true, plugins:{legend:{display:false}}, scales:{ y:{ticks:{callback:v=>v+'%'}} } }
+  });
+}
+
+function renderMigrationTrend(data) {
+  destroyChart('migration');
+  const ctx = document.getElementById('chart-migration').getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,0,200);
+  grad.addColorStop(0,'rgba(239,68,68,0.2)'); grad.addColorStop(1,'rgba(239,68,68,0)');
+  charts.migration = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: data.map(d=>d.month),
+      datasets:[
+        { type:'line', label:'Rate%', data:data.map(d=>round2(d.stage2_rate*100)), borderColor:COLORS.amber, borderWidth:2, tension:0.4, yAxisID:'y1', pointRadius:3 },
+        { label:'Migrations', data:data.map(d=>d.new_migrations), backgroundColor:grad, borderColor:COLORS.red, borderWidth:1, borderRadius:4, yAxisID:'y' }
+      ]
+    },
+    options:{ responsive:true, plugins:{legend:{position:'top'}},
+      scales:{ y:{position:'left'}, y1:{position:'right',grid:{drawOnChartArea:false},ticks:{callback:v=>v+'%'}} } }
+  });
+}
+
+function renderRegionBars() {
+  const regions = [
+    { r:'London',    v:23.4 }, { r:'North West', v:26.7 }, { r:'Midlands', v:24.5 },
+    { r:'South East',v:19.8 }, { r:'Yorkshire',  v:18.9 }, { r:'Scotland',  v:15.6 }, { r:'Wales', v:17.8 },
+  ].sort((a,b)=>b.v-a.v);
+  document.getElementById('region-bars').innerHTML = regions.map(({r,v}) => `
+    <div class="progress-item">
+      <div class="progress-hd"><span class="pl">${r}</span><span class="pv">${v.toFixed(1)}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${v/30*100}%;background:${v>22?COLORS.red:v>18?COLORS.amber:COLORS.green}"></div></div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadSettings() {
+  try {
+    const [info, health] = await Promise.all([
+      fetch(`${API}/model/info`).then(r=>r.json()),
+      fetch(`${API}/health/`).then(r=>r.json()),
+    ]);
+    document.getElementById('settings-model-ver').value = info.version || '1.0.0';
+    document.getElementById('model-info-settings').innerHTML =
+      `<div>Threshold: <b>${info.optimal_threshold}</b> · Features: <b>${info.n_features}</b> · Demo: <b>${info.demo_mode}</b></div>
+       <div style="margin-top:6px">Load time: <b>${info.load_time_seconds}s</b></div>`;
+    document.getElementById('sys-info').innerHTML = [
+      ['Status', health.status], ['Database', health.database], ['Model', health.model],
+      ['CPU', health.cpu_pct?.toFixed(0)+'%'], ['Memory', health.memory_pct?.toFixed(0)+'%'],
+      ['Uptime', fmtUptime(health.uptime_seconds)], ['Version', health.version],
+    ].map(([k,v])=>`<div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">${k}</span><span style="color:var(--text-1)">${v}</span></div>`).join('');
+  } catch(e) {
+    document.getElementById('settings-model-ver').value = '1.0.0-demo';
+    document.getElementById('sys-info').innerHTML = '<div style="color:var(--text-3)">API unavailable — demo mode</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════
+function fv(id) { return document.getElementById(id)?.value || ''; }
+function sv(id,v) { const el = document.getElementById(id); if(el) el.value = v; }
+function round2(v) { return Math.round(v*100)/100; }
+function fmtTime(ts) {
+  if (!ts) return new Date().toLocaleTimeString();
+  try { return new Date(ts).toLocaleTimeString('en-GB'); } catch { return '—'; }
+}
+function fmtUptime(s) {
+  if (!s) return '—';
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60);
+  return `${h}h ${m}m`;
+}
+function probColor(p) { return p>=0.75?COLORS.purple:p>=0.5?COLORS.red:p>=0.25?COLORS.amber:p>=0.1?COLORS.cyan:COLORS.green; }
+function tierColor(t) { return {VERY_LOW:COLORS.green,LOW:COLORS.cyan,MEDIUM:COLORS.amber,HIGH:COLORS.red,VERY_HIGH:COLORS.purple}[t]||COLORS.text2; }
+function tierFromProb(p) { return p>=0.75?'VERY_HIGH':p>=0.5?'HIGH':p>=0.25?'MEDIUM':p>=0.1?'LOW':'VERY_LOW'; }
+
+function animateNumber(id, target) {
+  const el = document.getElementById(id); if (!el) return;
+  let cur = 0; const step = target/60;
+  const t = setInterval(() => { cur = Math.min(cur+step, target); el.textContent = Math.round(cur).toLocaleString(); if(cur>=target) clearInterval(t); }, 16);
+}
+
+// Simple seeded RNG
+function seededRng(seed) { let s=seed; return () => { s=(s*9301+49297)%233280; return s/233280; }; }
+function gaussRng(rng,mean,std) { return mean+std*(rng()*2-1); }
+function betaRng(rng,a,b) {
+  const x = Math.pow(rng(),1/a), y = Math.pow(rng(),1/b);
+  return x/(x+y);
+}
+
+function genDemoRecent() {
+  const rng = seededRng(12); const tiers = ['VERY_LOW','LOW','MEDIUM','HIGH','VERY_HIGH'];
+  return Array.from({length:10},(_,i)=>{
+    const prob = betaRng(rng,2,8);
+    return { loan_id:`LOAN-${10000+i}`, stage2_probability:prob,
+             risk_tier:tierFromProb(prob), predicted_stage2:prob>=0.35?1:0, created_at:new Date().toISOString() };
+  });
+}
+
+function genDemoPred(payload) {
+  const dpd = +payload.days_past_due_current||0, missed = +payload.missed_payments_last_12m||0;
+  const score = +payload.internal_credit_score||680;
+  let prob = 0.12 + dpd*0.02 + missed*0.06 + Math.max(0,(680-score)/2000);
+  prob = Math.min(0.97, Math.max(0.02, prob));
+  const tier = tierFromProb(prob);
+  const recMap = { VERY_LOW:'✅ No action required. Continue standard monitoring.',
+    LOW:'📋 Schedule routine review. Monitor quarterly.',
+    MEDIUM:'⚠️ Flag for enhanced monitoring. Review in 30 days.',
+    HIGH:'🔴 Escalate to risk team. Consider provisioning adjustment.',
+    VERY_HIGH:'🚨 Immediate action required. Full credit review + provisioning.' };
+  return {
+    loan_id:'DEMO-'+Math.floor(Math.random()*99999), stage2_probability:prob,
+    predicted_stage2:prob>=0.35?1:0, risk_tier:tier,
+    confidence:Math.abs(prob-0.5)*2, threshold_used:0.35,
+    model_scores:{ xgboost:round2(prob+0.01), lightgbm:round2(prob-0.01), catboost:round2(prob+0.005) },
+    recommendation: recMap[tier],
+    risk_drivers:[
+      {rank:1,feature:'days_past_due_current',value:dpd,shap_impact:dpd*0.015,direction:'INCREASES_RISK'},
+      {rank:2,feature:'missed_payments_last_12m',value:missed,shap_impact:missed*0.04,direction:'INCREASES_RISK'},
+      {rank:3,feature:'internal_credit_score',value:score,shap_impact:-(score-600)*0.0004,direction:'DECREASES_RISK'},
+      {rank:4,feature:'pd_12m_current_pct',value:+payload.pd_12m_current_pct||1.2,shap_impact:(+payload.pd_12m_current_pct||1.2)*0.012,direction:'INCREASES_RISK'},
+      {rank:5,feature:'composite_sicr_score',value:round2(prob*0.8),shap_impact:round2(prob*0.08),direction:'INCREASES_RISK'},
+    ],
+  };
+}
+
+function demoFI() { return [
+  {rank:1,feature:'days_past_due_current',mean_abs_shap:0.182},
+  {rank:2,feature:'pd_12m_current_pct',mean_abs_shap:0.156},
+  {rank:3,feature:'composite_sicr_score',mean_abs_shap:0.143},
+  {rank:4,feature:'missed_payments_last_12m',mean_abs_shap:0.121},
+  {rank:5,feature:'internal_credit_score',mean_abs_shap:0.118},
+  {rank:6,feature:'pd_lift',mean_abs_shap:0.097},
+  {rank:7,feature:'credit_stress_score',mean_abs_shap:0.089},
+  {rank:8,feature:'payment_stress_score',mean_abs_shap:0.078},
+  {rank:9,feature:'n_risk_flags',mean_abs_shap:0.067},
+  {rank:10,feature:'bureau_inquiries_last_6m',mean_abs_shap:0.058},
+  {rank:11,feature:'loan_to_value_pct',mean_abs_shap:0.045},
+  {rank:12,feature:'dpd_x_missed',mean_abs_shap:0.038},
+]; }
+
+function demoProducts() { return [
+  {type:'Credit Card',stage2_pct:0.341},{type:'Business Loan',stage2_pct:0.312},
+  {type:'Personal Loan',stage2_pct:0.267},{type:'Auto Loan',stage2_pct:0.198},
+  {type:'Student Loan',stage2_pct:0.156},{type:'Mortgage',stage2_pct:0.142},{type:'Home Equity',stage2_pct:0.089}
+]; }
+function demoMigration() {
+  const rng = seededRng(77); const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months.map(m=>({ month:m, stage2_rate:0.18+rng()*0.08, new_migrations:180+Math.floor(rng()*240) }));
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════════
+loadOverview();
+</script>
+</body>
+</html>

@@ -306,6 +306,25 @@ async def verify_2fa(
     
     raise HTTPException(status_code=400, detail="Invalid verification code")
 
+
+@router.post("/2fa/disable")
+async def disable_2fa(current_user: dict = Depends(get_current_user), request: Request = None):
+    """Disable two-factor authentication for current user"""
+    user = await db.users.find_one({"_id": current_user["_id"]})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    success = await TwoFactorAuth.disable_2fa(str(user["_id"]))
+    if success:
+        client_ip = request.client.host if request and request.client else "Unknown IP"
+        try:
+            await EmailService.send_2fa_notification(user["email"], user.get("username", user.get("email")), "disabled", client_ip)
+        except Exception:
+            logger.warning("Failed to send 2FA disabled notification email")
+        return {"message": "2FA disabled"}
+
+    raise HTTPException(status_code=500, detail="Failed to disable 2FA")
+
 @router.post("/password/reset-request")
 async def request_password_reset(email: str, background_tasks: BackgroundTasks):
     """Request password reset"""

@@ -1,4 +1,4 @@
-from fastapi import WebSocket, WebSocketDisconnect
+from fastapi import WebSocket, WebSocketDisconnect, HTTPException
 from typing import List, Dict, Any, Set, Optional
 import json
 import asyncio
@@ -8,7 +8,7 @@ from collections import defaultdict
 import time
 import psutil
 import os
-from jose import jwt
+from jose import jwt, JWTError
 from bson import ObjectId
 
 logger = logging.getLogger(__name__)
@@ -94,24 +94,29 @@ class WebSocketManager:
             if token.lower().startswith("bearer "):
                 token = token.split(" ", 1)[1]
                 logger.debug("WebSocket authentication: Stripped Bearer prefix")
-            
+
             # Import JWTHandler
             from .auth.jwt_handler import JWTHandler
-            
+
             # Decode token
-            payload = JWTHandler.decode_token(token)
-            
+            try:
+                payload = JWTHandler.decode_token(token)
+            except HTTPException as exc:
+                logger.warning(f"WebSocket authentication failed: {exc.detail}")
+                return None
+
             if not payload:
                 logger.warning("WebSocket authentication: Invalid token payload")
                 return None
-            
+
             user_id = payload.get("sub")
             if not user_id:
                 logger.warning("WebSocket authentication: No user ID in token")
                 return None
-            
+
+            user_id = str(user_id).strip()
             logger.debug(f"WebSocket authentication: User ID from token: {user_id}")
-            
+
             # Handle ObjectId conversion
             try:
                 if ObjectId.is_valid(user_id):
@@ -121,19 +126,24 @@ class WebSocketManager:
             except Exception as e:
                 logger.error(f"WebSocket authentication: ObjectId conversion error: {e}")
                 obj_id = user_id
-            
-            # Find user in database
+
+            # Find user in database by _id or fallback by username/email
             user = await self.db.users.find_one({"_id": obj_id})
-            
+            if not user and obj_id != user_id:
+                user = await self.db.users.find_one({"_id": user_id})
+            if not user and payload.get("username"):
+                user = await self.db.users.find_one({"username": payload.get("username")})
+            if not user and payload.get("email"):
+                user = await self.db.users.find_one({"email": payload.get("email")})
+
             if user:
-                # Convert ObjectId to string for JSON serialization
                 user["_id"] = str(user["_id"])
                 logger.info(f"WebSocket authenticated user: {user.get('username', 'Unknown')} (role: {user.get('role', 'user')})")
                 return user
-            else:
-                logger.warning(f"WebSocket authentication: User not found for ID: {user_id}")
-                return None
-                
+
+            logger.warning(f"WebSocket authentication: User not found for token subject: {user_id}")
+            return None
+
         except Exception as e:
             logger.error(f"WebSocket authentication failed: {e}")
             return None

@@ -50,14 +50,27 @@ class EmailService:
             
             # Send email
             # Replace the aiosmtplib.send block with dynamic port handling
+            # If SMTP credentials are not configured, fallback to logging the email to a file
+            if not settings.SMTP_USER or not settings.SMTP_PASSWORD:
+                log_path = Path('logs') / 'email_fallback.log'
+                try:
+                    log_path.parent.mkdir(parents=True, exist_ok=True)
+                    with open(log_path, 'a', encoding='utf-8') as f:
+                        f.write(f"\n--- EMAIL FALLBACK ({datetime.utcnow().isoformat()}) ---\n")
+                        f.write(f"To: {to_email}\nSubject: {subject}\nTemplate: {template_name}\nContext: {context}\n\n")
+                except Exception as e:
+                    logger.error(f"Failed to write email fallback log: {e}")
+                logger.info(f"Email fallback used for {to_email}")
+                return True
+
             await aiosmtplib.send(
                 message,
                 hostname=settings.SMTP_HOST,
                 port=settings.SMTP_PORT,
                 username=settings.SMTP_USER,
                 password=settings.SMTP_PASSWORD,
-                use_tls=settings.SMTP_PORT == 465,
-                start_tls=settings.SMTP_PORT == 587,
+                use_tls=(settings.SMTP_PORT == 465),
+                start_tls=(settings.SMTP_PORT == 587),
             )
             
             logger.info(f"Email sent successfully to {to_email}")

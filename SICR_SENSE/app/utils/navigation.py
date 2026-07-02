@@ -81,8 +81,8 @@ def get_main_navigation(user_role: str = "user") -> List[NavItem]:
             children=[
                 NavItem(label="Profile", url="/profile", icon="fa-user"),
                 NavItem(label="Account", url="/settings", icon="fa-cog"),
-                NavItem(label="API Keys", url="/settings#api", icon="fa-key"),
-                NavItem(label="Billing", url="/settings#billing", icon="fa-credit-card"),
+                
+                
             ]
         )
     )

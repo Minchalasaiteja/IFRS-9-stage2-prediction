@@ -141,74 +141,127 @@ class AdminPanel {
     }
     
     initOverviewCharts(data) {
-        // User Growth Chart
-        const ugCtx = document.getElementById('userGrowthChart');
-        if (ugCtx) {
-            new Chart(ugCtx, {
-                type: 'line',
-                data: {
-                    labels: data.user_growth_labels || [],
-                    datasets: [{
-                        label: 'New Users',
-                        data: data.user_growth_data || [],
-                        borderColor: '#00f0ff',
-                        backgroundColor: 'rgba(0, 240, 255, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        pointRadius: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { 
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: { color: '#a0a0b0' }
-                        },
-                        x: { 
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: { color: '#a0a0b0' }
-                        }
+        // Initialize live charts (or update if present)
+        // Admin User Growth Chart
+        const ugCanvas = document.getElementById('adminUserGrowthChart');
+        if (ugCanvas) {
+            if (!ugCanvas._chart) {
+                ugCanvas._chart = new Chart(ugCanvas, {
+                    type: 'line',
+                    data: {
+                        labels: data.user_growth_labels || [],
+                        datasets: [{
+                            label: 'New Users',
+                            data: data.user_growth_data || [],
+                            borderColor: '#00f0ff',
+                            backgroundColor: 'rgba(0, 240, 255, 0.08)',
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                });
+            } else {
+                ugCanvas._chart.data.labels = data.user_growth_labels || ugCanvas._chart.data.labels;
+                ugCanvas._chart.data.datasets[0].data = data.user_growth_data || ugCanvas._chart.data.datasets[0].data;
+                ugCanvas._chart.update();
+            }
+        }
+
+        // Admin API Usage Chart
+        const auCanvas = document.getElementById('adminApiUsageChart');
+        if (auCanvas) {
+            if (!auCanvas._chart) {
+                auCanvas._chart = new Chart(auCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: data.api_usage_labels || [],
+                        datasets: [{
+                            label: 'API Calls',
+                            data: data.api_usage_data || [],
+                            backgroundColor: 'rgba(124, 58, 237, 0.6)',
+                            borderColor: '#7c3aed',
+                            borderWidth: 1,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                });
+            } else {
+                auCanvas._chart.data.labels = data.api_usage_labels || auCanvas._chart.data.labels;
+                auCanvas._chart.data.datasets[0].data = data.api_usage_data || auCanvas._chart.data.datasets[0].data;
+                auCanvas._chart.update();
+            }
+        }
+    }
+
+    // Subscribe to WebSocket admin updates and update charts in real-time
+    subscribeAdminLive() {
+        const subscribeAdmin = () => {
+            try {
+                if (window.wsStatus && typeof window.wsStatus.sendMessage === 'function') {
+                    window.wsStatus.sendMessage({ type: 'subscribe_admin' });
+                } else if (window.wsStatus && window.wsStatus.ws && window.wsStatus.ws.readyState === WebSocket.OPEN) {
+                    window.wsStatus.ws.send(JSON.stringify({ type: 'subscribe_admin' }));
+                }
+            } catch (err) {
+                console.warn('Failed to request admin subscription', err);
+            }
+        };
+
+        if (window.wsStatus && window.wsStatus.connected) {
+            subscribeAdmin();
+        } else {
+            window.addEventListener('ws-status-changed', () => subscribeAdmin());
+        }
+
+        window.addEventListener('ws-message', (e) => {
+            const data = e.detail;
+            if (!data || !data.type) return;
+            if (data.type !== 'admin_update') return;
+
+            // Update KPI values if present
+            if (data.data && data.data.system_metrics) {
+                const sys = data.data.system_metrics;
+                if (sys && sys.cpu) {
+                    const el = document.getElementById('systemHealthPercent');
+                    if (el) el.textContent = `${Math.round(sys.cpu.percent)}%`;
+                    const cpuBar = document.getElementById('dash-cpu-bar');
+                    if (cpuBar) cpuBar.style.width = `${Math.round(sys.cpu.percent)}%`;
+                    const cpuEl = document.getElementById('dash-cpu');
+                    if (cpuEl) cpuEl.textContent = `${Math.round(sys.cpu.percent)}%`;
+                }
+            }
+
+            const label = new Date(data.timestamp || Date.now()).toLocaleTimeString();
+            const activeConnections = data.data?.active_connections ?? 0;
+            const totalPredictions = data.data?.total_predictions ?? 0;
+
+            const updateChart = (canvasId, value) => {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas || !canvas._chart) return;
+                const chart = canvas._chart;
+                const labels = chart.data.labels || [];
+                const dataset = chart.data.datasets[0];
+
+                if (labels[labels.length - 1] === label) {
+                    dataset.data[dataset.data.length - 1] = value;
+                } else {
+                    labels.push(label);
+                    dataset.data.push(value);
+                    if (labels.length > 20) {
+                        labels.shift();
+                        dataset.data.shift();
                     }
                 }
-            });
-        }
-        
-        // API Usage Chart
-        const auCtx = document.getElementById('apiUsageChart');
-        if (auCtx) {
-            new Chart(auCtx, {
-                type: 'bar',
-                data: {
-                    labels: data.api_usage_labels || [],
-                    datasets: [{
-                        label: 'API Calls',
-                        data: data.api_usage_data || [],
-                        backgroundColor: 'rgba(124, 58, 237, 0.6)',
-                        borderColor: '#7c3aed',
-                        borderWidth: 1,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { 
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: { color: '#a0a0b0' }
-                        },
-                        x: { 
-                            grid: { display: false },
-                            ticks: { color: '#a0a0b0' }
-                        }
-                    }
-                }
-            });
-        }
+
+                chart.update();
+            };
+
+            updateChart('adminUserGrowthChart', activeConnections);
+            updateChart('adminApiUsageChart', totalPredictions);
+        }, false);
     }
     
     async loadUsers(page = 1) {
@@ -677,4 +730,6 @@ class AdminPanel {
 document.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
     window.openUserModal = (user = null) => window.adminPanel?.openUserModal(user);
+    // Start listening for live admin updates
+    try { window.adminPanel?.subscribeAdminLive(); } catch(e) { console.warn('subscribeAdminLive failed', e); }
 });
