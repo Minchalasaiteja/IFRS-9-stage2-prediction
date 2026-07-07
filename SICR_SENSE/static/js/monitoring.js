@@ -35,14 +35,11 @@ class MonitoringDashboard {
     }
     
     setupWebSocket() {
-        // Use centralized WebSocketStatus (created in components.js) when available
-        if (window.wsStatus && window.wsStatus.ws) {
-            // Subscribe when the wsStatus announces connection
+        if (window.wsStatus) {
             window.addEventListener('ws-status-changed', (e) => {
                 const connected = e.detail?.connected;
                 this.updateConnectionStatus(connected);
                 if (connected) {
-                    // Request subscriptions via wsStatus.sendMessage
                     try {
                         window.wsStatus.sendMessage({ type: 'subscribe_metrics' });
                         window.wsStatus.sendMessage({ type: 'subscribe_predictions' });
@@ -50,6 +47,41 @@ class MonitoringDashboard {
                     } catch (err) {
                         console.warn('Failed to send subscription messages:', err);
                     }
+                }
+            });
+
+            window.addEventListener('ws-message', (ev) => {
+                const data = ev.detail;
+                if (!data) return;
+                if (data.type === 'error') return;
+                this.handleMessage(data);
+            });
+
+            return;
+        }
+
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = `${protocol}//${window.location.host}/ws`;
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) return;
+        this.ws = new WebSocket(wsUrl);
+        this.ws.onopen = () => {
+            console.log('Monitoring WebSocket connected');
+            this.reconnectAttempts = 0;
+            this.updateConnectionStatus(true);
+            this.ws.send(JSON.stringify({ type: 'subscribe_metrics' }));
+            this.ws.send(JSON.stringify({ type: 'subscribe_predictions' }));
+            this.ws.send(JSON.stringify({ type: 'request_metrics' }));
+        };
+        this.ws.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type === 'error') return;
+                this.handleMessage(data);
+            } catch (e) { console.error('Failed to parse WS message:', e); }
+        };
+        this.ws.onclose = () => { this.updateConnectionStatus(false); const delay = Math.min(3000 * Math.pow(1.5, this.reconnectAttempts), 30000); this.reconnectAttempts++; setTimeout(() => this.setupWebSocket(), delay); };
+        this.ws.onerror = (error) => { console.error('WebSocket error:', error); this.ws.close(); };
+    }
                 }
             });
 
@@ -94,7 +126,7 @@ class MonitoringDashboard {
     handleMessage(data) {
         switch(data.type) {
             case 'metrics_update':
-                this.updateRealTimeMetrics(data.data);
+                this.updateAllMetrics(data.data);
                 break;
             case 'metrics_snapshot':
                 this.updateAllMetrics(data.data);
@@ -464,8 +496,51 @@ class MonitoringDashboard {
         } else if (data.latency && data.latency.average_ms !== undefined) {
             avgLatency = data.latency.average_ms;
         }
-        if (avgLatency > 0) {
+        if (avgLatency > 0 || data.avg_latency_ms === 0) {
             this.animateValue('avgLatency', Math.round(avgLatency) + 'ms');
+        }
+        
+        // Update system metrics (CPU, Memory, Disk)
+        if (data.system_metrics) {
+            const cpu = document.getElementById('cpuValue');
+            const memory = document.getElementById('memoryValue');
+            const disk = document.getElementById('diskValue');
+            const cpuBar = document.getElementById('cpuBar');
+            const memoryBar = document.getElementById('memoryBar');
+            const diskBar = document.getElementById('diskBar');
+            
+            if (cpu && data.system_metrics.cpu) {
+                const cpuPercent = Math.round(data.system_metrics.cpu.percent || 0);
+                cpu.textContent = cpuPercent + '%';
+                if (cpuBar) cpuBar.style.width = cpuPercent + '%';
+            }
+            if (memory && data.system_metrics.memory) {
+                const memPercent = Math.round(data.system_metrics.memory.percent || 0);
+                memory.textContent = memPercent + '%';
+                if (memoryBar) memoryBar.style.width = memPercent + '%';
+            }
+            if (disk && data.system_metrics.disk) {
+                const diskPercent = Math.round(data.system_metrics.disk.percent || 0);
+                disk.textContent = diskPercent + '%';
+                if (diskBar) diskBar.style.width = diskPercent + '%';
+            }
+            
+            // Update resource timeline
+            if (this.charts.resources) {
+                const chart = this.charts.resources;
+                const now = new Date().toLocaleTimeString();
+                
+                chart.data.labels.push(now);
+                chart.data.datasets[0].data.push(data.system_metrics.cpu?.percent || 0);
+                chart.data.datasets[1].data.push(data.system_metrics.memory?.percent || 0);
+                
+                if (chart.data.labels.length > 30) {
+                    chart.data.labels.shift();
+                    chart.data.datasets[0].data.shift();
+                    chart.data.datasets[1].data.shift();
+                }
+                chart.update('none');
+            }
         }
         
         // Update risk distribution if available
@@ -478,14 +553,15 @@ class MonitoringDashboard {
             this.charts.riskDist.update('none');
         }
         
-        // Update prediction rates if available
-        if (data.prediction_rates && this.charts.predictionRate) {
+        // Update prediction rates if available (supports both prediction_rates and prediction_rate)
+        const predictionRates = data.prediction_rates || data.prediction_rate;
+        if (predictionRates && this.charts.predictionRate) {
             const chart = this.charts.predictionRate;
-            chart.data.labels = data.prediction_rates.map(r => {
+            chart.data.labels = predictionRates.map(r => {
                 const t = r.timestamp || r._id;
                 return t ? new Date(t).toLocaleTimeString() : '';
             });
-            chart.data.datasets[0].data = data.prediction_rates.map(r => r.count || r.value || 0);
+            chart.data.datasets[0].data = predictionRates.map(r => r.count || r.value || 0);
             chart.update('none');
         }
         
@@ -511,6 +587,35 @@ class MonitoringDashboard {
                 this.charts.latencyDist.data.datasets[0].data = counts;
                 this.charts.latencyDist.update('none');
             }
+        }
+        
+        // Update performance metrics if available
+        if (data.performance_metrics) {
+            const aucElement = document.getElementById('aucScore');
+            const f1Element = document.getElementById('f1Score');
+            const precisionElement = document.getElementById('precision');
+            const recallElement = document.getElementById('recall');
+            
+            if (aucElement) aucElement.textContent = (data.performance_metrics.auc_roc || 0).toFixed(3);
+            if (f1Element) f1Element.textContent = (data.performance_metrics.f1_score || 0).toFixed(3);
+            if (precisionElement) precisionElement.textContent = (data.performance_metrics.precision || 0).toFixed(3);
+            if (recallElement) recallElement.textContent = (data.performance_metrics.recall || 0).toFixed(3);
+            
+            const modelAccuracyElement = document.getElementById('modelAccuracy');
+            if (modelAccuracyElement && data.performance_metrics.accuracy) {
+                modelAccuracyElement.textContent = Math.round(data.performance_metrics.accuracy * 100) + '%';
+            }
+        }
+        
+        // Update migration analysis if available
+        if (data.migration_analysis) {
+            const stayedCount = document.getElementById('stayedCount');
+            const upgradedCount = document.getElementById('upgradedCount');
+            const downgradedCount = document.getElementById('downgradedCount');
+            
+            if (stayedCount) stayedCount.textContent = data.migration_analysis.stayed || 0;
+            if (upgradedCount) upgradedCount.textContent = data.migration_analysis.upgraded || 0;
+            if (downgradedCount) downgradedCount.textContent = data.migration_analysis.downgraded || 0;
         }
     }
     
@@ -698,7 +803,7 @@ class MonitoringDashboard {
     async fetchInitialData() {
         try {
             window.dispatchEvent(new CustomEvent('monitoring-loading'));
-                        const timeRange = document.getElementById('timeRange')?.value || '24h';
+            const timeRange = document.getElementById('timeRange')?.value || '24h';
             
             const response = await fetch(`/api/v1/monitoring/overview?time_range=${timeRange}`, {
                 credentials: 'include',
@@ -712,21 +817,21 @@ class MonitoringDashboard {
                 this.updateAllMetrics(data);
             } else {
                 console.warn('Failed to fetch monitoring overview:', response.status);
-                this.updateAllMetrics({
-                    total_predictions: 0,
-                    active_connections: 0,
-                    avg_latency_ms: 0,
-                    prediction_rates: [],
-                    latency_distribution: [],
-                    risk_distribution: {}
-                });
                 const errEl = document.getElementById('monitoring-error');
                 if (errEl) {
-                    errEl.innerHTML = `<div class="text-sm text-red-400">Failed to load monitoring overview (status: ${response.status}). <button id=\"monitoring-retry\" class=\"underline text-cyan-400\">Retry</button></div>`;
-                    document.getElementById('monitoring-retry')?.addEventListener('click', () => this.fetchInitialData());
+                    errEl.innerHTML = `<div class="text-sm text-yellow-400">Unable to load historical data (status: ${response.status}). Showing live metrics only.</div>`;
                 }
             }
             window.dispatchEvent(new CustomEvent('monitoring-loaded'));
+            
+            // Request metrics snapshot via WebSocket if available
+            if (window.wsStatus && window.wsStatus.ws && window.wsStatus.ws.readyState === WebSocket.OPEN) {
+                try {
+                    window.wsStatus.sendMessage({ type: 'request_metrics' });
+                } catch (e) {
+                    console.warn('Failed to request metrics snapshot:', e);
+                }
+            }
             
             // Also fetch performance metrics to hydrate the overview card
             this.loadSectionData('performance');

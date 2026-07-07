@@ -2,6 +2,54 @@
 
 {% block title %}SICRSense | Admin Panel{% endblock %}
 
+{% block extra_css %}
+<style>
+  .theme-chip {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .theme-chip:hover {
+    transform: translateY(-1px);
+    border-color: rgba(0,240,255,0.4);
+  }
+  .theme-chip.active {
+    box-shadow: 0 0 0 3px rgba(0,240,255,0.16);
+    border-color: rgba(0,240,255,0.8);
+  }
+  .overview-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+    background: rgba(0,240,255,0.12);
+    color: #7dd3fc;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .overview-bar {
+    position: relative;
+    width: 100%;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.09);
+    overflow: hidden;
+  }
+  .overview-bar-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="flex items-center justify-between mb-8">
     <div>
@@ -16,11 +64,9 @@
 </div>
 
 <!-- ==================== SECTION: OVERVIEW ==================== -->
-        <section id="section-overview" class="space-y-8">
-          
-          <!-- Stats Grid -->
+        <section id="section-overview" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="stat-card">
+            <div class="glass-card p-6">
               <div class="flex items-start justify-between mb-4">
                 <div>
                   <p class="text-sm text-gray-400">Total Users</p>
@@ -35,64 +81,115 @@
                 <span class="text-gray-500 text-sm">this month</span>
               </div>
             </div>
-            
-            <div class="stat-card">
+
+            <div class="glass-card p-6">
               <div class="flex items-start justify-between mb-4">
                 <div>
                   <p class="text-sm text-gray-400">Active Sessions</p>
                   <h3 class="text-3xl font-bold" id="activeSessions">--</h3>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-green-400/10 flex items-center justify-center">
-                  <i class="fas fa-circle text-green-400 text-xl"></i>
+                <div class="w-12 h-12 rounded-xl bg-emerald-400/10 flex items-center justify-center">
+                  <i class="fas fa-circle text-emerald-400 text-xl"></i>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <div class="live-indicator"></div>
-                <span class="text-green-400 text-sm">Live</span>
+                <span class="text-emerald-400 text-sm">Live</span>
               </div>
             </div>
-            
-            <div class="stat-card">
+
+            <div class="glass-card p-6">
               <div class="flex items-start justify-between mb-4">
                 <div>
-                  <p class="text-sm text-gray-400">API Calls Today</p>
+                  <p class="text-sm text-gray-400">API Calls</p>
                   <h3 class="text-3xl font-bold" id="apiCalls">--</h3>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-purple-400/10 flex items-center justify-center">
                   <i class="fas fa-code text-purple-400 text-xl"></i>
                 </div>
               </div>
-              <div class="progress-bar mt-2">
-                <div class="progress-fill" style="width: 72%"></div>
+              <div class="mt-3 flex items-center gap-2 text-sm text-gray-400">
+                <span class="overview-pill"><i class="fas fa-bolt"></i> Peak traffic</span>
+                <span>today</span>
               </div>
             </div>
-            
-            <div class="stat-card">
+
+            <div class="glass-card p-6">
               <div class="flex items-start justify-between mb-4">
                 <div>
                   <p class="text-sm text-gray-400">System Health</p>
-                  <h3 id="systemHealthPercent" class="text-3xl font-bold text-green-400">--</h3>
+                  <h3 id="systemHealthPercent" class="text-3xl font-bold text-emerald-400">--</h3>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-yellow-400/10 flex items-center justify-center">
-                  <i class="fas fa-heartbeat text-yellow-400 text-xl"></i>
+                <div class="w-12 h-12 rounded-xl bg-amber-400/10 flex items-center justify-center">
+                  <i class="fas fa-heartbeat text-amber-400 text-xl"></i>
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                <span id="systemHealthStatus" class="status-badge status-healthy">Loading</span>
+                <span id="systemHealthStatus" class="rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-xs font-semibold text-emerald-400">Loading</span>
               </div>
               <p id="systemHealthDetail" class="text-sm text-gray-400 mt-2">Fetching live system metrics...</p>
             </div>
           </div>
-          
-          <!-- Live Charts (real-time via WebSocket) -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+          <div class="grid grid-cols-1 xl:grid-cols-[1.35fr_0.85fr] gap-6">
             <div class="glass-card p-6">
-              <h3 class="text-lg font-bold mb-6">User Growth (Live)</h3>
-              <canvas id="adminUserGrowthChart" height="300"></canvas>
+              <div class="flex items-center justify-between mb-5">
+                <div>
+                  <h3 class="text-lg font-bold">User Growth</h3>
+                  <p class="text-sm text-gray-400">Momentum across the last 30 days</p>
+                </div>
+                <span class="overview-pill"><i class="fas fa-signal"></i> Live</span>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-black/10 p-4">
+                <canvas id="adminUserGrowthChart" height="240"></canvas>
+              </div>
             </div>
-            <div class="glass-card p-6">
-              <h3 class="text-lg font-bold mb-6">API Usage (Live)</h3>
-              <canvas id="adminApiUsageChart" height="300"></canvas>
+
+            <div class="space-y-6">
+              <div class="glass-card p-6">
+                <div class="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 class="text-lg font-bold">Readiness</h3>
+                    <p class="text-sm text-gray-400">Platform confidence score</p>
+                  </div>
+                  <span id="overviewReadinessBadge" class="overview-pill">Healthy</span>
+                </div>
+                <div class="flex items-end justify-between gap-3">
+                  <div class="text-4xl font-bold" id="overviewReadiness">84%</div>
+                  <div class="text-sm text-gray-400">Forecasting and access checks look strong.</div>
+                </div>
+                <div class="mt-4 overview-bar">
+                  <div id="overviewReadinessBar" class="overview-bar-fill" style="width: 84%"></div>
+                </div>
+                <div class="mt-4 grid grid-cols-2 gap-3 text-sm text-gray-400">
+                  <div class="rounded-2xl border border-white/10 bg-white/5 p-3">
+                    <p class="text-xs uppercase tracking-[0.2em]">Alerts</p>
+                    <p id="overviewAlerts" class="mt-2 text-xl font-semibold text-white">3</p>
+                  </div>
+                  <div class="rounded-2xl border border-white/10 bg-white/5 p-3">
+                    <p class="text-xs uppercase tracking-[0.2em]">Response</p>
+                    <p id="overviewResponse" class="mt-2 text-xl font-semibold text-white">1.2s</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="glass-card p-6">
+                <h3 class="text-lg font-bold mb-4">Operational focus</h3>
+                <div class="space-y-3 text-sm text-gray-300">
+                  <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
+                    <span>2FA enforcement</span>
+                    <span class="text-emerald-400">On</span>
+                  </div>
+                  <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
+                    <span>New signups</span>
+                    <span class="text-cyan-400">+12%</span>
+                  </div>
+                  <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
+                    <span>Audit trail</span>
+                    <span class="text-purple-400">Synced</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -258,43 +355,76 @@
         
         <!-- ==================== SECTION: SECURITY ==================== -->
         <section id="section-security" class="hidden space-y-8">
-          <div class="glass-card p-6">
-            <h3 class="text-lg font-bold mb-6">Security Settings</h3>
-            
-            <div class="space-y-6">
-              <div class="flex items-center justify-between p-4 neo-element">
-                <div>
-                  <p class="font-semibold">Two-Factor Authentication</p>
-                  <p class="text-sm text-gray-400">Require 2FA for all users</p>
+          <div class="grid grid-cols-1 xl:grid-cols-[1.1fr_0.9fr] gap-6">
+            <div class="glass-card p-6">
+              <h3 class="text-lg font-bold mb-6">Security Settings</h3>
+
+              <div class="space-y-5">
+                <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div>
+                    <p class="font-semibold">Two-Factor Authentication</p>
+                    <p class="text-sm text-gray-400">Require MFA for admin and elevated roles</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="securityRequire2fa" data-security-setting="require_2fa">
+                    <span class="toggle-slider"></span>
+                  </label>
                 </div>
-                <label class="toggle-switch">
-                  <input type="checkbox" data-security="require_2fa" checked>
-                  <span class="toggle-slider"></span>
-                </label>
+
+                <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div>
+                    <p class="font-semibold">Password Policy</p>
+                    <p id="passwordPolicyInfo" class="text-sm text-gray-400">Balanced policy</p>
+                  </div>
+                  <select id="passwordPolicySelect" class="neo-input w-36" data-security-setting="password_policy">
+                    <option value="balanced">Balanced</option>
+                    <option value="strict">Strict</option>
+                    <option value="enterprise">Enterprise</option>
+                  </select>
+                </div>
+
+                <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div>
+                    <p class="font-semibold">Session Timeout</p>
+                    <p id="sessionTimeoutInfo" class="text-sm text-gray-400">Auto logout after inactivity</p>
+                  </div>
+                  <input id="sessionTimeoutInput" type="number" min="5" max="180" value="30" data-security-setting="session_timeout" class="neo-input w-24 text-center">
+                </div>
+
+                <div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div>
+                    <p class="font-semibold">IP Whitelisting</p>
+                    <p id="ipWhitelistStatus" class="text-sm text-gray-400">Disabled</p>
+                  </div>
+                  <button id="ipWhitelistButton" type="button" class="gradient-btn text-sm">Enable</button>
+                </div>
               </div>
-              
-              <div class="flex items-center justify-between p-4 neo-element">
-                <div>
-                  <p class="font-semibold">Password Policy</p>
-                  <p id="passwordPolicyInfo" class="text-sm text-gray-400">Minimum 12 characters, special chars required</p>
+            </div>
+
+            <div class="glass-card p-6">
+              <h3 class="text-lg font-bold mb-5">Security posture</h3>
+              <div class="space-y-4 text-sm text-gray-300">
+                <div class="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4">
+                  <p class="text-emerald-400 font-semibold">Recommended action</p>
+                  <p class="mt-2 text-gray-300">Enable MFA and keep session timeouts short for admin access.</p>
                 </div>
-                <button class="gradient-btn text-sm">Configure</button>
-              </div>
-              
-              <div class="flex items-center justify-between p-4 neo-element">
-                <div>
-                  <p class="font-semibold">Session Timeout</p>
-                  <p id="sessionTimeoutInfo" class="text-sm text-gray-400">Auto logout after inactivity</p>
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div class="mb-2 flex items-center justify-between">
+                    <span>Current posture</span>
+                    <span class="text-cyan-400 font-semibold">High</span>
+                  </div>
+                  <div class="overview-bar">
+                    <div class="overview-bar-fill" style="width: 86%"></div>
+                  </div>
                 </div>
-                <input type="number" value="30" data-security="session_timeout" class="neo-input w-20 text-center">
-              </div>
-              
-              <div class="flex items-center justify-between p-4 neo-element">
-                <div>
-                  <p class="font-semibold">IP Whitelisting</p>
-                  <p id="ipWhitelistStatus" class="text-sm text-gray-400">Disabled</p>
+                <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <p class="font-semibold">Policy summary</p>
+                  <ul class="mt-3 space-y-2 text-gray-400">
+                    <li>• Strong password requirements for admins</li>
+                    <li>• Short-lived sessions reduce exposure</li>
+                    <li>• IP Allow-list can be toggled instantly</li>
+                  </ul>
                 </div>
-                <button class="gradient-btn text-sm">Manage IPs</button>
               </div>
             </div>
           </div>

@@ -354,6 +354,33 @@ input:checked + .toggle-slider:before {
     
     <!-- Main Content -->
     <div class="flex-1 space-y-6">
+        <!-- Status Bar -->
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <span class="text-sm text-gray-400">Connection Status:</span>
+                <span id="ws-status-badge" class="px-3 py-1 rounded-full text-xs bg-red-400/10 text-red-400 border border-red-400/20">
+                    <i class="fas fa-circle text-[6px] mr-1"></i> Disconnected
+                </span>
+            </div>
+            <div class="flex items-center gap-3">
+                <label class="flex items-center gap-2 text-sm text-gray-400">
+                    <input type="checkbox" id="autoRefresh" checked class="rounded bg-white/5 border-white/10">
+                    Auto-refresh
+                </label>
+                <select id="timeRange" class="neo-element px-3 py-1.5 rounded-lg text-sm">
+                    <option value="5m">Last 5 min</option>
+                    <option value="15m">Last 15 min</option>
+                    <option value="1h">Last 1 hour</option>
+                    <option value="6h">Last 6 hours</option>
+                    <option value="24h" selected>Last 24 hours</option>
+                    <option value="7d">Last 7 days</option>
+                </select>
+                <button onclick="refreshData()" class="px-4 py-1.5 rounded-lg border border-gray-700 text-sm hover:border-cyan-400 transition-colors">
+                    <i class="fas fa-sync-alt mr-1"></i> Refresh
+                </button>
+            </div>
+        </div>
+
         <!-- ==================== SECTION: OVERVIEW ==================== -->
         <section id="section-overview" class="space-y-6">
             <!-- Key Metrics Cards -->
@@ -679,7 +706,6 @@ input:checked + .toggle-slider:before {
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/static/js/monitoring.js"></script>
 <script>
 // ===== HELPER FUNCTIONS =====

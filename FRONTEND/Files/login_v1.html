@@ -9,8 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Premium Luxury Fonts: Poppins + IBM Plex Mono -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -34,12 +33,9 @@
             --card-shadow: 0 30px 60px rgba(0,0,0,0.5);
             --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            --font-sans: 'Poppins', system-ui, sans-serif;
-            --font-mono: 'IBM Plex Mono', monospace;
         }
 
-        /* ── LIGHT THEME ────────────────────────────────────────────────────── */
-        body.light, html[data-theme="light"] {
+        body.light {
             --bg-base: #f0f4ff;
             --bg-secondary: #ffffff;
             --glass-bg: rgba(255, 255, 255, 0.75);
@@ -53,106 +49,10 @@
             --card-shadow: 0 20px 50px rgba(0,0,0,0.08);
         }
 
-        /* ── CYBER THEME ────────────────────────────────────────────────────── */
-        body.cyber, html[data-theme="cyber"] {
-            --bg-base: #000508;
-            --bg-secondary: #001a0d;
-            --glass-bg: rgba(0, 30, 18, 0.75);
-            --glass-border: rgba(0, 255, 128, 0.12);
-            --glass-highlight: rgba(0, 255, 128, 0.15);
-            --text-primary: #e0fff0;
-            --text-secondary: #4dffaa;
-            --input-bg: rgba(0, 255, 128, 0.04);
-            --input-border: rgba(0, 255, 128, 0.15);
-            --card-bg: rgba(0, 30, 18, 0.75);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            --accent-cyan: #00ff80;
-            --accent-purple: #00e5ff;
-            --accent-pink: #ff0055;
-            --accent-gold: #ffaa00;
-        }
-
-        /* ── AURORA THEME ───────────────────────────────────────────────────── */
-        body.aurora, html[data-theme="aurora"] {
-            --bg-base: #0a0015;
-            --bg-secondary: #12001f;
-            --glass-bg: rgba(26, 0, 48, 0.75);
-            --glass-border: rgba(168, 85, 247, 0.15);
-            --glass-highlight: rgba(168, 85, 247, 0.2);
-            --text-primary: #faf5ff;
-            --text-secondary: #c4b5d4;
-            --input-bg: rgba(168, 85, 247, 0.04);
-            --input-border: rgba(168, 85, 247, 0.15);
-            --card-bg: rgba(26, 0, 48, 0.75);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            --accent-cyan: #a855f7;
-            --accent-purple: #ec4899;
-            --accent-pink: #f43f5e;
-            --accent-gold: #fbbf24;
-        }
-
-        /* ── SUNSET THEME ───────────────────────────────────────────────────── */
-        body.sunset, html[data-theme="sunset"] {
-            --bg-base: #1a0a00;
-            --bg-secondary: #2a1000;
-            --glass-bg: rgba(58, 24, 0, 0.75);
-            --glass-border: rgba(251, 146, 60, 0.15);
-            --glass-highlight: rgba(251, 146, 60, 0.2);
-            --text-primary: #fff7ed;
-            --text-secondary: #fdba74;
-            --input-bg: rgba(251, 146, 60, 0.04);
-            --input-border: rgba(251, 146, 60, 0.15);
-            --card-bg: rgba(58, 24, 0, 0.75);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            --accent-cyan: #fb923c;
-            --accent-purple: #ef4444;
-            --accent-pink: #f97316;
-            --accent-gold: #fbbf24;
-        }
-
-        /* ── OCEAN THEME ────────────────────────────────────────────────────── */
-        body.ocean, html[data-theme="ocean"] {
-            --bg-base: #00101a;
-            --bg-secondary: #001a2a;
-            --glass-bg: rgba(0, 37, 58, 0.75);
-            --glass-border: rgba(34, 211, 238, 0.15);
-            --glass-highlight: rgba(34, 211, 238, 0.2);
-            --text-primary: #ecfeff;
-            --text-secondary: #67e8f9;
-            --input-bg: rgba(34, 211, 238, 0.04);
-            --input-border: rgba(34, 211, 238, 0.15);
-            --card-bg: rgba(0, 37, 58, 0.75);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            --accent-cyan: #22d3ee;
-            --accent-purple: #06b6d4;
-            --accent-pink: #f87171;
-            --accent-gold: #fbbf24;
-        }
-
-        /* ── NOIR THEME ─────────────────────────────────────────────────────── */
-        body.noir, html[data-theme="noir"] {
-            --bg-base: #0a0a0a;
-            --bg-secondary: #141414;
-            --glass-bg: rgba(20, 20, 20, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --glass-highlight: rgba(255, 255, 255, 0.08);
-            --text-primary: #fafafa;
-            --text-secondary: #a3a3a3;
-            --input-bg: rgba(255, 255, 255, 0.02);
-            --input-border: rgba(255, 255, 255, 0.06);
-            --card-bg: rgba(20, 20, 20, 0.85);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.9);
-            --accent-cyan: #f0f0f0;
-            --accent-purple: #d4d4d4;
-            --accent-pink: #ef4444;
-            --accent-gold: #eab308;
-        }
-
-        /* ── BASE STYLES ────────────────────────────────────────────────────── */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: var(--font-sans);
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-base);
             color: var(--text-primary);
             min-height: 100vh;
@@ -164,8 +64,6 @@
             transition: background-color 0.5s ease, color 0.4s ease;
             position: relative;
         }
-
-        .mono { font-family: var(--font-mono); }
 
         :focus-visible {
             outline: 2px solid var(--accent-cyan);
@@ -206,46 +104,11 @@
             pointer-events: none;
         }
 
-        body.light .mesh-bg, html[data-theme="light"] .mesh-bg {
+        body.light .mesh-bg {
             background: 
                 radial-gradient(circle at 15% 50%, rgba(124, 58, 237, 0.08), transparent 50%),
                 radial-gradient(circle at 85% 30%, rgba(0, 102, 204, 0.08), transparent 50%),
                 radial-gradient(circle at 50% 80%, rgba(255, 153, 51, 0.06), transparent 50%);
-            filter: blur(80px);
-        }
-
-        body.cyber .mesh-bg, html[data-theme="cyber"] .mesh-bg {
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(0, 255, 128, 0.15), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.15), transparent 50%);
-            filter: blur(60px);
-        }
-
-        body.aurora .mesh-bg, html[data-theme="aurora"] .mesh-bg {
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(168, 85, 247, 0.2), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.2), transparent 50%);
-            filter: blur(60px);
-        }
-
-        body.sunset .mesh-bg, html[data-theme="sunset"] .mesh-bg {
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(251, 146, 60, 0.2), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(239, 68, 68, 0.2), transparent 50%);
-            filter: blur(60px);
-        }
-
-        body.ocean .mesh-bg, html[data-theme="ocean"] .mesh-bg {
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(34, 211, 238, 0.2), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.2), transparent 50%);
-            filter: blur(60px);
-        }
-
-        body.noir .mesh-bg, html[data-theme="noir"] .mesh-bg {
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.05), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.03), transparent 50%);
             filter: blur(80px);
         }
 
@@ -292,7 +155,7 @@
             font-size: 15px;
             transition: all 0.3s ease;
             outline: none;
-            font-family: var(--font-sans);
+            font-family: 'Outfit', sans-serif;
         }
 
         .input-peer::placeholder {
@@ -352,7 +215,6 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-family: var(--font-sans);
         }
 
         .btn-glow::before {
@@ -371,15 +233,6 @@
         .btn-glow:hover::before { left: 100%; }
         .btn-glow:active { transform: translateY(-1px); }
         .btn-glow:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        /* Noir theme button fix */
-        body.noir .btn-glow {
-            background: linear-gradient(135deg, #666666, #888888);
-            color: #0a0a0a;
-        }
-        body.noir .btn-glow:hover {
-            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.15);
-        }
         
         .btn-outline {
             background: transparent;
@@ -395,7 +248,6 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            font-family: var(--font-sans);
         }
         .btn-outline:hover { 
             background: rgba(255,255,255,0.06); 
@@ -431,6 +283,7 @@
             min-height: 340px;
         }
 
+        /* Spinner */
         .spinner {
             width: 18px; height: 18px;
             border: 2px solid rgba(255, 255, 255, 0.3);
@@ -441,6 +294,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* 2FA Input */
         .code-input {
             background: var(--input-bg);
             border: 1px solid var(--input-border);
@@ -453,7 +307,7 @@
             width: 100%;
             outline: none;
             transition: all var(--transition-base);
-            font-family: var(--font-mono);
+            font-family: 'JetBrains Mono', monospace;
         }
         .code-input:focus {
             border-color: var(--accent-cyan);
@@ -503,7 +357,7 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.25);
             pointer-events: none;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            font-family: var(--font-sans);
+            font-family: 'Outfit', sans-serif;
             max-width: 220px;
             text-align: center;
             z-index: 10;
@@ -551,7 +405,6 @@
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
-            font-family: var(--font-sans);
         }
         .character-wrapper:hover .drag-handle { opacity: 1; }
 
@@ -626,7 +479,6 @@
             gap: 10px;
             animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            font-family: var(--font-sans);
         }
         @keyframes slideInRight {
             from { transform: translateX(120%); opacity: 0; }
@@ -810,11 +662,11 @@
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-purple-600 mb-4 shadow-[0_0_25px_rgba(0,240,255,0.4)] hover:shadow-[0_0_35px_rgba(0,240,255,0.6)] transition-all">
                     <i class="fas fa-landmark text-2xl text-white" aria-hidden="true"></i>
                 </div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity" style="font-family: var(--font-sans);">
+                <h1 class="text-3xl font-bold font-['Space_Grotesk'] bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
                     SICRSense
                 </h1>
             </a>
-            <p class="text-gray-400 text-sm mt-1" style="font-family: var(--font-sans);">Enterprise IFRS 9 Platform</p>
+            <p class="text-gray-400 text-sm mt-1">Enterprise IFRS 9 Platform</p>
         </div>
 
         <!-- Login Card -->
@@ -822,10 +674,10 @@
             
             <!-- Tabs -->
             <div class="flex mb-8 bg-black/20 rounded-2xl p-1">
-                <button id="login-tab" type="button" class="flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-cyan-400 to-purple-600 text-white" aria-selected="true" onclick="showLogin()" style="font-family: var(--font-sans);">
+                <button id="login-tab" type="button" class="flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-cyan-400 to-purple-600 text-white" aria-selected="true" onclick="showLogin()">
                     Sign In
                 </button>
-                <button id="signup-tab" type="button" class="flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-300 text-gray-400 hover:text-white text-center" style="text-decoration: none; font-family: var(--font-sans);" onclick="showSignup()">
+                <button id="signup-tab" type="button" class="flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-300 text-gray-400 hover:text-white text-center" style="text-decoration: none;" onclick="showSignup()">
                     Sign Up
                 </button>
             </div>
@@ -835,6 +687,7 @@
                 <div class="input-group">
                     <input type="email" id="login-email" class="input-peer nova-trigger" placeholder="" required data-nova="track" autocomplete="email">
                     <label for="login-email" class="input-label">Email Address</label>
+                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" aria-hidden="true" style="display: none;"></i>
                 </div>
 
                 <div class="input-group">
@@ -845,7 +698,7 @@
                     </button>
                 </div>
 
-                <div class="flex items-center justify-between text-sm" style="font-family: var(--font-sans);">
+                <div class="flex items-center justify-between text-sm">
                     <label class="flex items-center text-gray-400 cursor-pointer">
                         <input type="checkbox" class="mr-2 w-4 h-4 rounded border-gray-600 bg-transparent checked:bg-cyan-400 focus:ring-cyan-400" id="remember-me">
                         <span>Remember me</span>
@@ -860,18 +713,18 @@
 
                 <!-- 2FA Modal -->
                 <div id="2fa-modal" class="hidden mt-4 p-5 bg-black/20 rounded-2xl border border-gray-700">
-                    <label for="2fa-code" class="block text-sm font-medium text-gray-300 mb-3" style="font-family: var(--font-sans);">Two-Factor Authentication Code</label>
+                    <label for="2fa-code" class="block text-sm font-medium text-gray-300 mb-3">Two-Factor Authentication Code</label>
                     <input type="text" id="2fa-code" class="code-input" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
                     <button type="button" onclick="verify2FA()" class="btn-glow mt-4">Verify Code</button>
-                    <button type="button" onclick="cancel2FA()" class="w-full text-center text-gray-400 hover:text-gray-300 transition-colors text-sm mt-3" style="font-family: var(--font-sans);">Cancel</button>
+                    <button type="button" onclick="cancel2FA()" class="w-full text-center text-gray-400 hover:text-gray-300 transition-colors text-sm mt-3">Cancel</button>
                 </div>
             </form>
 
             <!-- Forgot Password Form -->
             <form id="forgot-form" class="hidden space-y-5" novalidate>
                 <div class="text-center">
-                    <h3 class="text-xl font-bold mb-2" style="font-family: var(--font-sans);">Reset Password</h3>
-                    <p class="text-gray-400 text-sm" style="font-family: var(--font-sans);">Enter your email to receive reset instructions</p>
+                    <h3 class="text-xl font-bold mb-2">Reset Password</h3>
+                    <p class="text-gray-400 text-sm">Enter your email to receive reset instructions</p>
                 </div>
 
                 <div class="input-group">
@@ -883,7 +736,7 @@
                     <span id="forgot-btn-text">Send Reset Link</span>
                     <span id="forgot-spinner" class="spinner hidden"></span>
                 </button>
-                <button type="button" onclick="showLogin()" class="w-full text-center text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium py-2" style="font-family: var(--font-sans);">
+                <button type="button" onclick="showLogin()" class="w-full text-center text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium py-2">
                     <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>Back to Login
                 </button>
             </form>
@@ -891,8 +744,8 @@
             <!-- Signup Form -->
             <div id="signup-section" class="hidden auth-panel">
                 <div class="text-center mb-6">
-                    <h3 class="text-xl font-bold mb-2" style="font-family: var(--font-sans);">Create your workspace</h3>
-                    <p class="text-gray-400 text-sm" style="font-family: var(--font-sans);">Join SICRSense and start protecting your portfolio in minutes.</p>
+                    <h3 class="text-xl font-bold mb-2">Create your workspace</h3>
+                    <p class="text-gray-400 text-sm">Join SICRSense and start protecting your portfolio in minutes.</p>
                 </div>
 
                 <nav class="flex justify-center gap-2 mb-6" id="step-indicators" aria-label="Signup progress">
@@ -916,7 +769,7 @@
                             <label for="signup-company" class="input-label">Organization Name</label>
                         </div>
                         <button type="submit" class="btn-glow mt-4">Continue <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                        <p class="text-center text-sm text-gray-400 mt-6" style="font-family: var(--font-sans);">
+                        <p class="text-center text-sm text-gray-400 mt-6">
                             Already have an account? <button type="button" onclick="showLogin()" class="text-cyan-400 hover:text-white transition font-medium bg-transparent border-0 cursor-pointer">Sign in</button>
                         </p>
                     </form>
@@ -933,13 +786,13 @@
                         <div class="w-full bg-gray-800/50 h-1.5 rounded-full mb-6 mt-2 overflow-hidden">
                             <div id="signup-pwd-strength" class="strength-bar bg-red-500"></div>
                         </div>
-                        <p class="text-xs text-gray-500 -mt-4 mb-4" id="signup-pwd-hint" style="font-family: var(--font-sans);">Use 8+ characters with mixed case, numbers & symbols</p>
+                        <p class="text-xs text-gray-500 -mt-4 mb-4" id="signup-pwd-hint">Use 8+ characters with mixed case, numbers & symbols</p>
 
                         <div class="input-group">
                             <input type="password" id="signup-confirm_password" class="input-peer nova-trigger" placeholder="Re-enter password" required data-nova="hide" autocomplete="new-password">
                             <label for="signup-confirm_password" class="input-label">Confirm Password</label>
                         </div>
-                        <p class="text-xs text-red-400 hidden mt-1" id="signup-pwd-match-error" role="alert" style="font-family: var(--font-sans);">Passwords do not match</p>
+                        <p class="text-xs text-red-400 hidden mt-1" id="signup-pwd-match-error" role="alert">Passwords do not match</p>
 
                         <div class="flex gap-3 mt-6">
                             <button type="button" class="btn-outline w-1/3" onclick="handlePrevStep(1)">Back</button>
@@ -951,8 +804,8 @@
                         <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_35px_rgba(16,185,129,0.4)]">
                             <i class="fas fa-check text-4xl text-green-400" aria-hidden="true"></i>
                         </div>
-                        <h2 class="text-2xl font-bold mb-2" style="font-family: var(--font-sans);">Welcome aboard! 🎉</h2>
-                        <p class="text-gray-400 mb-8 text-sm" style="font-family: var(--font-sans);">Your enterprise workspace is ready.</p>
+                        <h2 class="text-2xl font-bold mb-2">Welcome aboard! 🎉</h2>
+                        <p class="text-gray-400 mb-8 text-sm">Your enterprise workspace is ready.</p>
                         <button type="button" class="btn-glow" onclick="handleComplete()">Enter Dashboard</button>
                     </div>
                 </div>
@@ -964,7 +817,7 @@
                     <div class="w-full border-t border-gray-700"></div>
                 </div>
                 <div class="relative flex justify-center text-sm">
-                    <span class="px-4 bg-[#0a0a1a] text-gray-400" style="font-family: var(--font-sans);">or continue with</span>
+                    <span class="px-4 bg-[#0a0a1a] text-gray-400">or continue with</span>
                 </div>
             </div>
 
@@ -983,48 +836,24 @@
         </div>
 
         <!-- Footer -->
-        <p class="text-center text-gray-500 text-sm mt-8" style="font-family: var(--font-sans);">
+        <p class="text-center text-gray-500 text-sm mt-8">
             <a href="/" class="text-gray-400 hover:text-cyan-400 transition-colors">Back to Home</a> • &copy; 2026 SICRSense. 
         </p>
     </main>
 
     <script>
-        // ─── THEME SYSTEM ──────────────────────────────────────────────────────
-        const THEMES = ['dark', 'light', 'cyber', 'aurora', 'sunset', 'ocean', 'noir'];
-        
-        function setTheme(themeName) {
-            THEMES.forEach(t => {
-                document.body.classList.remove(t);
-                document.documentElement.classList.remove(t);
-            });
-            document.body.removeAttribute('data-theme');
-            document.documentElement.removeAttribute('data-theme');
-            if (themeName !== 'dark') {
-                document.body.classList.add(themeName);
-                document.documentElement.classList.add(themeName);
-                document.body.setAttribute('data-theme', themeName);
-                document.documentElement.setAttribute('data-theme', themeName);
-            }
-            
-            const iconMap = { dark: 'fa-moon', light: 'fa-sun', cyber: 'fa-microchip', 
-                             aurora: 'fa-sparkles', sunset: 'fa-fire', ocean: 'fa-water', noir: 'fa-moon' };
-            const icon = document.querySelector('#themeToggle i');
-            if (icon) { icon.className = 'fas ' + (iconMap[themeName] || 'fa-moon'); }
-            
-            try { localStorage.setItem('sicrsense-theme', themeName); } catch(e) {}
-        }
-
-        try {
-            const saved = localStorage.getItem('sicrsense-theme');
-            if (saved && THEMES.includes(saved)) { setTheme(saved); }
-        } catch(e) {}
-
-        document.getElementById('themeToggle')?.addEventListener('click', function() {
-            const current = document.body.getAttribute('data-theme') || (document.body.className.split(' ').find(c => THEMES.includes(c)) || 'dark');
-            const idx = THEMES.indexOf(current);
-            const next = THEMES[(idx + 1) % THEMES.length];
-            setTheme(next);
-        });
+        // Initialize centralized theme manager
+        (function(){
+            const s = document.createElement('script');
+            s.src = '/static/js/theme-manager.js';
+            s.defer = true;
+            document.head.appendChild(s);
+            s.onload = () => {
+                if (window.initializeTheme) {
+                    window.initializeTheme({ storageKey: 'sicrsense-theme', toggleSelector: '#themeToggle', iconSelector: '#themeIcon' });
+                }
+            };
+        })();
 
         // ==========================================
         // TOAST SYSTEM
@@ -1157,15 +986,60 @@
             idleTimeout: null,
 
             rasas: {
-                shanta: { icon: '🧘', color: '#a0a0b0', mouth: 'M 93 120 Q 100 124 107 120', eyebrows: { left: 'M 75 89 Q 86 85 97 89', right: 'M 103 89 Q 114 85 125 89' }, cheeks: 0.12 },
-                hasya: { icon: '😊', color: '#ffd700', mouth: 'M 89 117 Q 100 130 111 117', eyebrows: { left: 'M 74 87 Q 86 81 98 87', right: 'M 102 87 Q 114 81 126 87' }, cheeks: 0.3 },
-                adbhuta: { icon: '😮', color: '#00f0ff', mouth: 'M 94 117 Q 100 113 106 117 Q 100 130 94 117', eyebrows: { left: 'M 74 85 Q 86 79 98 85', right: 'M 102 85 Q 114 79 126 85' }, cheeks: 0.1 },
-                shringara: { icon: '🥰', color: '#ff007f', mouth: 'M 92 119 Q 100 126 108 119', eyebrows: { left: 'M 75 87 Q 86 81 97 87', right: 'M 103 87 Q 114 81 125 87' }, cheeks: 0.35 },
-                karuna: { icon: '🥺', color: '#7c3aed', mouth: 'M 94 121 Q 100 117 106 121', eyebrows: { left: 'M 75 87 Q 86 91 97 87', right: 'M 103 87 Q 114 91 125 87' }, cheeks: 0.18 },
-                raudra: { icon: '😤', color: '#ef4444', mouth: 'M 93 121 Q 100 118 107 121', eyebrows: { left: 'M 75 87 Q 86 91 97 83', right: 'M 103 83 Q 114 91 125 87' }, cheeks: 0.22 },
-                bhayanaka: { icon: '😰', color: '#f59e0b', mouth: 'M 94 118 Q 100 111 106 118', eyebrows: { left: 'M 75 87 Q 86 93 97 87', right: 'M 103 87 Q 114 93 125 87' }, cheeks: 0.05 },
-                bibhatsa: { icon: '😖', color: '#84cc16', mouth: 'M 93 121 Q 97 117 100 121 Q 103 117 107 121', eyebrows: { left: 'M 75 87 Q 86 93 97 85', right: 'M 103 85 Q 114 93 125 87' }, cheeks: 0.08 },
-                vira: { icon: '💪', color: '#ff9933', mouth: 'M 91 119 Q 100 123 109 119', eyebrows: { left: 'M 75 85 Q 86 79 97 85', right: 'M 103 85 Q 114 79 125 85' }, cheeks: 0.2 }
+                shanta: {
+                    icon: '🧘', color: '#a0a0b0',
+                    mouth: 'M 93 120 Q 100 124 107 120',
+                    eyebrows: { left: 'M 75 89 Q 86 85 97 89', right: 'M 103 89 Q 114 85 125 89' },
+                    cheeks: 0.12
+                },
+                hasya: {
+                    icon: '😊', color: '#ffd700',
+                    mouth: 'M 89 117 Q 100 130 111 117',
+                    eyebrows: { left: 'M 74 87 Q 86 81 98 87', right: 'M 102 87 Q 114 81 126 87' },
+                    cheeks: 0.3
+                },
+                adbhuta: {
+                    icon: '😮', color: '#00f0ff',
+                    mouth: 'M 94 117 Q 100 113 106 117 Q 100 130 94 117',
+                    eyebrows: { left: 'M 74 85 Q 86 79 98 85', right: 'M 102 85 Q 114 79 126 85' },
+                    cheeks: 0.1
+                },
+                shringara: {
+                    icon: '🥰', color: '#ff007f',
+                    mouth: 'M 92 119 Q 100 126 108 119',
+                    eyebrows: { left: 'M 75 87 Q 86 81 97 87', right: 'M 103 87 Q 114 81 125 87' },
+                    cheeks: 0.35
+                },
+                karuna: {
+                    icon: '🥺', color: '#7c3aed',
+                    mouth: 'M 94 121 Q 100 117 106 121',
+                    eyebrows: { left: 'M 75 87 Q 86 91 97 87', right: 'M 103 87 Q 114 91 125 87' },
+                    cheeks: 0.18
+                },
+                raudra: {
+                    icon: '😤', color: '#ef4444',
+                    mouth: 'M 93 121 Q 100 118 107 121',
+                    eyebrows: { left: 'M 75 87 Q 86 91 97 83', right: 'M 103 83 Q 114 91 125 87' },
+                    cheeks: 0.22
+                },
+                bhayanaka: {
+                    icon: '😰', color: '#f59e0b',
+                    mouth: 'M 94 118 Q 100 111 106 118',
+                    eyebrows: { left: 'M 75 87 Q 86 93 97 87', right: 'M 103 87 Q 114 93 125 87' },
+                    cheeks: 0.05
+                },
+                bibhatsa: {
+                    icon: '😖', color: '#84cc16',
+                    mouth: 'M 93 121 Q 97 117 100 121 Q 103 117 107 121',
+                    eyebrows: { left: 'M 75 87 Q 86 93 97 85', right: 'M 103 85 Q 114 93 125 87' },
+                    cheeks: 0.08
+                },
+                vira: {
+                    icon: '💪', color: '#ff9933',
+                    mouth: 'M 91 119 Q 100 123 109 119',
+                    eyebrows: { left: 'M 75 85 Q 86 79 97 85', right: 'M 103 85 Q 114 79 125 85' },
+                    cheeks: 0.2
+                }
             },
 
             init() {
@@ -1187,29 +1061,62 @@
                 this.speechBubble = document.getElementById('speechBubble');
                 this.emotionIndicator = document.getElementById('emotionIndicator');
 
-                if (!this.bodyGroup) return;
+                if (!this.bodyGroup) {
+                    console.error('Nava: body-group not found');
+                    return;
+                }
 
-                gsap.to(this.bodyGroup, { y: -6, duration: 2.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-                if (this.crown) { gsap.to(this.crown, { y: -2, duration: 1.8, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.3 }); }
-                if (this.handLeft && this.handRight) { gsap.to([this.handLeft, this.handRight], { y: '+=5', duration: 2, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 }); }
+                gsap.to(this.bodyGroup, { 
+                    y: -6, duration: 2.5, repeat: -1, yoyo: true, 
+                    ease: "sine.inOut" 
+                });
+                
+                if (this.crown) {
+                    gsap.to(this.crown, {
+                        y: -2, duration: 1.8, repeat: -1, yoyo: true,
+                        ease: "sine.inOut", delay: 0.3
+                    });
+                }
+                
+                if (this.handLeft && this.handRight) {
+                    gsap.to([this.handLeft, this.handRight], {
+                        y: '+=5', duration: 2, repeat: -1, yoyo: true,
+                        ease: "sine.inOut", delay: 0.5
+                    });
+                }
 
                 this.startBlinking();
                 this.startIdleAnimations();
                 this.trackMouseLoop();
                 this.bindInputTriggers();
                 
-                setTimeout(() => { this.setRasa('shanta', 'Welcome back! Ready to login? 🧘✨', 4000); }, 500);
+                setTimeout(() => {
+                    this.setRasa('shanta', 'Welcome back! Ready to login? 🧘✨', 4000);
+                }, 500);
+                
+                console.log('Nava initialized');
             },
 
             setRasa(rasa, message, duration) {
                 const data = this.rasas[rasa];
                 if (!data) return;
+                
                 this.currentRasa = rasa;
 
-                if (this.mouth) { gsap.to(this.mouth, { attr: { d: data.mouth }, duration: 0.4, ease: "power2.out" }); }
-                if (this.eyebrowLeft) { gsap.to(this.eyebrowLeft, { attr: { d: data.eyebrows.left }, duration: 0.4, ease: "power2.out" }); }
-                if (this.eyebrowRight) { gsap.to(this.eyebrowRight, { attr: { d: data.eyebrows.right }, duration: 0.4, ease: "power2.out" }); }
-                if (this.cheekLeft && this.cheekRight) { gsap.to([this.cheekLeft, this.cheekRight], { attr: { opacity: data.cheeks }, duration: 0.4 }); }
+                if (this.mouth) {
+                    gsap.to(this.mouth, { attr: { d: data.mouth }, duration: 0.4, ease: "power2.out" });
+                }
+                
+                if (this.eyebrowLeft) {
+                    gsap.to(this.eyebrowLeft, { attr: { d: data.eyebrows.left }, duration: 0.4, ease: "power2.out" });
+                }
+                if (this.eyebrowRight) {
+                    gsap.to(this.eyebrowRight, { attr: { d: data.eyebrows.right }, duration: 0.4, ease: "power2.out" });
+                }
+                
+                if (this.cheekLeft && this.cheekRight) {
+                    gsap.to([this.cheekLeft, this.cheekRight], { attr: { opacity: data.cheeks }, duration: 0.4 });
+                }
 
                 if (this.emotionIndicator) {
                     this.emotionIndicator.textContent = data.icon;
@@ -1223,11 +1130,14 @@
 
             playRasaAnimation(rasa) {
                 if (!this.handLeft || !this.handRight) return;
+                
                 gsap.to([this.handLeft, this.handRight], { x: 0, y: 0, rotation: 0, duration: 0.5, ease: "power2.out" });
 
                 switch(rasa) {
                     case 'hasya':
-                        if (this.bodyGroup) { gsap.to(this.bodyGroup, { y: -18, duration: 0.3, yoyo: true, repeat: 2, ease: "power1.out" }); }
+                        if (this.bodyGroup) {
+                            gsap.to(this.bodyGroup, { y: -18, duration: 0.3, yoyo: true, repeat: 2, ease: "power1.out" });
+                        }
                         gsap.to(this.handLeft, { x: 12, y: -8, duration: 0.3, delay: 0.2 });
                         gsap.to(this.handRight, { x: -12, y: -8, duration: 0.3, delay: 0.2 });
                         break;
@@ -1250,8 +1160,14 @@
                 if (!this.speechBubble) return;
                 this.speechBubble.textContent = text;
                 this.speechBubble.classList.add('show');
+                
                 if (this.speechTimeout) clearTimeout(this.speechTimeout);
-                if (duration) { this.speechTimeout = setTimeout(() => { this.speechBubble.classList.remove('show'); }, duration); }
+                
+                if (duration) {
+                    this.speechTimeout = setTimeout(() => {
+                        this.speechBubble.classList.remove('show');
+                    }, duration);
+                }
             },
 
             startBlinking() {
@@ -1269,13 +1185,22 @@
 
             startIdleAnimations() {
                 const idleCycle = () => {
-                    if (this.isDragging) { this.idleTimeout = setTimeout(idleCycle, 2000); return; }
+                    if (this.isDragging) {
+                        this.idleTimeout = setTimeout(idleCycle, 2000);
+                        return;
+                    }
+                    
                     if (Math.random() > 0.7) {
                         const rasas = ['adbhuta', 'shringara', 'shanta'];
                         const randomRasa = rasas[Math.floor(Math.random() * rasas.length)];
-                        const messages = { adbhuta: 'Ready to analyze risks? ✨', shringara: 'I missed you! 💖', shanta: 'Secure login awaits... 🧘' };
+                        const messages = {
+                            adbhuta: 'Ready to analyze risks? ✨',
+                            shringara: 'I missed you! 💖',
+                            shanta: 'Secure login awaits... 🧘'
+                        };
                         this.setRasa(randomRasa, messages[randomRasa], 3000);
                     }
+                    
                     this.idleTimeout = setTimeout(idleCycle, Math.random() * 6000 + 5000);
                 };
                 this.idleTimeout = setTimeout(idleCycle, 6000);
@@ -1283,6 +1208,7 @@
 
             trackMouseLoop() {
                 requestAnimationFrame(() => this.trackMouseLoop());
+                
                 if (this.isDragging || !this.pupilLeft || !this.pupilRight) return;
                 
                 const svgEl = document.getElementById('nava-svg');
@@ -1295,9 +1221,11 @@
                 const dx = this.mouseX - centerX;
                 const dy = this.mouseY - centerY;
                 const dist = Math.sqrt(dx*dx + dy*dy);
+                
                 const maxEyeMove = 4;
                 const eyeDist = Math.min(dist * 0.01, maxEyeMove);
                 const angle = Math.atan2(dy, dx);
+                
                 const ex = Math.cos(angle) * eyeDist;
                 const ey = Math.sin(angle) * eyeDist;
                 
@@ -1311,18 +1239,34 @@
                 document.querySelectorAll('.nova-trigger').forEach(input => {
                     input.addEventListener('focus', (e) => {
                         const behavior = e.target.getAttribute('data-nova');
-                        if (behavior === 'hide') { this.setRasa('bhayanaka', 'I\'m not looking! 🙈', 2000); }
-                        else { this.setRasa('adbhuta', 'Type your credentials! 👀', 2500); }
+                        if (behavior === 'hide') {
+                            this.setRasa('bhayanaka', 'I\'m not looking! 🙈', 2000);
+                        } else {
+                            this.setRasa('adbhuta', 'Type your credentials! 👀', 2500);
+                        }
                     });
-                    input.addEventListener('blur', () => { if (this.currentRasa === 'bhayanaka') { this.setRasa('shanta', 'Safe! 😌', 2000); } });
+                    
+                    input.addEventListener('blur', () => {
+                        if (this.currentRasa === 'bhayanaka') {
+                            this.setRasa('shanta', 'Safe! 😌', 2000);
+                        }
+                    });
                 });
             }
         };
 
-        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', () => Nava.init()); } 
-        else { Nava.init(); }
+        // Initialize Nava
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => Nava.init());
+        } else {
+            Nava.init();
+        }
 
-        document.addEventListener('mousemove', (e) => { Nava.mouseX = e.clientX; Nava.mouseY = e.clientY; }, { passive: true });
+        // Mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            Nava.mouseX = e.clientX;
+            Nava.mouseY = e.clientY;
+        }, { passive: true });
 
         // ==========================================
         // DRAGGABLE CHARACTER
@@ -1330,6 +1274,7 @@
         (function() {
             const wrapper = document.getElementById('character-wrapper');
             if (!wrapper) return;
+            
             wrapper.style.position = 'fixed';
             wrapper.style.top = '20px';
             wrapper.style.right = '20px';
@@ -1337,7 +1282,8 @@
             wrapper.style.bottom = 'auto';
             wrapper.style.zIndex = '1000';
             
-            let isDragging = false, startX, startY, initialLeft, initialTop;
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
             
             wrapper.addEventListener('mousedown', function(e) {
                 e.preventDefault();
@@ -1345,9 +1291,12 @@
                 Nava.isDragging = true;
                 wrapper.classList.add('dragging');
                 Nava.setRasa('vira', 'Wheee! Anywhere you want! 🎪', 2000);
-                startX = e.clientX; startY = e.clientY;
+                
+                startX = e.clientX;
+                startY = e.clientY;
                 const rect = wrapper.getBoundingClientRect();
-                initialLeft = rect.left; initialTop = rect.top;
+                initialLeft = rect.left;
+                initialTop = rect.top;
             });
             
             wrapper.addEventListener('touchstart', function(e) {
@@ -1356,45 +1305,81 @@
                 Nava.isDragging = true;
                 wrapper.classList.add('dragging');
                 Nava.setRasa('hasya', 'Adventure time! 🌟', 2000);
-                startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+                
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
                 const rect = wrapper.getBoundingClientRect();
-                initialLeft = rect.left; initialTop = rect.top;
+                initialLeft = rect.left;
+                initialTop = rect.top;
             }, { passive: false });
             
             function onMove(clientX, clientY) {
                 if (!isDragging) return;
-                const dx = clientX - startX; const dy = clientY - startY;
-                let newLeft = initialLeft + dx; let newTop = initialTop + dy;
+                
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+                
+                let newLeft = initialLeft + dx;
+                let newTop = initialTop + dy;
+                
                 const maxLeft = window.innerWidth - wrapper.offsetWidth - 10;
                 const maxTop = window.innerHeight - wrapper.offsetHeight - 10;
+                
                 newLeft = Math.max(10, Math.min(maxLeft, newLeft));
                 newTop = Math.max(10, Math.min(maxTop, newTop));
+                
                 wrapper.style.left = newLeft + 'px';
                 wrapper.style.top = newTop + 'px';
                 wrapper.style.right = 'auto';
                 wrapper.style.bottom = 'auto';
             }
             
-            document.addEventListener('mousemove', function(e) { onMove(e.clientX, e.clientY); });
-            document.addEventListener('touchmove', function(e) { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: false });
+            document.addEventListener('mousemove', function(e) {
+                onMove(e.clientX, e.clientY);
+            });
+            
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    onMove(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            }, { passive: false });
             
             function onEnd() {
                 if (isDragging) {
-                    isDragging = false; Nava.isDragging = false; wrapper.classList.remove('dragging');
+                    isDragging = false;
+                    Nava.isDragging = false;
+                    wrapper.classList.remove('dragging');
                     Nava.setRasa('shanta', 'Seems Nice! 😊', 2500);
-                    try { localStorage.setItem('nava-position', JSON.stringify({ left: wrapper.style.left, top: wrapper.style.top })); } catch(e) {}
+                    
+                    try {
+                        localStorage.setItem('nava-position', JSON.stringify({
+                            left: wrapper.style.left,
+                            top: wrapper.style.top
+                        }));
+                    } catch(e) {}
                 }
             }
+            
             document.addEventListener('mouseup', onEnd);
             document.addEventListener('touchend', onEnd);
             
             try {
                 const saved = localStorage.getItem('nava-position');
-                if (saved) { const pos = JSON.parse(saved); wrapper.style.left = pos.left; wrapper.style.top = pos.top; wrapper.style.right = 'auto'; wrapper.style.bottom = 'auto'; }
+                if (saved) {
+                    const pos = JSON.parse(saved);
+                    wrapper.style.left = pos.left;
+                    wrapper.style.top = pos.top;
+                    wrapper.style.right = 'auto';
+                    wrapper.style.bottom = 'auto';
+                }
             } catch(e) {}
             
             wrapper.addEventListener('dblclick', function() {
-                wrapper.style.top = '20px'; wrapper.style.right = '20px'; wrapper.style.left = 'auto'; wrapper.style.bottom = 'auto';
+                wrapper.style.top = '20px';
+                wrapper.style.right = '20px';
+                wrapper.style.left = 'auto';
+                wrapper.style.bottom = 'auto';
                 Nava.setRasa('hasya', 'Back home! 🏠', 2000);
                 try { localStorage.removeItem('nava-position'); } catch(e) {}
             });
@@ -1408,6 +1393,8 @@
         const signupSection = document.getElementById('signup-section');
         const loginTab = document.getElementById('login-tab');
         const signupTab = document.getElementById('signup-tab');
+        const authDivider = document.querySelector('#main-content > .premium-glass > .relative.my-8');
+        const socialSection = document.querySelector('#main-content > .premium-glass > .grid.grid-cols-3.gap-4');
 
         function updateAuthTabs(activeTab) {
             if (loginTab && signupTab) {
@@ -1459,7 +1446,7 @@
                     }
                 });
                 updateAuthTabs('signup');
-                Nava.setRasa('hasya', 'New account? Great! Let\'s get started! ✨', 3000);
+                Nava.setRasa('hasya', 'New account? Great! Let’s get started! ✨', 3000);
             }
 
             if (panel === 'forgot') {
@@ -1479,9 +1466,17 @@
             }
         }
 
-        window.showForgotPassword = function() { showAuthPanel('forgot'); };
-        window.showLogin = function() { showAuthPanel('login'); };
-        window.showSignup = function() { showAuthPanel('signup'); };
+        window.showForgotPassword = function() {
+            showAuthPanel('forgot');
+        };
+
+        window.showLogin = function() {
+            showAuthPanel('login');
+        };
+
+        window.showSignup = function() {
+            showAuthPanel('signup');
+        };
 
         let signupStep = 1;
 
@@ -1533,12 +1528,17 @@
             await animateStepOut(prevStep);
             const prevEl = document.getElementById(`signup-step-${prevStep}`);
             if (prevEl) prevEl.classList.add('pointer-events-none');
+
             animateStepIn(step, true);
             updateSignupDots(step);
             signupStep = step;
 
-            if (step === 2) { Nava.setRasa('shanta', 'Great! Now secure your account. 🔒', 4000); } 
-            else if (step === 3) { Nava.setRasa('hasya', 'Amazing! Welcome to SICRSense! 🎉', 5000); celebrateWithParticles(); }
+            if (step === 2) {
+                Nava.setRasa('shanta', 'Great! Now secure your account. 🔒', 4000);
+            } else if (step === 3) {
+                Nava.setRasa('hasya', 'Amazing! Welcome to SICRSense! 🎉', 5000);
+                celebrateWithParticles();
+            }
         };
 
         window.handlePrevStep = async function(step) {
@@ -1576,7 +1576,9 @@
             const firstName = nameParts.shift() || '';
             const lastName = nameParts.join(' ') || '';
             let username = email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '').toLowerCase();
-            if (!username) { username = `${firstName.toLowerCase().replace(/[^a-z0-9_]/g, '') || 'user'}${Date.now()}`; }
+            if (!username) {
+                username = `${firstName.toLowerCase().replace(/[^a-z0-9_]/g, '') || 'user'}${Date.now()}`;
+            }
             username = username.slice(0, 50);
 
             window.signupSubmitting = true;
@@ -1588,7 +1590,14 @@
                     method: 'POST',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, email, first_name: firstName, last_name: lastName, company, password })
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        first_name: firstName,
+                        last_name: lastName,
+                        company,
+                        password
+                    })
                 });
 
                 if (response.ok) {
@@ -1641,8 +1650,11 @@
             confirmPwd.addEventListener('input', function() {
                 const p1 = document.getElementById('signup-password')?.value;
                 const matchError = document.getElementById('signup-pwd-match-error');
-                if (this.value && p1 !== this.value) { if (matchError) matchError.classList.remove('hidden'); } 
-                else { if (matchError) matchError.classList.add('hidden'); }
+                if (this.value && p1 !== this.value) {
+                    if (matchError) matchError.classList.remove('hidden');
+                } else {
+                    if (matchError) matchError.classList.add('hidden');
+                }
             });
         }
 
@@ -1651,7 +1663,9 @@
         window.togglePassword = function(inputId, btn) {
             const input = document.getElementById(inputId);
             if (!input) return;
+            
             const icon = btn.querySelector('i');
+            
             if (input.type === 'password') {
                 input.type = 'text';
                 if (icon) { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
@@ -1707,14 +1721,22 @@
                         showToast('Please enter your 2FA code', 'info');
                     }
                 } else if (response.ok) {
+                    const data = await response.json();
+                    const remember = document.getElementById('remember-me')?.checked ?? true;
+                    
                     Nava.setRasa('hasya', 'Login successful! Welcome back! 🎉', 4000);
                     celebrateWithParticles();
                     showToast('Login successful! Redirecting...', 'success');
-                    setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
+                    
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
                 } else {
                     const data = await response.json();
                     showToast(data.detail || 'Invalid credentials', 'error');
                     Nava.setRasa('raudra', 'Wrong credentials! Try again 😤', 3000);
+                    loginForm.classList.add('shake');
+                    setTimeout(() => loginForm.classList.remove('shake'), 500);
                 }
             } catch (error) {
                 showToast('Network error. Please try again.', 'error');
@@ -1770,6 +1792,7 @@
         // 2FA Verification
         window.verify2FA = async function() {
             const code = document.getElementById('2fa-code').value.trim();
+            
             if (!code || code.length < 6) {
                 showToast('Please enter a valid 2FA code', 'error');
                 return;
@@ -1780,6 +1803,7 @@
             try {
                 const email = document.getElementById('login-email').value.trim();
                 const password = document.getElementById('login-password').value;
+                
                 const remember = document.getElementById('remember-me')?.checked ?? true;
                 const formData = new URLSearchParams({ username: email, password, remember_me: remember ? 'true' : 'false' });
                 formData.append('two_factor_code', code);
@@ -1791,7 +1815,11 @@
                     body: formData
                 });
                 
+                const data = await response.json();
+                
                 if (response.ok) {
+                    const remember = document.getElementById('remember-me')?.checked ?? true;
+                    
                     Nava.setRasa('hasya', '2FA verified! Welcome! 🎉', 4000);
                     celebrateWithParticles();
                     showToast('2FA verified successfully!', 'success');
@@ -1811,8 +1839,10 @@
             Nava.setRasa('shanta', '2FA cancelled 🧘', 2000);
         };
 
+        // Celebration particles
         function celebrateWithParticles() {
             const colors = ['#ffd700', '#ff9933', '#ff007f', '#00f0ff', '#7c3aed', '#10b981', '#ffffff'];
+            
             for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'celebration-particle';
@@ -1826,12 +1856,13 @@
                 particle.style.setProperty('--cy', (Math.random() - 0.5) * 300 + 'px');
                 particle.style.animationDelay = Math.random() * 0.5 + 's';
                 particle.style.pointerEvents = 'none';
+                
                 document.body.appendChild(particle);
                 setTimeout(() => particle.remove(), 2000);
             }
         }
 
-        console.log('Login page initialized with 7 themes');
+        console.log('Login page initialized');
     </script>
 </body>
 </html>

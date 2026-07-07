@@ -201,7 +201,7 @@ class IFRS9ModelService:
         if self.model is None:
             logger.debug("Using simulation mode for predictions")
             return self._simulate_predictions(input_data)
-
+        
         results = []
         batch_start_time = datetime.utcnow()
         
@@ -216,7 +216,7 @@ class IFRS9ModelService:
                     cached_result['cached'] = True
                     results.append(cached_result)
                     continue
-
+                
                 # Prepare features
                 df = pd.DataFrame([data])
                 

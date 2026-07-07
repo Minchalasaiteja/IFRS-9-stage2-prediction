@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SICRSense Enterprise Login - Access your IFRS 9 credit risk intelligence platform">
-    <title>SICRSense | Enterprise Login</title>
+    <meta name="description" content="SICRSense - Enterprise Risk Intelligence Platform with interactive AI companion Nava">
+    <title>SICRSense | Enterprise Risk Intelligence</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -35,7 +35,7 @@
             --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        body.light, html[data-theme="light"] {
+        body.light {
             --bg-base: #f0f4ff;
             --bg-secondary: #ffffff;
             --glass-bg: rgba(255, 255, 255, 0.75);
@@ -47,96 +47,6 @@
             --input-border: rgba(0, 0, 0, 0.1);
             --card-bg: rgba(255, 255, 255, 0.75);
             --card-shadow: 0 20px 50px rgba(0,0,0,0.08);
-        }
-
-        body.cyber, html[data-theme="cyber"] {
-            --bg-base: #000508;
-            --bg-secondary: #001a0d;
-            --glass-bg: rgba(0, 30, 18, 0.75);
-            --glass-border: rgba(0, 255, 128, 0.12);
-            --glass-highlight: rgba(0, 255, 128, 0.15);
-            --text-primary: #e0fff0;
-            --text-secondary: #4dffaa;
-            --input-bg: rgba(0, 255, 128, 0.04);
-            --input-border: rgba(0, 255, 128, 0.15);
-            --card-bg: rgba(0, 30, 18, 0.75);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            --accent-cyan: #00ff80;
-            --accent-purple: #00e5ff;
-            --accent-pink: #ff0055;
-            --accent-gold: #ffaa00;
-        }
-
-        body.aurora, html[data-theme="aurora"] {
-            --bg-base: #0a0015;
-            --bg-secondary: #12001f;
-            --glass-bg: rgba(26, 0, 48, 0.75);
-            --glass-border: rgba(168, 85, 247, 0.15);
-            --glass-highlight: rgba(168, 85, 247, 0.2);
-            --text-primary: #faf5ff;
-            --text-secondary: #c4b5d4;
-            --input-bg: rgba(168, 85, 247, 0.04);
-            --input-border: rgba(168, 85, 247, 0.15);
-            --card-bg: rgba(26, 0, 48, 0.75);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            --accent-cyan: #a855f7;
-            --accent-purple: #ec4899;
-            --accent-pink: #f43f5e;
-            --accent-gold: #fbbf24;
-        }
-
-        body.sunset, html[data-theme="sunset"] {
-            --bg-base: #1a0a00;
-            --bg-secondary: #2a1000;
-            --glass-bg: rgba(58, 24, 0, 0.75);
-            --glass-border: rgba(251, 146, 60, 0.15);
-            --glass-highlight: rgba(251, 146, 60, 0.2);
-            --text-primary: #fff7ed;
-            --text-secondary: #fdba74;
-            --input-bg: rgba(251, 146, 60, 0.04);
-            --input-border: rgba(251, 146, 60, 0.15);
-            --card-bg: rgba(58, 24, 0, 0.75);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            --accent-cyan: #fb923c;
-            --accent-purple: #ef4444;
-            --accent-pink: #f97316;
-            --accent-gold: #fbbf24;
-        }
-
-        body.ocean, html[data-theme="ocean"] {
-            --bg-base: #00101a;
-            --bg-secondary: #001a2a;
-            --glass-bg: rgba(0, 37, 58, 0.75);
-            --glass-border: rgba(34, 211, 238, 0.15);
-            --glass-highlight: rgba(34, 211, 238, 0.2);
-            --text-primary: #ecfeff;
-            --text-secondary: #67e8f9;
-            --input-bg: rgba(34, 211, 238, 0.04);
-            --input-border: rgba(34, 211, 238, 0.15);
-            --card-bg: rgba(0, 37, 58, 0.75);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
-            --accent-cyan: #22d3ee;
-            --accent-purple: #06b6d4;
-            --accent-pink: #f87171;
-            --accent-gold: #fbbf24;
-        }
-
-        body.noir, html[data-theme="noir"] {
-            --bg-base: #0a0a0a;
-            --bg-secondary: #141414;
-            --glass-bg: rgba(20, 20, 20, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --glass-highlight: rgba(255, 255, 255, 0.08);
-            --text-primary: #fafafa;
-            --text-secondary: #a3a3a3;
-            --input-bg: rgba(255, 255, 255, 0.02);
-            --input-border: rgba(255, 255, 255, 0.06);
-            --card-bg: rgba(20, 20, 20, 0.85);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.9);
-            --accent-cyan: #f0f0f0;
-            --accent-purple: #d4d4d4;
-            --accent-pink: #ef4444;
-            --accent-gold: #eab308;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -322,7 +232,6 @@
         }
         .btn-glow:hover::before { left: 100%; }
         .btn-glow:active { transform: translateY(-1px); }
-        .btn-glow:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         
         .btn-outline {
             background: transparent;
@@ -330,78 +239,35 @@
             color: var(--text-primary);
             font-weight: 600;
             border-radius: 16px;
-            padding: 14px 20px;
+            padding: 16px 24px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
         }
         .btn-outline:hover { 
             background: rgba(255,255,255,0.06); 
             border-color: var(--accent-cyan);
         }
 
+        /* Step Dots */
         .step-dot {
-            width: 10px; height: 10px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.18);
-            transition: all 0.3s ease;
+            width: 10px; height: 10px; 
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .step-dot.active {
-            width: 28px;
-            border-radius: 999px;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-            box-shadow: 0 0 18px rgba(0, 240, 255, 0.35);
+            width: 28px; border-radius: 6px;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
         }
         .step-dot.completed {
             background: var(--accent-green);
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
         }
 
-        .strength-bar {
-            height: 4px;
-            border-radius: 999px;
-            transition: all 0.3s ease;
-            width: 0%;
-        }
-
-        .auth-panel {
-            position: relative;
-            min-height: 340px;
-        }
-
-        /* Spinner */
-        .spinner {
-            width: 18px; height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* 2FA Input */
-        .code-input {
-            background: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 14px;
-            padding: 14px;
-            color: var(--text-primary);
-            text-align: center;
-            font-size: 22px;
-            letter-spacing: 10px;
-            width: 100%;
-            outline: none;
-            transition: all var(--transition-base);
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .code-input:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+        .strength-bar { 
+            height: 4px; border-radius: 2px; 
+            transition: all 0.4s ease; width: 0%;
         }
 
         /* CHARACTER WRAPPER */
@@ -523,28 +389,6 @@
             box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
         }
 
-        /* Social Buttons */
-        .social-btn {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            color: var(--text-secondary);
-        }
-        .social-btn:hover {
-            border-color: var(--accent-cyan);
-            color: var(--accent-cyan);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
-        }
-
         /* Toast */
         #toast-container {
             position: fixed;
@@ -587,12 +431,11 @@
             100% { transform: translate(var(--cx), var(--cy)) scale(0); opacity: 0; }
         }
 
-        /* Responsive */
         @media (max-width: 640px) {
             .character-container { width: 100px; height: 120px; }
             .character-wrapper { width: 100px; }
             .speech-bubble { font-size: 10px; padding: 8px 12px; max-width: 160px; }
-            .premium-glass { padding: 24px 16px; border-radius: 24px; }
+            .premium-glass { padding: 20px 16px; border-radius: 24px; }
             .theme-toggle-btn { top: 10px; right: 60px; }
         }
 
@@ -604,7 +447,7 @@
 </head>
 <body>
 
-    <a href="#main-content" class="skip-link">Skip to login form</a>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Theme Toggle -->
     <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
@@ -618,7 +461,7 @@
     <!-- Toast Container -->
     <div id="toast-container" aria-live="polite"></div>
 
-    <!-- 🎭 DRAGGABLE CHARACTER - NAVA -->
+    <!-- 🎭 DRAGGABLE CHARACTER -->
     <div class="character-wrapper" id="character-wrapper" aria-label="Draggable AI companion Nava" role="img">
         <div class="drag-handle" aria-hidden="true">✦ Drag me ✦</div>
         <div class="character-container" id="character-container">
@@ -662,17 +505,24 @@
 
                 <!-- Body Group -->
                 <g id="body-group" filter="url(#bodyShadow)">
+                    <!-- Feet -->
                     <ellipse cx="82" cy="178" rx="22" ry="12" fill="#d4c5e8" id="foot-left"/>
                     <ellipse cx="118" cy="178" rx="22" ry="12" fill="#d4c5e8" id="foot-right"/>
 
+                    <!-- Main Body -->
                     <ellipse cx="100" cy="118" rx="52" ry="60" fill="url(#bodyGrad)" id="main-body"/>
-                    <ellipse cx="100" cy="118" rx="47" ry="55" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.4"/>
                     
+                    <!-- Decorative border -->
+                    <ellipse cx="100" cy="118" rx="47" ry="55" fill="none" stroke="#ffd700" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.4" id="body-decoration"/>
+                    
+                    <!-- Tilak -->
                     <path d="M 87 63 Q 100 53 113 63 L 108 70 Q 100 66 92 70 Z" fill="url(#tilakGrad)" opacity="0.7" id="tilak"/>
 
+                    <!-- Face Screen -->
                     <ellipse cx="100" cy="108" rx="36" ry="30" fill="url(#faceScreen)" id="face-screen"/>
                     <ellipse cx="100" cy="108" rx="34" ry="28" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.3"/>
 
+                    <!-- Eyes -->
                     <g id="eyes-group">
                         <g id="eye-left">
                             <ellipse cx="86" cy="103" rx="10" ry="12" fill="#1a1040" stroke="#2d1b69" stroke-width="1"/>
@@ -689,18 +539,25 @@
                         </g>
                     </g>
 
+                    <!-- Eyebrows -->
                     <path id="eyebrow-left" d="M 75 89 Q 86 83 97 89" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
                     <path id="eyebrow-right" d="M 103 89 Q 114 83 125 89" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
 
+                    <!-- Nose -->
                     <ellipse cx="100" cy="113" rx="4" ry="3" fill="#2d1b69" opacity="0.4" id="nose"/>
+
+                    <!-- Mouth -->
                     <path id="mouth" d="M 93 120 Q 100 124 107 120" fill="none" stroke="#00f0ff" stroke-width="2.5" stroke-linecap="round" filter="url(#softGlow)"/>
 
+                    <!-- Cheeks -->
                     <ellipse cx="80" cy="115" rx="7" ry="4" fill="#ff007f" opacity="0.12" id="cheek-left"/>
                     <ellipse cx="120" cy="115" rx="7" ry="4" fill="#ff007f" opacity="0.12" id="cheek-right"/>
 
+                    <!-- Bindi -->
                     <circle cx="100" cy="91" r="2.5" fill="#ff007f" id="bindi" filter="url(#softGlow)"/>
                 </g>
 
+                <!-- Arms -->
                 <g id="arms-group">
                     <g id="arm-left">
                         <path d="M 50 113 Q 28 98 32 83" fill="none" stroke="url(#bodyGrad)" stroke-width="11" stroke-linecap="round" filter="url(#bodyShadow)"/>
@@ -719,6 +576,7 @@
                     </g>
                 </g>
 
+                <!-- Crown -->
                 <g id="crown">
                     <path d="M 82 58 L 87 43 L 94 53 L 100 33 L 106 53 L 113 43 L 118 58" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-linejoin="round" filter="url(#softGlow)"/>
                     <circle cx="100" cy="31" r="4" fill="#ffd700" filter="url(#softGlow)">
@@ -728,9 +586,11 @@
                     <circle cx="113" cy="45" r="1.5" fill="#ff007f" filter="url(#softGlow)"/>
                 </g>
 
+                <!-- Anklets -->
                 <ellipse cx="78" cy="182" rx="13" ry="3" fill="none" stroke="#ffd700" stroke-width="1.5" opacity="0.4"/>
                 <ellipse cx="122" cy="182" rx="13" ry="3" fill="none" stroke="#ffd700" stroke-width="1.5" opacity="0.4"/>
 
+                <!-- Sparkles -->
                 <circle cx="48" cy="55" r="1.5" fill="#ffd700" opacity="0.5">
                     <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite"/>
                     <animate attributeName="cy" values="55;40;55" dur="3s" repeatCount="indefinite"/>
@@ -745,183 +605,84 @@
 
     <!-- Main Content -->
     <main id="main-content" class="relative z-10 w-full max-w-md mx-4">
-        
-        <!-- Logo Section -->
         <div class="text-center mb-8">
             <a href="/" style="text-decoration: none; cursor: pointer;">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-purple-600 mb-4 shadow-[0_0_25px_rgba(0,240,255,0.4)] hover:shadow-[0_0_35px_rgba(0,240,255,0.6)] transition-all">
-                    <i class="fas fa-landmark text-2xl text-white" aria-hidden="true"></i>
+                <div class="inline-flex items-center gap-3 mb-2 hover:opacity-80 transition-opacity">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center shadow-[0_0_25px_rgba(0,240,255,0.4)] hover:shadow-[0_0_35px_rgba(0,240,255,0.6)] transition-all">
+                        <i class="fas fa-brain text-white text-xl" aria-hidden="true"></i>
+                    </div>
+                    <span class="font-['Space_Grotesk'] font-bold text-3xl tracking-tight">
+                        SICR<span class="text-cyan-400">Sense</span>
+                    </span>
                 </div>
-                <h1 class="text-3xl font-bold font-['Space_Grotesk'] bg-gradient-to-r from-cyan-400 to-purple-600 bg-clip-text text-transparent hover:opacity-80 transition-opacity">
-                    SICRSense
-                </h1>
             </a>
-            <p class="text-gray-400 text-sm mt-1">Enterprise IFRS 9 Platform</p>
+            <p class="text-gray-400 text-sm font-medium">Enterprise Risk Intelligence Platform</p>
         </div>
 
-        <!-- Login Card -->
         <div class="premium-glass p-6 sm:p-8">
-            
-            <!-- Tabs -->
-            <div class="flex mb-8 bg-black/20 rounded-2xl p-1">
-                <button id="login-tab" type="button" class="flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-cyan-400 to-purple-600 text-white" aria-selected="true" onclick="showLogin()">
-                    Sign In
-                </button>
-                <button id="signup-tab" type="button" class="flex-1 py-3 px-6 rounded-xl font-semibold transition-all duration-300 text-gray-400 hover:text-white text-center" style="text-decoration: none;" onclick="showSignup()">
-                    Sign Up
-                </button>
-            </div>
-            
-            <!-- Login Form -->
-            <form id="login-form" class="space-y-5" novalidate>
-                <div class="input-group">
-                    <input type="email" id="login-email" class="input-peer nova-trigger" placeholder="" required data-nova="track" autocomplete="email">
-                    <label for="login-email" class="input-label">Email Address</label>
-                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" aria-hidden="true" style="display: none;"></i>
-                </div>
+            <nav class="flex justify-center gap-2 mb-8" id="step-indicators" aria-label="Form progress">
+                <div class="step-dot active" id="dot-1"></div>
+                <div class="step-dot" id="dot-2"></div>
+                <div class="step-dot" id="dot-3"></div>
+            </nav>
 
-                <div class="input-group">
-                    <input type="password" id="login-password" class="input-peer nova-trigger pr-12" placeholder="" required data-nova="hide" autocomplete="current-password">
-                    <label for="login-password" class="input-label">Password</label>
-                    <button type="button" class="absolute right-4 top-4 text-gray-400 hover:text-cyan-400 transition-colors z-10 bg-transparent border-0 cursor-pointer" onclick="togglePassword('login-password', this)" aria-label="Toggle password visibility">
-                        <i class="fas fa-eye" aria-hidden="true"></i>
-                    </button>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                    <label class="flex items-center text-gray-400 cursor-pointer">
-                        <input type="checkbox" class="mr-2 w-4 h-4 rounded border-gray-600 bg-transparent checked:bg-cyan-400 focus:ring-cyan-400" id="remember-me">
-                        <span>Remember me</span>
-                    </label>
-                    <button type="button" onclick="showForgotPassword()" class="text-cyan-400 hover:text-cyan-300 transition-colors font-medium">Forgot password?</button>
-                </div>
-
-                <button type="submit" class="btn-glow">
-                    <span id="login-btn-text">Sign In</span>
-                    <span id="login-spinner" class="spinner hidden"></span>
-                </button>
-
-                <!-- 2FA Modal -->
-                <div id="2fa-modal" class="hidden mt-4 p-5 bg-black/20 rounded-2xl border border-gray-700">
-                    <label for="2fa-code" class="block text-sm font-medium text-gray-300 mb-3">Two-Factor Authentication Code</label>
-                    <input type="text" id="2fa-code" class="code-input" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
-                    <button type="button" onclick="verify2FA()" class="btn-glow mt-4">Verify Code</button>
-                    <button type="button" onclick="cancel2FA()" class="w-full text-center text-gray-400 hover:text-gray-300 transition-colors text-sm mt-3">Cancel</button>
-                </div>
-            </form>
-
-            <!-- Forgot Password Form -->
-            <form id="forgot-form" class="hidden space-y-5" novalidate>
-                <div class="text-center">
-                    <h3 class="text-xl font-bold mb-2">Reset Password</h3>
-                    <p class="text-gray-400 text-sm">Enter your email to receive reset instructions</p>
-                </div>
-
-                <div class="input-group">
-                    <input type="email" id="forgot-email" class="input-peer nova-trigger" placeholder="you@company.com" required data-nova="track" autocomplete="email">
-                    <label for="forgot-email" class="input-label">Email Address</label>
-                </div>
-
-                <button type="submit" class="btn-glow">
-                    <span id="forgot-btn-text">Send Reset Link</span>
-                    <span id="forgot-spinner" class="spinner hidden"></span>
-                </button>
-                <button type="button" onclick="showLogin()" class="w-full text-center text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium py-2">
-                    <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>Back to Login
-                </button>
-            </form>
-
-            <!-- Signup Form -->
-            <div id="signup-section" class="hidden auth-panel">
-                <div class="text-center mb-6">
-                    <h3 class="text-xl font-bold mb-2">Create your workspace</h3>
-                    <p class="text-gray-400 text-sm">Join SICRSense and start protecting your portfolio in minutes.</p>
-                </div>
-
-                <nav class="flex justify-center gap-2 mb-6" id="step-indicators" aria-label="Signup progress">
-                    <div class="step-dot active" id="signup-dot-1"></div>
-                    <div class="step-dot" id="signup-dot-2"></div>
-                    <div class="step-dot" id="signup-dot-3"></div>
-                </nav>
-
-                <div class="relative min-h-[320px]">
-                    <form id="signup-step-1" class="absolute w-full top-0 left-0" onsubmit="event.preventDefault(); handleNextStep(2);" novalidate>
-                        <div class="input-group">
-                            <input type="text" id="signup-fullname" class="input-peer nova-trigger" placeholder="" required data-nova="look-down" autocomplete="name">
-                            <label for="signup-fullname" class="input-label">Full Name</label>
-                        </div>
-                        <div class="input-group">
-                            <input type="email" id="signup-email" class="input-peer nova-trigger" placeholder="" required data-nova="track" autocomplete="email">
-                            <label for="signup-email" class="input-label">Corporate Email</label>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" id="signup-company" class="input-peer nova-trigger" placeholder="" required data-nova="track" autocomplete="organization">
-                            <label for="signup-company" class="input-label">Organization Name</label>
-                        </div>
-                        <button type="submit" class="btn-glow mt-4">Continue <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
-                        <p class="text-center text-sm text-gray-400 mt-6">
-                            Already have an account? <button type="button" onclick="showLogin()" class="text-cyan-400 hover:text-white transition font-medium bg-transparent border-0 cursor-pointer">Sign in</button>
-                        </p>
-                    </form>
-
-                    <form id="signup-step-2" class="absolute w-full top-0 left-0 opacity-0 pointer-events-none translate-x-10" onsubmit="event.preventDefault(); handleNextStep(3);" novalidate>
-                        <div class="input-group mb-1">
-                            <input type="password" id="signup-password" class="input-peer nova-trigger" placeholder="Min. 8 characters" required data-nova="hide" autocomplete="new-password" minlength="8">
-                            <label for="signup-password" class="input-label">Create Password</label>
-                            <button type="button" class="absolute right-4 top-4 text-gray-400 hover:text-cyan-400 transition-colors z-10 bg-transparent border-0 cursor-pointer" onclick="togglePassword('signup-password', this)" aria-label="Toggle password visibility">
-                                <i class="fas fa-eye" aria-hidden="true"></i>
-                            </button>
-                        </div>
-
-                        <div class="w-full bg-gray-800/50 h-1.5 rounded-full mb-6 mt-2 overflow-hidden">
-                            <div id="signup-pwd-strength" class="strength-bar bg-red-500"></div>
-                        </div>
-                        <p class="text-xs text-gray-500 -mt-4 mb-4" id="signup-pwd-hint">Use 8+ characters with mixed case, numbers & symbols</p>
-
-                        <div class="input-group">
-                            <input type="password" id="signup-confirm_password" class="input-peer nova-trigger" placeholder="Re-enter password" required data-nova="hide" autocomplete="new-password">
-                            <label for="signup-confirm_password" class="input-label">Confirm Password</label>
-                        </div>
-                        <p class="text-xs text-red-400 hidden mt-1" id="signup-pwd-match-error" role="alert">Passwords do not match</p>
-
-                        <div class="flex gap-3 mt-6">
-                            <button type="button" class="btn-outline w-1/3" onclick="handlePrevStep(1)">Back</button>
-                            <button type="submit" class="btn-glow w-2/3">Secure Account</button>
-                        </div>
-                    </form>
-
-                    <div id="signup-step-3" class="absolute w-full top-0 left-0 opacity-0 pointer-events-none translate-x-10 text-center py-4">
-                        <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_35px_rgba(16,185,129,0.4)]">
-                            <i class="fas fa-check text-4xl text-green-400" aria-hidden="true"></i>
-                        </div>
-                        <h2 class="text-2xl font-bold mb-2">Welcome aboard! 🎉</h2>
-                        <p class="text-gray-400 mb-8 text-sm">Your enterprise workspace is ready.</p>
-                        <button type="button" class="btn-glow" onclick="handleComplete()">Enter Dashboard</button>
+            <div class="relative min-h-[280px]">
+                <!-- Step 1 -->
+                <form id="step-1" class="absolute w-full top-0 left-0" onsubmit="event.preventDefault(); handleNextStep(2);" novalidate>
+                    <div class="input-group">
+                        <input type="text" id="fullname" class="input-peer nova-trigger" placeholder="" required data-nova="look-down" autocomplete="name">
+                        <label for="fullname" class="input-label">Full Name</label>
                     </div>
-                </div>
-            </div>
+                    <div class="input-group">
+                        <input type="email" id="email" class="input-peer nova-trigger" placeholder="" required data-nova="track" autocomplete="email">
+                        <label for="email" class="input-label">Corporate Email</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="company" class="input-peer nova-trigger" placeholder="" required data-nova="track" autocomplete="organization">
+                        <label for="company" class="input-label">Organization Name</label>
+                    </div>
+                    <button type="submit" class="btn-glow mt-4">Continue <i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                    <p class="text-center text-sm text-gray-400 mt-6">
+                        Already have an account? <a href="/login" class="text-cyan-400 hover:text-white transition font-medium">Sign in</a>
+                    </p>
+                </form>
 
-            <!-- Divider -->
-            <div class="relative my-8" aria-hidden="true">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-gray-700"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-4 bg-[#0a0a1a] text-gray-400">or continue with</span>
-                </div>
-            </div>
+                <!-- Step 2 -->
+                <form id="step-2" class="absolute w-full top-0 left-0 opacity-0 pointer-events-none translate-x-10" onsubmit="event.preventDefault(); handleNextStep(3);" novalidate>
+                    <div class="input-group mb-1">
+                        <input type="password" id="password" class="input-peer nova-trigger" placeholder="Min. 8 characters" required data-nova="hide" autocomplete="new-password" minlength="8">
+                        <label for="password" class="input-label">Create Password</label>
+                        <button type="button" class="absolute right-4 top-4 text-gray-400 hover:text-cyan-400 transition-colors z-10 bg-transparent border-0 cursor-pointer" onclick="togglePassword('password')" aria-label="Toggle password visibility">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="w-full bg-gray-800/50 h-1.5 rounded-full mb-6 mt-2 overflow-hidden">
+                        <div id="pwd-strength" class="strength-bar bg-red-500"></div>
+                    </div>
+                    <p class="text-xs text-gray-500 -mt-4 mb-4" id="pwd-hint">Use 8+ characters with mixed case, numbers & symbols</p>
 
-            <!-- Social Login -->
-            <div class="grid grid-cols-3 gap-4">
-                <button class="social-btn" aria-label="Sign in with Google" onclick="socialLogin('google')">
-                    <i class="fab fa-google"></i>
-                </button>
-                <button class="social-btn" aria-label="Sign in with Microsoft" onclick="socialLogin('microsoft')">
-                    <i class="fab fa-microsoft"></i>
-                </button>
-                <button class="social-btn" aria-label="Sign in with GitHub" onclick="socialLogin('github')">
-                    <i class="fab fa-github"></i>
-                </button>
+                    <div class="input-group">
+                        <input type="password" id="confirm_password" class="input-peer nova-trigger" placeholder="Re-enter password" required data-nova="hide" autocomplete="new-password">
+                        <label for="confirm_password" class="input-label">Confirm Password</label>
+                    </div>
+                    <p class="text-xs text-red-400 hidden mt-1" id="pwd-match-error" role="alert">Passwords do not match</p>
+                    
+                    <div class="flex gap-3 mt-6">
+                        <button type="button" class="btn-outline w-1/3" onclick="handlePrevStep(1)">Back</button>
+                        <button type="submit" class="btn-glow w-2/3">Secure Account</button>
+                    </div>
+                </form>
+
+                <!-- Step 3 -->
+                <div id="step-3" class="absolute w-full top-0 left-0 opacity-0 pointer-events-none translate-x-10 text-center py-4">
+                    <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_35px_rgba(16,185,129,0.4)]">
+                        <i class="fas fa-check text-4xl text-green-400" aria-hidden="true"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold mb-2">Welcome Aboard! 🎉</h2>
+                    <p class="text-gray-400 mb-8 text-sm">Your enterprise workspace is ready.</p>
+                    <button type="button" class="btn-glow" onclick="handleComplete()">Enter Dashboard</button>
+                </div>
             </div>
         </div>
 
@@ -1012,6 +773,7 @@
                     if(p.y < -10) p.y = height + 10;
                     if(p.y > height + 10) p.y = -10;
                     
+                    // Draw connections
                     particles.forEach(p2 => {
                         const dx = p.x - p2.x;
                         const dy = p.y - p2.y;
@@ -1046,7 +808,7 @@
         })();
 
         // ==========================================
-        // NAVA CHARACTER
+        // NAVA CHARACTER - FIXED
         // ==========================================
         const Nava = {
             pupilLeft: null,
@@ -1133,6 +895,7 @@
             },
 
             init() {
+                // Get all elements
                 this.pupilLeft = document.getElementById('pupil-left');
                 this.pupilRight = document.getElementById('pupil-right');
                 this.pupilCoreLeft = document.getElementById('pupil-core-left');
@@ -1152,15 +915,17 @@
                 this.emotionIndicator = document.getElementById('emotionIndicator');
 
                 if (!this.bodyGroup) {
-                    console.error('Nava: body-group not found');
+                    console.error('Nava: Could not find body-group element');
                     return;
                 }
 
+                // Floating body
                 gsap.to(this.bodyGroup, { 
                     y: -6, duration: 2.5, repeat: -1, yoyo: true, 
                     ease: "sine.inOut" 
                 });
                 
+                // Crown bob
                 if (this.crown) {
                     gsap.to(this.crown, {
                         y: -2, duration: 1.8, repeat: -1, yoyo: true,
@@ -1168,6 +933,7 @@
                     });
                 }
                 
+                // Hand floating
                 if (this.handLeft && this.handRight) {
                     gsap.to([this.handLeft, this.handRight], {
                         y: '+=5', duration: 2, repeat: -1, yoyo: true,
@@ -1180,11 +946,12 @@
                 this.trackMouseLoop();
                 this.bindInputTriggers();
                 
+                // Initial greeting
                 setTimeout(() => {
-                    this.setRasa('shanta', 'Welcome back! Ready to login? 🧘✨', 4000);
+                    this.setRasa('shanta', 'Welcome! I\'m Nava 🧘✨', 4000);
                 }, 500);
                 
-                console.log('Nava initialized');
+                console.log('Nava initialized successfully');
             },
 
             setRasa(rasa, message, duration) {
@@ -1193,35 +960,59 @@
                 
                 this.currentRasa = rasa;
 
+                // Mouth
                 if (this.mouth) {
-                    gsap.to(this.mouth, { attr: { d: data.mouth }, duration: 0.4, ease: "power2.out" });
+                    gsap.to(this.mouth, { 
+                        attr: { d: data.mouth }, 
+                        duration: 0.4, ease: "power2.out" 
+                    });
                 }
                 
+                // Eyebrows
                 if (this.eyebrowLeft) {
-                    gsap.to(this.eyebrowLeft, { attr: { d: data.eyebrows.left }, duration: 0.4, ease: "power2.out" });
+                    gsap.to(this.eyebrowLeft, { 
+                        attr: { d: data.eyebrows.left }, 
+                        duration: 0.4, ease: "power2.out" 
+                    });
                 }
                 if (this.eyebrowRight) {
-                    gsap.to(this.eyebrowRight, { attr: { d: data.eyebrows.right }, duration: 0.4, ease: "power2.out" });
+                    gsap.to(this.eyebrowRight, { 
+                        attr: { d: data.eyebrows.right }, 
+                        duration: 0.4, ease: "power2.out" 
+                    });
                 }
                 
+                // Cheeks
                 if (this.cheekLeft && this.cheekRight) {
-                    gsap.to([this.cheekLeft, this.cheekRight], { attr: { opacity: data.cheeks }, duration: 0.4 });
+                    gsap.to([this.cheekLeft, this.cheekRight], { 
+                        attr: { opacity: data.cheeks }, 
+                        duration: 0.4 
+                    });
                 }
 
+                // Emotion indicator
                 if (this.emotionIndicator) {
                     this.emotionIndicator.textContent = data.icon;
                     this.emotionIndicator.style.color = data.color;
-                    gsap.from(this.emotionIndicator, { scale: 0, duration: 0.5, ease: "back.out(2)" });
+                    gsap.from(this.emotionIndicator, {
+                        scale: 0, duration: 0.5, ease: "back.out(2)"
+                    });
                 }
 
+                // Speech
                 if (message) this.say(message, duration);
+
+                // Rasa animations
                 this.playRasaAnimation(rasa);
             },
 
             playRasaAnimation(rasa) {
                 if (!this.handLeft || !this.handRight) return;
                 
-                gsap.to([this.handLeft, this.handRight], { x: 0, y: 0, rotation: 0, duration: 0.5, ease: "power2.out" });
+                // Reset hands
+                gsap.to([this.handLeft, this.handRight], { 
+                    x: 0, y: 0, rotation: 0, duration: 0.5, ease: "power2.out" 
+                });
 
                 switch(rasa) {
                     case 'hasya':
@@ -1243,11 +1034,21 @@
                         gsap.to(this.handLeft, { x: 22, y: -12, duration: 0.3, ease: "back.out(1.2)" });
                         gsap.to(this.handRight, { x: -22, y: -12, duration: 0.3, ease: "back.out(1.2)" });
                         break;
+                    case 'vira':
+                        gsap.to(this.handLeft, { x: -8, y: -22, rotation: -20, duration: 0.5, ease: "back.out(1.5)" });
+                        gsap.to(this.handRight, { x: 8, y: -22, rotation: 20, duration: 0.5, ease: "back.out(1.5)" });
+                        break;
+                    case 'raudra':
+                        if (this.bodyGroup) {
+                            gsap.to(this.bodyGroup, { y: -4, duration: 0.15, yoyo: true, repeat: 2, ease: "power2.in" });
+                        }
+                        break;
                 }
             },
 
             say(text, duration) {
                 if (!this.speechBubble) return;
+                
                 this.speechBubble.textContent = text;
                 this.speechBubble.classList.add('show');
                 
@@ -1284,9 +1085,9 @@
                         const rasas = ['adbhuta', 'shringara', 'shanta'];
                         const randomRasa = rasas[Math.floor(Math.random() * rasas.length)];
                         const messages = {
-                            adbhuta: 'Ready to analyze risks? ✨',
-                            shringara: 'I missed you! 💖',
-                            shanta: 'Secure login awaits... 🧘'
+                            adbhuta: 'Exlore new features! ✨',
+                            shringara: 'I love helping you! 💖',
+                            shanta: 'Everything is peaceful... 🧘'
                         };
                         this.setRasa(randomRasa, messages[randomRasa], 3000);
                     }
@@ -1331,21 +1132,24 @@
                         const behavior = e.target.getAttribute('data-nova');
                         if (behavior === 'hide') {
                             this.setRasa('bhayanaka', 'I\'m not looking! 🙈', 2000);
+                        } else if (behavior === 'look-down') {
+                            if (this.pupilLeft) gsap.to(this.pupilLeft, { cy: 3, duration: 0.3 });
+                            if (this.pupilRight) gsap.to(this.pupilRight, { cy: 3, duration: 0.3 });
                         } else {
-                            this.setRasa('adbhuta', 'Type your credentials! 👀', 2500);
+                            this.setRasa('adbhuta', 'Type away! 👀', 2500);
                         }
                     });
                     
                     input.addEventListener('blur', () => {
                         if (this.currentRasa === 'bhayanaka') {
-                            this.setRasa('shanta', 'Safe! 😌', 2000);
+                            this.setRasa('shanta', 'Safe now! 😌', 2000);
                         }
                     });
                 });
             }
         };
 
-        // Initialize Nava
+        // Initialize Nava after DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => Nava.init());
         } else {
@@ -1359,12 +1163,16 @@
         }, { passive: true });
 
         // ==========================================
-        // DRAGGABLE CHARACTER
+        // DRAGGABLE CHARACTER - FIXED
         // ==========================================
         (function() {
             const wrapper = document.getElementById('character-wrapper');
-            if (!wrapper) return;
+            if (!wrapper) {
+                console.error('Character wrapper not found');
+                return;
+            }
             
+            // Set initial position
             wrapper.style.position = 'fixed';
             wrapper.style.top = '20px';
             wrapper.style.right = '20px';
@@ -1374,37 +1182,46 @@
             
             let isDragging = false;
             let startX, startY, initialLeft, initialTop;
+            let dragTarget = null;
             
+            // Mouse events
             wrapper.addEventListener('mousedown', function(e) {
+                // Allow dragging from the wrapper area (not buttons inside)
                 e.preventDefault();
                 isDragging = true;
                 Nava.isDragging = true;
                 wrapper.classList.add('dragging');
-                Nava.setRasa('vira', 'Wheee! Anywhere you want! 🎪', 2000);
+                Nava.setRasa('vira', 'Wheee! Take me anywhere! 🎪', 2000);
                 
                 startX = e.clientX;
                 startY = e.clientY;
                 const rect = wrapper.getBoundingClientRect();
                 initialLeft = rect.left;
                 initialTop = rect.top;
+                
+                dragTarget = wrapper;
             });
             
+            // Touch events
             wrapper.addEventListener('touchstart', function(e) {
                 e.preventDefault();
                 isDragging = true;
                 Nava.isDragging = true;
                 wrapper.classList.add('dragging');
-                Nava.setRasa('hasya', 'Adventure time! 🌟', 2000);
+                Nava.setRasa('hasya', 'Going on an adventure! 🌟', 2000);
                 
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
                 const rect = wrapper.getBoundingClientRect();
                 initialLeft = rect.left;
                 initialTop = rect.top;
+                
+                dragTarget = wrapper;
             }, { passive: false });
             
+            // Move handlers on document
             function onMove(clientX, clientY) {
-                if (!isDragging) return;
+                if (!isDragging || !dragTarget) return;
                 
                 const dx = clientX - startX;
                 const dy = clientY - startY;
@@ -1412,16 +1229,17 @@
                 let newLeft = initialLeft + dx;
                 let newTop = initialTop + dy;
                 
-                const maxLeft = window.innerWidth - wrapper.offsetWidth - 10;
-                const maxTop = window.innerHeight - wrapper.offsetHeight - 10;
+                // Keep within viewport bounds
+                const maxLeft = window.innerWidth - dragTarget.offsetWidth - 10;
+                const maxTop = window.innerHeight - dragTarget.offsetHeight - 10;
                 
                 newLeft = Math.max(10, Math.min(maxLeft, newLeft));
                 newTop = Math.max(10, Math.min(maxTop, newTop));
                 
-                wrapper.style.left = newLeft + 'px';
-                wrapper.style.top = newTop + 'px';
-                wrapper.style.right = 'auto';
-                wrapper.style.bottom = 'auto';
+                dragTarget.style.left = newLeft + 'px';
+                dragTarget.style.top = newTop + 'px';
+                dragTarget.style.right = 'auto';
+                dragTarget.style.bottom = 'auto';
             }
             
             document.addEventListener('mousemove', function(e) {
@@ -1439,14 +1257,19 @@
                 if (isDragging) {
                     isDragging = false;
                     Nava.isDragging = false;
-                    wrapper.classList.remove('dragging');
-                    Nava.setRasa('shanta', 'Seems Nice! 😊', 2500);
+                    if (wrapper) wrapper.classList.remove('dragging');
+                    dragTarget = null;
                     
+                    Nava.setRasa('shanta', 'This spot is perfect! 🧘', 2500);
+                    
+                    // Save position
                     try {
-                        localStorage.setItem('nava-position', JSON.stringify({
-                            left: wrapper.style.left,
-                            top: wrapper.style.top
-                        }));
+                        if (wrapper) {
+                            localStorage.setItem('nava-position', JSON.stringify({
+                                left: wrapper.style.left,
+                                top: wrapper.style.top
+                            }));
+                        }
                     } catch(e) {}
                 }
             }
@@ -1454,6 +1277,7 @@
             document.addEventListener('mouseup', onEnd);
             document.addEventListener('touchend', onEnd);
             
+            // Load saved position
             try {
                 const saved = localStorage.getItem('nava-position');
                 if (saved) {
@@ -1465,128 +1289,97 @@
                 }
             } catch(e) {}
             
+            // Double-click to reset position
             wrapper.addEventListener('dblclick', function() {
                 wrapper.style.top = '20px';
                 wrapper.style.right = '20px';
                 wrapper.style.left = 'auto';
                 wrapper.style.bottom = 'auto';
                 Nava.setRasa('hasya', 'Back home! 🏠', 2000);
-                try { localStorage.removeItem('nava-position'); } catch(e) {}
+                
+                try {
+                    localStorage.removeItem('nava-position');
+                } catch(e) {}
             });
+            
+            console.log('Draggable initialized');
         })();
 
         // ==========================================
         // FORM LOGIC
         // ==========================================
-        const loginForm = document.getElementById('login-form');
-        const forgotForm = document.getElementById('forgot-form');
-        const signupSection = document.getElementById('signup-section');
-        const loginTab = document.getElementById('login-tab');
-        const signupTab = document.getElementById('signup-tab');
-        const authDivider = document.querySelector('#main-content > .premium-glass > .relative.my-8');
-        const socialSection = document.querySelector('#main-content > .premium-glass > .grid.grid-cols-3.gap-4');
+        let currentStep = 1;
 
-        function updateAuthTabs(activeTab) {
-            if (loginTab && signupTab) {
-                [loginTab, signupTab].forEach((tab) => tab.classList.remove('bg-gradient-to-r', 'from-cyan-400', 'to-purple-600', 'text-white'));
-                [loginTab, signupTab].forEach((tab) => tab.classList.add('text-gray-400'));
-                if (activeTab === 'login') {
-                    loginTab.classList.add('bg-gradient-to-r', 'from-cyan-400', 'to-purple-600', 'text-white');
-                    loginTab.classList.remove('text-gray-400');
-                    loginTab.setAttribute('aria-selected', 'true');
-                    signupTab.setAttribute('aria-selected', 'false');
+        // Password strength
+        const pwdInput = document.getElementById('password');
+        const strengthBar = document.getElementById('pwd-strength');
+        const pwdHint = document.getElementById('pwd-hint');
+        
+        if (pwdInput) {
+            pwdInput.addEventListener('input', function(e) {
+                const val = e.target.value;
+                let strength = 0;
+                if(val.length >= 8) strength += 25;
+                if(/[A-Z]/.test(val)) strength += 20;
+                if(/[a-z]/.test(val)) strength += 15;
+                if(/[0-9]/.test(val)) strength += 20;
+                if(/[^A-Za-z0-9]/.test(val)) strength += 20;
+
+                if (strengthBar) strengthBar.style.width = strength + '%';
+                
+                if (strength < 40) {
+                    if (strengthBar) strengthBar.style.background = '#ef4444';
+                    if (pwdHint) { pwdHint.textContent = 'Weak - add more variety'; pwdHint.className = 'text-xs text-red-400 mt-1'; }
+                } else if (strength < 70) {
+                    if (strengthBar) strengthBar.style.background = '#f59e0b';
+                    if (pwdHint) { pwdHint.textContent = 'Getting better! Add special chars'; pwdHint.className = 'text-xs text-yellow-400 mt-1'; }
                 } else {
-                    signupTab.classList.add('bg-gradient-to-r', 'from-cyan-400', 'to-purple-600', 'text-white');
-                    signupTab.classList.remove('text-gray-400');
-                    signupTab.setAttribute('aria-selected', 'true');
-                    loginTab.setAttribute('aria-selected', 'false');
+                    if (strengthBar) strengthBar.style.background = '#10b981';
+                    if (pwdHint) { pwdHint.textContent = 'Strong password! 🔒'; pwdHint.className = 'text-xs text-green-400 mt-1'; }
                 }
-            }
+            });
         }
 
-        function showAuthPanel(panel) {
-            if (!loginForm || !forgotForm || !signupSection) return;
-
-            if (panel === 'login') {
-                gsap.to([forgotForm, signupSection], {
-                    opacity: 0,
-                    y: 15,
-                    duration: 0.2,
-                    onComplete: () => {
-                        forgotForm.classList.add('hidden');
-                        signupSection.classList.add('hidden');
-                        loginForm.classList.remove('hidden');
-                        gsap.fromTo(loginForm, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power3.out' });
-                    }
-                });
-                updateAuthTabs('login');
-                Nava.setRasa('shanta', 'Back to login!', 2500);
+        // Toggle password
+        window.togglePassword = function(id) {
+            const input = document.getElementById(id);
+            if (!input) return;
+            
+            const btn = input.parentElement?.querySelector('button');
+            const icon = btn?.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                if (icon) { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+                Nava.setRasa('adbhuta', 'Peeking? I see you! 👀', 2000);
+            } else {
+                input.type = 'password';
+                if (icon) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
+                Nava.setRasa('bhayanaka', 'Hiding again! 🙈', 1500);
             }
-
-            if (panel === 'signup') {
-                gsap.to([loginForm, forgotForm], {
-                    opacity: 0,
-                    y: 15,
-                    duration: 0.2,
-                    onComplete: () => {
-                        loginForm.classList.add('hidden');
-                        forgotForm.classList.add('hidden');
-                        signupSection.classList.remove('hidden');
-                        gsap.fromTo(signupSection, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power3.out' });
-                    }
-                });
-                updateAuthTabs('signup');
-                Nava.setRasa('hasya', 'New account? Great! Let’s get started! ✨', 3000);
-            }
-
-            if (panel === 'forgot') {
-                gsap.to([loginForm, signupSection], {
-                    opacity: 0,
-                    y: 15,
-                    duration: 0.2,
-                    onComplete: () => {
-                        loginForm.classList.add('hidden');
-                        signupSection.classList.add('hidden');
-                        forgotForm.classList.remove('hidden');
-                        gsap.fromTo(forgotForm, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power3.out' });
-                    }
-                });
-                updateAuthTabs('login');
-                Nava.setRasa('karuna', 'Forgot your password? I\'ll help! 🥺', 3000);
-            }
-        }
-
-        window.showForgotPassword = function() {
-            showAuthPanel('forgot');
         };
 
-        window.showLogin = function() {
-            showAuthPanel('login');
-        };
-
-        window.showSignup = function() {
-            showAuthPanel('signup');
-        };
-
-        let signupStep = 1;
-
+        // Step navigation
         function animateStepOut(stepNum) {
-            const el = document.getElementById(`signup-step-${stepNum}`);
+            const el = document.getElementById(`step-${stepNum}`);
             if (!el) return Promise.resolve();
-            return new Promise((resolve) => {
-                gsap.to(el, { x: -40, opacity: 0, duration: 0.35, ease: 'power2.in', onComplete: resolve });
+            return new Promise(resolve => {
+                gsap.to(el, { x: -40, opacity: 0, duration: 0.35, ease: "power2.in", onComplete: resolve });
             });
         }
 
         function animateStepIn(stepNum, fromRight = true) {
-            const el = document.getElementById(`signup-step-${stepNum}`);
+            const el = document.getElementById(`step-${stepNum}`);
             if (!el) return;
             el.classList.remove('pointer-events-none');
-            gsap.fromTo(el, { x: fromRight ? 40 : -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, delay: 0.15, ease: 'power3.out' });
+            gsap.fromTo(el, 
+                { x: fromRight ? 40 : -40, opacity: 0 }, 
+                { x: 0, opacity: 1, duration: 0.45, delay: 0.15, ease: "power3.out" }
+            );
         }
 
-        function updateSignupDots(step) {
-            document.querySelectorAll('#step-indicators .step-dot').forEach((dot, idx) => {
+        function updateStepDots(step) {
+            document.querySelectorAll('.step-dot').forEach((dot, idx) => {
                 dot.classList.remove('active', 'completed');
                 if (idx < step - 1) dot.classList.add('completed');
                 if (idx === step - 1) dot.classList.add('active');
@@ -1595,7 +1388,8 @@
 
         window.handleNextStep = async function(step) {
             const prevStep = step - 1;
-            const form = document.getElementById(`signup-step-${prevStep}`);
+            
+            const form = document.getElementById(`step-${prevStep}`);
             if (form && form.tagName === 'FORM' && !form.checkValidity()) {
                 form.reportValidity();
                 Nava.setRasa('bibhatsa', 'Please fill all fields correctly! 🤔', 3000);
@@ -1603,25 +1397,25 @@
             }
 
             if (prevStep === 2) {
-                const p1 = document.getElementById('signup-password')?.value;
-                const p2 = document.getElementById('signup-confirm_password')?.value;
+                const p1 = document.getElementById('password')?.value;
+                const p2 = document.getElementById('confirm_password')?.value;
                 if (p1 !== p2) {
-                    const matchError = document.getElementById('signup-pwd-match-error');
+                    const matchError = document.getElementById('pwd-match-error');
                     if (matchError) matchError.classList.remove('hidden');
                     Nava.setRasa('raudra', 'Passwords don\'t match! 😤', 3000);
                     return;
                 }
-                const matchError = document.getElementById('signup-pwd-match-error');
+                const matchError = document.getElementById('pwd-match-error');
                 if (matchError) matchError.classList.add('hidden');
             }
 
             await animateStepOut(prevStep);
-            const prevEl = document.getElementById(`signup-step-${prevStep}`);
+            const prevEl = document.getElementById(`step-${prevStep}`);
             if (prevEl) prevEl.classList.add('pointer-events-none');
-
+            
             animateStepIn(step, true);
-            updateSignupDots(step);
-            signupStep = step;
+            updateStepDots(step);
+            currentStep = step;
 
             if (step === 2) {
                 Nava.setRasa('shanta', 'Great! Now secure your account. 🔒', 4000);
@@ -1633,22 +1427,25 @@
 
         window.handlePrevStep = async function(step) {
             const currentStepNum = step + 1;
+            
             await animateStepOut(currentStepNum);
-            const currentEl = document.getElementById(`signup-step-${currentStepNum}`);
+            const currentEl = document.getElementById(`step-${currentStepNum}`);
             if (currentEl) currentEl.classList.add('pointer-events-none');
+            
             animateStepIn(step, false);
-            updateSignupDots(step);
-            signupStep = step;
+            updateStepDots(step);
+            currentStep = step;
+            
             Nava.setRasa('shanta', 'No worries, take your time! 🙏', 2500);
         };
 
         window.handleComplete = async function() {
             if (window.signupSubmitting) return;
-            const fullname = document.getElementById('signup-fullname')?.value.trim();
-            const email = document.getElementById('signup-email')?.value.trim();
-            const company = document.getElementById('signup-company')?.value.trim();
-            const password = document.getElementById('signup-password')?.value;
-            const confirmPassword = document.getElementById('signup-confirm_password')?.value;
+            const fullname = document.getElementById('fullname')?.value.trim();
+            const email = document.getElementById('email')?.value.trim();
+            const company = document.getElementById('company')?.value.trim();
+            const password = document.getElementById('password')?.value;
+            const confirmPassword = document.getElementById('confirm_password')?.value;
 
             if (!fullname || !email || !password || !confirmPassword) {
                 showToast('Please complete all signup fields before continuing.', 'error');
@@ -1679,7 +1476,9 @@
                 const response = await fetch('/api/v1/auth/signup', {
                     method: 'POST',
                     credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         username,
                         email,
@@ -1691,10 +1490,14 @@
                 });
 
                 if (response.ok) {
+                    const data = await response.json();
                     Nava.setRasa('hasya', 'Account created successfully! Welcome aboard! 🎉', 4000);
                     celebrateWithParticles();
                     showToast('Account created successfully! Redirecting...', 'success');
-                    setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
+
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
                 } else {
                     const data = await response.json();
                     showToast(data.detail || 'Signup failed. Please try again.', 'error');
@@ -1709,227 +1512,7 @@
             }
         };
 
-        const pwdInput = document.getElementById('signup-password');
-        const strengthBar = document.getElementById('signup-pwd-strength');
-        const pwdHint = document.getElementById('signup-pwd-hint');
-        if (pwdInput) {
-            pwdInput.addEventListener('input', function(e) {
-                const val = e.target.value;
-                let strength = 0;
-                if (val.length >= 8) strength += 25;
-                if (/[A-Z]/.test(val)) strength += 20;
-                if (/[a-z]/.test(val)) strength += 15;
-                if (/[0-9]/.test(val)) strength += 20;
-                if (/[^A-Za-z0-9]/.test(val)) strength += 20;
-                if (strengthBar) strengthBar.style.width = strength + '%';
-                if (strength < 40) {
-                    if (strengthBar) strengthBar.style.background = '#ef4444';
-                    if (pwdHint) { pwdHint.textContent = 'Weak - add more variety'; pwdHint.className = 'text-xs text-red-400 mt-1'; }
-                } else if (strength < 70) {
-                    if (strengthBar) strengthBar.style.background = '#f59e0b';
-                    if (pwdHint) { pwdHint.textContent = 'Getting better! Add special chars'; pwdHint.className = 'text-xs text-yellow-400 mt-1'; }
-                } else {
-                    if (strengthBar) strengthBar.style.background = '#10b981';
-                    if (pwdHint) { pwdHint.textContent = 'Strong password! 🔒'; pwdHint.className = 'text-xs text-green-400 mt-1'; }
-                }
-            });
-        }
-
-        const confirmPwd = document.getElementById('signup-confirm_password');
-        if (confirmPwd) {
-            confirmPwd.addEventListener('input', function() {
-                const p1 = document.getElementById('signup-password')?.value;
-                const matchError = document.getElementById('signup-pwd-match-error');
-                if (this.value && p1 !== this.value) {
-                    if (matchError) matchError.classList.remove('hidden');
-                } else {
-                    if (matchError) matchError.classList.add('hidden');
-                }
-            });
-        }
-
-        updateSignupDots(1);
-
-        window.togglePassword = function(inputId, btn) {
-            const input = document.getElementById(inputId);
-            if (!input) return;
-            
-            const icon = btn.querySelector('i');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                if (icon) { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
-                Nava.setRasa('adbhuta', 'Checking the password? 👀', 2000);
-            } else {
-                input.type = 'password';
-                if (icon) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
-                Nava.setRasa('bhayanaka', 'Hiding again! 🙈', 1500);
-            }
-        };
-
-        window.socialLogin = function(provider) {
-            Nava.setRasa('adbhuta', `Logging in with ${provider}... ✨`, 3000);
-            showToast(`Redirecting to ${provider}...`, 'info');
-        };
-
-        // Login submission
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            const btnText = document.getElementById('login-btn-text');
-            const spinner = document.getElementById('login-spinner');
-            const submitBtn = loginForm.querySelector('button[type="submit"]');
-            
-            if (!email || !password) {
-                showToast('Please enter your email and password', 'error');
-                Nava.setRasa('bibhatsa', 'Please fill all fields! 🤔', 3000);
-                return;
-            }
-            
-            btnText.textContent = 'Authenticating...';
-            spinner.classList.remove('hidden');
-            submitBtn.disabled = true;
-            Nava.setRasa('shanta', 'Verifying your identity... 🧘', 2000);
-            
-            try {
-                const remember = document.getElementById('remember-me')?.checked ?? true;
-                const response = await fetch('/api/v1/auth/login', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ username: email, password, remember_me: remember ? 'true' : 'false' })
-                });
-                
-                if (response.status === 403) {
-                    const twoFAHeader = response.headers.get('X-2FA-Required');
-                    if (twoFAHeader) {
-                        document.getElementById('2fa-modal').classList.remove('hidden');
-                        gsap.from('#2fa-modal', { opacity: 0, y: 10, duration: 0.3 });
-                        Nava.setRasa('adbhuta', '2FA required! Check your device 📱', 4000);
-                        showToast('Please enter your 2FA code', 'info');
-                    }
-                } else if (response.ok) {
-                    const data = await response.json();
-                    const remember = document.getElementById('remember-me')?.checked ?? true;
-                    
-                    Nava.setRasa('hasya', 'Login successful! Welcome back! 🎉', 4000);
-                    celebrateWithParticles();
-                    showToast('Login successful! Redirecting...', 'success');
-                    
-                    setTimeout(() => {
-                        window.location.href = '/dashboard';
-                    }, 1500);
-                } else {
-                    const data = await response.json();
-                    showToast(data.detail || 'Invalid credentials', 'error');
-                    Nava.setRasa('raudra', 'Wrong credentials! Try again 😤', 3000);
-                    loginForm.classList.add('shake');
-                    setTimeout(() => loginForm.classList.remove('shake'), 500);
-                }
-            } catch (error) {
-                showToast('Network error. Please try again.', 'error');
-                Nava.setRasa('karuna', 'Connection issue... 🥺', 3000);
-            } finally {
-                btnText.textContent = 'Sign In';
-                spinner.classList.add('hidden');
-                submitBtn.disabled = false;
-            }
-        });
-
-        // Forgot password
-        forgotForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('forgot-email').value.trim();
-            const btnText = document.getElementById('forgot-btn-text');
-            const spinner = document.getElementById('forgot-spinner');
-            const submitBtn = forgotForm.querySelector('button[type="submit"]');
-            
-            if (!email) {
-                showToast('Please enter your email', 'error');
-                return;
-            }
-            
-            btnText.textContent = 'Sending...';
-            spinner.classList.remove('hidden');
-            submitBtn.disabled = true;
-            Nava.setRasa('shanta', 'Sending reset link... 🧘', 2000);
-            
-            try {
-                const response = await fetch(`/api/v1/auth/password/reset-request?email=${encodeURIComponent(email)}`, {
-                    method: 'POST'
-                });
-                
-                if (response.ok) {
-                    showToast('Reset link sent to your email', 'success');
-                    Nava.setRasa('hasya', 'Check your inbox! 📧', 4000);
-                    setTimeout(() => showLogin(), 2000);
-                } else {
-                    showToast('Failed to send reset email', 'error');
-                    Nava.setRasa('karuna', 'Email not found... 🥺', 3000);
-                }
-            } catch (error) {
-                showToast('Network error occurred', 'error');
-            } finally {
-                btnText.textContent = 'Send Reset Link';
-                spinner.classList.add('hidden');
-                submitBtn.disabled = false;
-            }
-        });
-
-        // 2FA Verification
-        window.verify2FA = async function() {
-            const code = document.getElementById('2fa-code').value.trim();
-            
-            if (!code || code.length < 6) {
-                showToast('Please enter a valid 2FA code', 'error');
-                return;
-            }
-            
-            Nava.setRasa('shanta', 'Verifying 2FA code... 🧘', 2000);
-            
-            try {
-                const email = document.getElementById('login-email').value.trim();
-                const password = document.getElementById('login-password').value;
-                
-                const remember = document.getElementById('remember-me')?.checked ?? true;
-                const formData = new URLSearchParams({ username: email, password, remember_me: remember ? 'true' : 'false' });
-                formData.append('two_factor_code', code);
-                
-                const response = await fetch('/api/v1/auth/login', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: formData
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    const remember = document.getElementById('remember-me')?.checked ?? true;
-                    
-                    Nava.setRasa('hasya', '2FA verified! Welcome! 🎉', 4000);
-                    celebrateWithParticles();
-                    showToast('2FA verified successfully!', 'success');
-                    setTimeout(() => window.location.href = '/dashboard', 1500);
-                } else {
-                    showToast('Invalid 2FA code', 'error');
-                    Nava.setRasa('raudra', 'Wrong code! Try again 😤', 3000);
-                }
-            } catch (error) {
-                showToast('Verification failed', 'error');
-            }
-        };
-
-        window.cancel2FA = function() {
-            document.getElementById('2fa-modal').classList.add('hidden');
-            document.getElementById('2fa-code').value = '';
-            Nava.setRasa('shanta', '2FA cancelled 🧘', 2000);
-        };
-
-        // Celebration particles
+        // Celebration
         function celebrateWithParticles() {
             const colors = ['#ffd700', '#ff9933', '#ff007f', '#00f0ff', '#7c3aed', '#10b981', '#ffffff'];
             
@@ -1948,11 +1531,29 @@
                 particle.style.pointerEvents = 'none';
                 
                 document.body.appendChild(particle);
+                
                 setTimeout(() => particle.remove(), 2000);
             }
         }
 
-        console.log('Login page initialized');
+        // Password match check
+        const confirmPwd = document.getElementById('confirm_password');
+        if (confirmPwd) {
+            confirmPwd.addEventListener('input', function() {
+                const p1 = document.getElementById('password')?.value;
+                const matchError = document.getElementById('pwd-match-error');
+                if (this.value && p1 !== this.value) {
+                    if (matchError) matchError.classList.remove('hidden');
+                } else {
+                    if (matchError) matchError.classList.add('hidden');
+                }
+            });
+        }
+
+        // Initialize
+        updateStepDots(1);
+        
+        console.log('All systems initialized');
     </script>
 </body>
 </html>

@@ -18,6 +18,76 @@
       --bg-secondary: #131320;
       --accent: #00f0ff;
       --accent2: #7c3aed;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0b0;
+      --glass-bg: rgba(19, 19, 32, 0.6);
+      --glass-border: rgba(255,255,255,0.1);
+    }
+
+    body.light, html[data-theme="light"] {
+      --bg-primary: #f0f4ff;
+      --bg-secondary: #ffffff;
+      --accent: #2563eb;
+      --accent2: #0ea5e9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --glass-bg: rgba(255,255,255,0.8);
+      --glass-border: rgba(15,23,42,0.08);
+    }
+
+    body.cyber, html[data-theme="cyber"] {
+      --bg-primary: #000508;
+      --bg-secondary: #001a0d;
+      --accent: #00ff80;
+      --accent2: #00e5ff;
+      --text-primary: #e0fff0;
+      --text-secondary: #4dffaa;
+      --glass-bg: rgba(0,30,18,0.78);
+      --glass-border: rgba(0,255,128,0.12);
+    }
+
+    body.aurora, html[data-theme="aurora"] {
+      --bg-primary: #0a0015;
+      --bg-secondary: #12001f;
+      --accent: #a855f7;
+      --accent2: #ec4899;
+      --text-primary: #faf5ff;
+      --text-secondary: #c4b5d4;
+      --glass-bg: rgba(26,0,48,0.78);
+      --glass-border: rgba(168,85,247,0.15);
+    }
+
+    body.sunset, html[data-theme="sunset"] {
+      --bg-primary: #1a0a00;
+      --bg-secondary: #2a1000;
+      --accent: #fb923c;
+      --accent2: #ef4444;
+      --text-primary: #fff7ed;
+      --text-secondary: #fdba74;
+      --glass-bg: rgba(58,24,0,0.78);
+      --glass-border: rgba(251,146,60,0.15);
+    }
+
+    body.ocean, html[data-theme="ocean"] {
+      --bg-primary: #00101a;
+      --bg-secondary: #001a2a;
+      --accent: #22d3ee;
+      --accent2: #06b6d4;
+      --text-primary: #ecfeff;
+      --text-secondary: #67e8f9;
+      --glass-bg: rgba(0,37,58,0.78);
+      --glass-border: rgba(34,211,238,0.15);
+    }
+
+    body.noir, html[data-theme="noir"] {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #141414;
+      --accent: #f0f0f0;
+      --accent2: #d4d4d4;
+      --text-primary: #fafafa;
+      --text-secondary: #a3a3a3;
+      --glass-bg: rgba(20,20,20,0.85);
+      --glass-border: rgba(255,255,255,0.06);
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,8 +95,9 @@
     body {
       font-family: 'Outfit', sans-serif;
       background: var(--bg-primary);
-      color: #ffffff;
+      color: var(--text-primary);
       overflow-x: hidden;
+      transition: background-color 0.35s ease, color 0.35s ease;
     }
     
     #bg-canvas {
@@ -39,9 +110,9 @@
     }
     
     .glass {
-      background: rgba(19, 19, 32, 0.6);
+      background: var(--glass-bg);
       backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
     }
     
     .gradient-text {
@@ -88,7 +159,7 @@
         <span class="gradient-text">Bank-Grade Precision</span>
       </h1>
       
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-12">
+      <p class="text-xl max-w-3xl mx-auto mb-12" style="color: var(--text-secondary);">
         Real-time credit risk migration engine powered by ensemble ML models.
         Detect significant increases in credit risk before they impact your portfolio.
       </p>
@@ -112,19 +183,19 @@
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 max-w-4xl mx-auto">
         <div class="text-center">
           <div class="text-3xl font-bold gradient-text">99.9%</div>
-          <div class="text-gray-400 text-sm mt-1">Uptime</div>
+          <div class="text-sm mt-1" style="color: var(--text-secondary);">Uptime</div>
         </div>
         <div class="text-center">
           <div class="text-3xl font-bold gradient-text">&lt;50ms</div>
-          <div class="text-gray-400 text-sm mt-1">Latency</div>
+          <div class="text-sm mt-1" style="color: var(--text-secondary);">Latency</div>
         </div>
         <div class="text-center">
           <div class="text-3xl font-bold gradient-text">94%</div>
-          <div class="text-gray-400 text-sm mt-1">Accuracy</div>
+          <div class="text-sm mt-1" style="color: var(--text-secondary);">Accuracy</div>
         </div>
         <div class="text-center">
           <div class="text-3xl font-bold gradient-text">10K+</div>
-          <div class="text-gray-400 text-sm mt-1">Predictions/day</div>
+          <div class="text-sm mt-1" style="color: var(--text-secondary);">Predictions/day</div>
         </div>
       </div>
     </div>
@@ -143,7 +214,7 @@
             <i class="fas fa-brain text-2xl text-cyan-400"></i>
           </div>
           <h3 class="text-xl font-bold mb-3">ML-Powered SICR Detection</h3>
-          <p class="text-gray-400">Ensemble of XGBoost and LightGBM models trained on millions of credit records for precise risk assessment.</p>
+          <p style="color: var(--text-secondary);">Ensemble of XGBoost and LightGBM models trained on millions of credit records for precise risk assessment.</p>
         </div>
         
         <div class="glass rounded-2xl p-8 hover:border-purple-400/30 transition-all">
@@ -151,7 +222,7 @@
             <i class="fas fa-bolt text-2xl text-purple-400"></i>
           </div>
           <h3 class="text-xl font-bold mb-3">Real-Time Processing</h3>
-          <p class="text-gray-400">Sub-50ms prediction latency with WebSocket streaming for instant credit decisions at scale.</p>
+          <p style="color: var(--text-secondary);">Sub-50ms prediction latency with WebSocket streaming for instant credit decisions at scale.</p>
         </div>
         
         <div class="glass rounded-2xl p-8 hover:border-green-400/30 transition-all">
@@ -159,7 +230,7 @@
             <i class="fas fa-shield-haltered text-2xl text-green-400"></i>
           </div>
           <h3 class="text-xl font-bold mb-3">IFRS 9 Compliance</h3>
-          <p class="text-gray-400">Automated staging with full audit trails. Meet regulatory requirements with confidence.</p>
+          <p style="color: var(--text-secondary);">Automated staging with full audit trails. Meet regulatory requirements with confidence.</p>
         </div>
       </div>
     </div>
@@ -172,7 +243,7 @@
         <h2 class="text-3xl md:text-4xl font-bold font-['Space_Grotesk'] mb-6">
           Ready to Transform Your <span class="gradient-text">Credit Risk Management</span>?
         </h2>
-        <p class="text-gray-400 mb-8 text-lg">
+        <p class="mb-8 text-lg" style="color: var(--text-secondary);">
           Join leading financial institutions using SICRSense for IFRS 9 compliance and credit risk intelligence.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
